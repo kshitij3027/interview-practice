@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { assignJob, fetchJobs } from "./api";
+import { assignJob, claimNextJob, fetchJobs } from "./api";
 import type { DeliveryJob } from "./types";
 import "./styles.css";
 
@@ -7,6 +7,7 @@ export default function App() {
   const [jobs, setJobs] = useState<DeliveryJob[]>([]);
   const [driver, setDriver] = useState("Taylor");
   const [message, setMessage] = useState("");
+  const [claiming, setClaiming] = useState(false);
 
   async function loadJobs() {
     try {
@@ -30,6 +31,25 @@ export default function App() {
     }
   }
 
+  async function onClaimNext() {
+    if (claiming) return;
+    setClaiming(true);
+    try {
+      const claimed = await claimNextJob(driver, crypto.randomUUID());
+      setJobs((current) => current.map((job) => (job.id === claimed.id ? claimed : job)));
+      setMessage(`Claimed ${claimed.id} for ${claimed.assignedTo}`);
+    } catch (error) {
+      if (error instanceof Error && error.message === "no-queued-jobs") {
+        await loadJobs();
+        setMessage("No queued jobs left to claim.");
+      } else {
+        setMessage(error instanceof Error ? error.message : "Failed to claim job");
+      }
+    } finally {
+      setClaiming(false);
+    }
+  }
+
   return (
     <main className="shell">
       <header>
@@ -41,6 +61,9 @@ export default function App() {
           Dispatcher
           <input value={driver} onChange={(event) => setDriver(event.target.value)} />
         </label>
+        <button onClick={() => void onClaimNext()} disabled={claiming}>
+          Claim next job
+        </button>
       </header>
 
       {message && <p className="message">{message}</p>}
