@@ -5,7 +5,11 @@ export function createStore() {
     revision: 0,
     selectedSegment: 'all',
     message: '',
-    loading: false
+    loading: false,
+    report: null,        // last known-good funnel response; deliberately survives errors
+    reportError: '',     // report-specific, kept separate from the existing `message`
+    reportLoading: false,
+    debugDelayMs: 0
   };
   const listeners = new Set();
   return {
