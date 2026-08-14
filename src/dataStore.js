@@ -31,6 +31,18 @@ export class DataStore {
 
   listEvents() { return structuredClone(this.events); }
 
+  // A consistent read of everything a report needs, in one expression.
+  //
+  // This is a contract guard, not a fix for a live bug: computeFunnel is synchronous and Node
+  // is single-threaded, so today nothing can interleave between three separate reads. But a
+  // response must be stamped with a revision that provably describes the data in it, and once
+  // any part of report assembly gains an `await` (the report route grows a deliberate delay),
+  // three separate reads become genuinely torn. Taking them together makes the safe thing the
+  // only reasonable thing.
+  snapshot() {
+    return { assignments: this.listAssignments(), events: this.listEvents(), revision: this.revision };
+  }
+
   excludeUser(userId, reason) {
     const assignment = this.assignments.find(a => a.user_id === userId);
     if (!assignment) return { ok: false, code: 'not_found' };
