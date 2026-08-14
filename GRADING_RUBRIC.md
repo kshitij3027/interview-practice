@@ -1,53 +1,36 @@
 # Grading Rubric — 100 points
 
-The happy path alone is capped around **60–65** even if the UI looks polished.
+## Functional correctness — 22 points
+- 20–22: End-to-end funnel works for all segments, both variants, and exclusion changes; report is usable and internally consistent.
+- 15–19: Core report works with minor defects.
+- 9–14: Happy path exists but meaningful semantics or integration are incomplete.
+- 0–8: Feature is largely non-functional.
 
-## 1. Functional correctness — 20
-- 18–20: preview and commit both work end-to-end on realistic mixed-validity CSV data; committed state matches previewed semantics.
-- 12–17: core flow works but one meaningful correctness area is incomplete.
-- 6–11: only a narrow happy path works.
-- 0–5: feature is largely non-functional.
+## Backend/domain semantics — 23 points
+Evaluates eligibility, assignment-time gating, event-ID dedupe, chronological ordered progression, repeated-step handling, 24-hour window, deterministic results, percentages, and revision propagation.
 
-## 2. Backend/domain behavior — 18
-Assess parsing boundary, account matching, money handling, allocation order, mutation boundaries, and revision semantics.
-- Excellent: domain behavior is explicit, deterministic, and isolated enough to reason about.
-- Acceptable: mostly correct with minor leakage/duplication.
-- Partial: endpoint-heavy implementation with fragile mixed concerns.
-- Failing: incorrect monetary or allocation semantics.
+## Frontend behavior — 14 points
+Evaluates report controls/rendering, segment integration, loading/error feedback, preservation of last known-good data, and refresh after exclusion/include actions.
 
-## 3. Edge cases and safety — 22
-High-weight hidden-evaluator checks include:
-- mixed valid + malformed + unknown-customer rows;
-- duplicate payment IDs inside a file;
-- multiple payments for one account in the same import;
-- payment spanning multiple invoices and leaving account credit;
-- tie-breaking between invoices;
-- stale preview caused by an intervening manual credit;
-- retrying a successful commit;
-- ensuring rejected stale commits apply nothing.
+## Integration & stale-response correctness — 14 points
+Evaluates revision awareness, protection against slower older requests, segment-switch races, and coherent reconciliation after mutations.
 
-18–22 requires strong handling of most of these. A pure happy path should receive fewer than 10 here.
+## Edge cases — 15 points
+High-value hidden-evaluator themes include duplicate IDs, out-of-order fixture rows, events before assignment, unassigned users, repeated funnel steps, zero denominators, completions just inside/outside 24 hours, exclusion while a delayed request is pending, and stale segment responses.
 
-## 4. Frontend behavior — 12
-Evaluate import input, readable preview outcomes, commit state, disabled/in-flight behavior, stale-state recovery, and post-commit refresh.
+## Tests — 6 points
+Focused tests should demonstrate the candidate identified the highest-risk semantics rather than only snapshotting the happy path.
 
-## 5. Integration/API contract — 10
-Evaluate whether client and server agree on stable, understandable data shapes and whether server-owned preview state prevents client-side plan tampering.
+## Code quality — 3 points
+Changes fit existing boundaries, avoid unnecessary rewrites, and keep domain logic understandable.
 
-## 6. Tests — 10
-- 9–10: targeted tests cover deterministic allocation plus at least two important failure/retry cases.
-- 6–8: meaningful backend tests beyond the happy path.
-- 3–5: limited tests or mostly superficial assertions.
-- 0–2: no useful feature tests.
+## Verification/debugging — 3 points
+Candidate runs relevant tests/build and demonstrates or explains an end-to-end check, including at least one race/stale-state scenario.
 
-## 7. Code quality — 5
-Clarity, naming, reasonable decomposition, minimal accidental complexity, and consistency with the starter architecture.
+## Calibration
+- **90–100 (Excellent):** Strong correctness across semantics and races; focused verification; minimal regressions.
+- **75–89 (Good/acceptable):** Core feature is solid with a few edge-case or polish gaps.
+- **60–74 (Partial):** Useful implementation but at least one major correctness dimension remains weak.
+- **≤59 (Failing/incomplete):** Happy-path-only work, major semantic errors, or broken integration.
 
-## 8. Verification/debugging discipline — 3
-Evidence that the candidate ran existing tests/build, exercised the feature, and checked failure states rather than relying only on generated code.
-
-## Overall calibration
-- **90–100 Excellent:** interview-ready, robust under hidden cases, strong prioritization.
-- **75–89 Strong/acceptable:** core feature correct with a few gaps.
-- **60–74 Partial:** substantial progress, but meaningful correctness/safety holes remain.
-- **Below 60 Failing:** happy-path-only, brittle, or incomplete implementation.
+A solution that merely displays a funnel from straightforward event counts, without correct dedupe/order/window/revision/race handling, should **not exceed 60–65 points** even if the UI looks complete.

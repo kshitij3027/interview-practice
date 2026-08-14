@@ -1,9 +1,0 @@
-payment_id,customer_ref,amount,received_at,note
-PAY-901, acme-001 ,75.00,2026-08-13T10:02:00Z,wire transfer
-PAY-902,BRIGHT-44,60.00,2026-08-13T10:05:00Z,card settlement
-PAY-903,CLOUD-9,45.00,2026-08-13T10:08:00Z,partner payout
-PAY-902,BRIGHT-44,60.00,2026-08-13T10:05:00Z,duplicate export row
-PAY-904,UNKNOWN-77,12.50,2026-08-13T10:10:00Z,unknown customer
-PAY-905,ACME-001,not-a-number,2026-08-13T10:12:00Z,malformed amount
-PAY-906,ACME-001,80.00,2026-08-13T10:14:00Z,overpayment candidate
-PAY-907,BRIGHT-44,25.00,2026-08-13T10:16:00Z,exact remaining old invoice

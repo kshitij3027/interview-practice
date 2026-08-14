@@ -1,0 +1,10 @@
+[
+  {"user_id":"u-100","experiment":"checkout-copy","variant":"control","assigned_at":"2026-08-10T09:00:00Z","segment":"self-serve"},
+  {"user_id":"u-101","experiment":"checkout-copy","variant":"treatment","assigned_at":"2026-08-10T09:05:00Z","segment":"self-serve"},
+  {"user_id":"u-102","experiment":"checkout-copy","variant":"treatment","assigned_at":"2026-08-10T09:10:00Z","segment":"enterprise"},
+  {"user_id":"u-103","experiment":"checkout-copy","variant":"control","assigned_at":"2026-08-10T09:15:00Z","segment":"enterprise"},
+  {"user_id":"u-104","experiment":"checkout-copy","variant":"treatment","assigned_at":"2026-08-10T09:20:00Z","segment":"self-serve"},
+  {"user_id":"u-105","experiment":"checkout-copy","variant":"control","assigned_at":"2026-08-10T09:25:00Z","segment":"self-serve"},
+  {"user_id":"u-106","experiment":"checkout-copy","variant":"treatment","assigned_at":"2026-08-10T09:30:00Z","segment":"enterprise"},
+  {"user_id":"u-107","experiment":"checkout-copy","variant":"control","assigned_at":"2026-08-10T09:35:00Z","segment":"enterprise"}
+]

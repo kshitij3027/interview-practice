@@ -1,58 +1,42 @@
 # POST-PRACTICE ONLY — Interviewer Notes
 
-**Candidate: do not read this file before attempting the exercise.**
+**Do not read this file before completing the 60-minute exercise.**
 
 ## Intended solution outline
 
-A strong solution usually separates three responsibilities: CSV normalization/validation, deterministic reconciliation planning, and transactional-ish commit of a server-owned preview. The exact module boundaries are flexible.
+A strong solution usually centralizes funnel calculation on the server rather than scattering semantics through the route. It obtains one consistent snapshot of assignments, exclusions, events, and revision; normalizes/deduplicates events deterministically; groups relevant events per eligible user; sorts per-user events chronologically with a deterministic tie-break; walks the fixed funnel while respecting assignment time and the 24-hour window; aggregates per variant; and returns the snapshot revision.
 
-A preview should be assigned an opaque server-generated identifier and stored in memory with normalized row outcomes, the proposed mutations, the revisions of affected accounts, and commit state. Commit should reference that server-side preview rather than accepting client-authored allocations.
+The client should treat report requests as versioned asynchronous work. A request identity/generation plus requested segment and returned dataset revision is usually sufficient to prevent older completions from overwriting newer state. Exclusion/include should advance known revision and trigger or require report reconciliation.
 
-For each account, planning should process valid non-duplicate payments in deterministic input order while maintaining a temporary view of invoice remaining balances and accumulated credit so that multiple payments in one file reconcile coherently without mutating live state.
+## Subtle traps / hidden checks
 
-Commit should check all affected revisions before any write. If any mismatch exists, reject the entire commit. If all match, apply the stored plan atomically under the process lock, update invoice statuses, aggregate account-credit changes, and increment each affected account revision once. Mark the preview committed and return the prior commit result on retry.
+- `e-09` is duplicated in the fixture and must not count twice.
+- File order is not chronological for all users; correctness must survive shuffled input.
+- `u-103` has `order_completed` before earlier funnel steps and should not get retroactive step-3 credit from that event.
+- `u-105` has an event before assignment; it must not serve as the qualifying first step.
+- `u-101` reaches completion well after 24 hours from the first qualifying step.
+- Unassigned user `u-999` must not enter denominators or step counts.
+- Repeated step occurrences should not automatically invalidate a user; a later occurrence can form the valid path.
+- Excluding a user while a delayed report A is pending, then starting report B, must not allow A to paint stale counts when it finishes last.
+- Switching from `enterprise` to `self-serve` while the first request is delayed is a separate race from revision staleness.
+- Zero denominator handling should not emit invalid JSON numbers or misleading percentage strings.
 
-## Subtle traps
+## Expected prioritization
 
-1. Using Python `float` for dollar parsing can introduce drift; string/Decimal-to-cents conversion is safer.
-2. Previewing each row independently against live invoice state can allocate the same invoice balance more than once when several payments target one account.
-3. Duplicate detection must be deterministic. The first occurrence is the candidate row; later identical IDs do not add money.
-4. Account lookup is trim + case-insensitive, while persisted external IDs should remain unchanged.
-5. Unknown/malformed rows should not abort valid rows.
-6. Revision checks must happen before mutation; checking per account while mutating earlier accounts allows partial stale commits.
-7. Revisions increment once per affected account for the import, regardless of number of rows/invoices.
-8. A post-preview manual credit is an intentional conflict source and must invalidate commit.
-9. Retry behavior should distinguish “same preview already committed” from a new invalid/stale request.
-10. The client should preserve the CSV text on stale failure and allow re-preview rather than clearing operator work.
+A strong 60-minute approach tends to prioritize: (1) backend pure funnel calculation + targeted tests, (2) report endpoint with revision/delay, (3) minimal UI rendering, (4) stale-response/segment race protection, (5) error polish and extra tests. Spending most of the hour on styling is a negative signal.
 
-## Expected prioritization in 60 minutes
+## Likely failure modes
 
-A strong candidate usually secures backend correctness first: parser + planner tests, server-owned preview, all-revision preflight, commit idempotency. Then they build a minimal but usable UI. Styling and exhaustive frontend abstractions should come last.
-
-If time is short, correct backend semantics plus a rough end-to-end UI is better than a polished frontend with unsafe commit behavior.
-
-## Hidden checks to run
-
-- Header order changed but required names present.
-- Blank line at end of CSV.
-- `AcMe-001` and ` acme-001 ` both resolve to ACME-001.
-- `10`, `10.0`, and `10.00` accepted; `10.001`, `1e2`, zero, negative, and non-numeric rejected.
-- Duplicate payment ID appears with different data later; later occurrence still treated as duplicate, not a second payment.
-- Two valid rows hit the same customer and together cross an invoice boundary.
-- Two invoices share a due date; lexical invoice ID determines order.
-- Payment exceeds all open invoices; remainder becomes credit.
-- Preview leaves live store byte-for-byte equivalent for business state.
-- Manual credit after preview changes revision; commit rejects with no invoice/payment mutation.
-- Two affected accounts where only the second is stale; neither account mutates.
-- Successful commit followed by same commit request returns committed result without double application.
-- Existing manual-credit endpoint still increments revision and credit correctly after feature work.
+- Counting event names globally rather than constructing per-user ordered paths.
+- Sorting file rows globally but not handling repeated user steps correctly.
+- Using file order as event order.
+- Dedupe by `(user_id,name)` instead of `event_id`.
+- Starting the 24-hour window at assignment time or completion time rather than the selected first funnel step.
+- Computing authoritative analytics in the browser from raw fixture data.
+- Refreshing after exclusions but allowing an old promise to overwrite the refreshed report.
+- Clearing report output on transient failures.
+- Breaking exclusion reason validation or revision increments.
 
 ## What to inspect after the hour
 
-- Did the candidate identify revisioning as an existing invariant rather than replace it?
-- Did they model preview state on the server or trust client allocations?
-- Do multiple rows for one customer share a coherent temporary planning state?
-- Is money parsed deterministically?
-- Can stale detection cause partial writes?
-- Are retry semantics explicit?
-- Did they run tests/build and add focused tests for the dangerous cases?
+Look for isolated/testable domain semantics, deterministic behavior, a clear snapshot/revision model, request-race protection on the client, preservation of existing exclusions, and evidence that the candidate verified the tricky cases rather than trusting generated code.
