@@ -1,93 +1,91 @@
-# Ledger Lens — HARD One-Hour Full-Stack Interview Exercise
+# Signal Lab — HARD One-Hour Full-Stack Interview Exercise
 
 ## Context
 
-Ledger Lens is an internal billing-operations tool for a SaaS company. Finance operators use it to inspect customer balances, open invoices, and record occasional manual credits.
+Signal Lab is an internal experimentation-operations dashboard for a SaaS company. Product analysts use it to inspect experiment assignments, segment users, and exclude known test/internal accounts from analysis.
 
-The starter application is intentionally already functional. It has a Python/FastAPI backend with in-memory domain state and a dependency-free browser ES-module frontend with an explicit client-side store. Existing behavior spans account routes, domain services, invoice state, frontend API helpers, and detail views.
+The starter application already works. It uses a dependency-free Node.js HTTP API, an in-memory domain store, a browser ES-module frontend with explicit client state, and existing tests for assignment/exclusion behavior. The repository also contains a noisy JSONL event fixture representing product telemetry from the experiment.
 
 ## Existing behavior
 
-- The account list shows customer name, external customer reference, available credit, and a revision number.
-- Selecting an account shows that account's invoices and current remaining balances.
-- Operators can add a manual customer credit with a positive amount and non-empty reason.
-- Manual credits increase the account credit balance and its revision.
-- The backend is the source of truth; restarting it resets sample data.
-- Existing tests cover current account, invoice, and manual-credit behavior.
+- The dashboard loads the `checkout-copy` experiment overview and assigned users.
+- Users can be filtered by segment (`self-serve` or `enterprise`).
+- An operator can exclude a user with a reason or include them again.
+- Every exclusion/inclusion change increments the dataset `revision`.
+- The overview reports assignment and raw-event counts by variant.
+- Restarting the server resets exclusions.
+- Existing tests cover fixture loading, overview behavior, revision changes, and exclusion API behavior.
 
 ## Customer/business problem
 
-A payment partner sends Finance a settlement CSV several times per day. Operators currently reconcile those rows by hand against customer invoices. The export is not perfectly clean: customer references may have whitespace/casing differences, rows may be duplicated, malformed rows can appear, and an account may change between the time an operator previews an import and the time they apply it.
+The experiment owner now needs an actual conversion funnel, not raw counts. The telemetry is realistic rather than clean: events can arrive out of order, duplicate event IDs exist, users can emit steps more than once, and some events belong to users who are not assigned to the experiment. Analysts also exclude internal/test users while dashboards are open, which means a slow report request can return after the underlying dataset revision has already changed.
 
-A representative file is provided at `fixtures/customer_settlement_aug14.csv`.
-
-Finance wants a workflow that lets an operator inspect what the import would do before committing it, then safely apply the same reconciliation plan without silently using stale account state.
+The source telemetry is in `fixtures/experiment_events.jsonl`; experiment assignments are in `fixtures/assignments.json`.
 
 ## Primary feature request
 
-**Add a settlement-import workflow that previews a pasted/uploaded CSV, deterministically reconciles valid payments against open invoices, and then commits that exact preview safely with duplicate and stale-state protection.**
+**Add a segment-aware three-step funnel report (`product_viewed` → `checkout_started` → `order_completed`) with deterministic event semantics and race-safe client reconciliation when exclusions change while a report is in flight.**
 
 ## Acceptance criteria
 
-1. Add a UI flow where an operator can load/paste CSV content and request a **preview** without mutating server state.
-2. Parse the columns `payment_id`, `customer_ref`, `amount`, `received_at`, and `note`. Header order may vary. Empty trailing lines must not create rows.
-3. Resolve `customer_ref` after trimming surrounding whitespace and comparing case-insensitively to account `external_id`. Unknown customers must be reported as row-level errors, not abort the entire preview.
-4. `amount` must represent a strictly positive dollar amount with at most two decimal places and must be converted without floating-point rounding drift. Malformed rows must be reported individually while other valid rows continue through preview.
-5. Within one file, repeated `payment_id` values represent the same external payment. Exactly one occurrence may be considered for reconciliation; later duplicates must be identified deterministically and must not double-count money.
-6. For each valid, non-duplicate payment, allocate money only to that customer's **open** invoices, ordered by earliest `due_date`, then lexicographically by invoice `id`. Partial invoice payment is allowed. Any remainder becomes account credit.
-7. The preview response must contain enough information for the UI to show, per input row, whether it is valid/error/duplicate and, for applicable rows, the proposed invoice allocations and proposed remainder-to-credit. It must also expose the account revisions the plan was based on.
-8. Previewing must not change invoice balances, invoice statuses, account credits, account revisions, or existing manual-credit behavior.
-9. Add a **commit** action that applies the exact previewed plan. The server must reject the commit if any affected account revision no longer matches the revision used by that preview; it must not partially apply a stale plan.
-10. A successful commit must update invoice `remaining_cents`, mark invoices `paid` when their remaining balance reaches zero, add any payment remainder to account credit, and increment each affected account revision exactly once for the whole committed import (not once per row or allocation).
-11. Re-committing the same preview/import must be retry-safe: it must not apply payments twice. The client must be able to distinguish an already-committed retry from a genuinely invalid/stale request.
-12. After commit success, refresh/reconcile the account list and currently selected account detail without requiring a browser reload.
-13. If commit fails because the preview is stale, preserve the imported CSV in the UI, show a useful stale-state message, and make it straightforward for the operator to generate a fresh preview.
-14. Existing manual-credit behavior must continue to work and must still participate in revision changes, so a manual credit created after preview can invalidate a settlement commit.
+1. Add a backend funnel-report API and corresponding UI for the fixed funnel `product_viewed` → `checkout_started` → `order_completed`, grouped by experiment variant.
+2. The report must support segment filtering for `all`, `self-serve`, or `enterprise`. Excluded users are never eligible.
+3. A user is eligible only for events occurring at or after that user's `assigned_at`. Events for users not assigned to `checkout-copy` must be ignored.
+4. Duplicate telemetry is defined by `event_id`: only one occurrence of a repeated event ID may influence the report. Which duplicate occurrence wins must be deterministic and documented if their payloads ever differ.
+5. Funnel progression is ordered per user by event time, not file order. A user reaches a later step only if a qualifying occurrence happens at or after the occurrence selected for the previous step. Repeated step events may be used if an earlier occurrence cannot form a valid ordered path.
+6. The entire three-step path must complete within **24 hours of the user's first qualifying `product_viewed` step**. A completion outside that window must not count as step 3.
+7. For each variant, return counts for eligible assigned users and users reaching each step. Also return step conversion percentages using the immediately preceding step as denominator; zero denominators must be represented safely rather than producing `NaN`/`Infinity`.
+8. Results must be deterministic regardless of JSONL file order. Preserve integer counts; percentages must be rounded to one decimal place in a consistent way.
+9. Every funnel response must include the dataset `revision` used to calculate it. The client must track the newest revision it knows from overview/users/exclusion responses.
+10. The report request must support an optional local test delay (for example a bounded `delay_ms` query parameter) so stale-response behavior can be exercised without external infrastructure.
+11. If an exclusion/inclusion changes the dataset while an older funnel request is in flight, the UI must not render that older response over newer state. It must either discard the stale response or immediately reconcile with a fresh report. A slow older request finishing last must never make the screen appear to include an excluded user.
+12. Changing the segment while a report request is in flight must not let the previous segment's response overwrite the newly selected segment's report.
+13. Excluding/including a user must keep the existing user table behavior working and must cause the visible funnel report to reconcile to the new dataset revision without a browser reload.
+14. Report failures must leave the last known-good report visible (if one exists) and show an actionable error rather than clearing the entire analysis area.
+15. Existing overview, user filtering, exclusion validation, and revision behavior must continue to work.
 
 ## Constraints
 
-- Keep the backend in-memory; no database, Redis, queue, auth provider, or external API.
-- You may add endpoints, service/domain modules, shared response types, and tests as needed.
-- Treat a preview as server-owned state: do not trust the client to send arbitrary invoice allocations back and have the server apply them blindly.
-- Keep the implementation interview-sized. You do not need production persistence across backend restarts.
-- Use integer cents for persisted monetary values.
+- Keep the current Node.js + browser ES-module stack and dependency-free setup.
+- Keep state in memory; no database, queue, auth provider, analytics service, or external API.
+- The backend is the source of truth for funnel semantics; do not compute the authoritative funnel only in the browser.
+- You may add service/domain modules and tests as needed.
+- Do not rewrite the app into a framework or replace the current exclusion workflow.
 
 ## Out of scope
 
+- Configurable arbitrary funnels.
+- Statistical significance/confidence intervals.
+- Persistent storage across process restarts.
+- Real streaming/websockets.
 - Authentication/authorization.
-- Multi-process/distributed coordination.
-- Persisting imports across process restarts.
-- Supporting quoted CSV fields containing embedded newlines.
-- Fancy drag-and-drop upload UI or visual design polish.
-- Reconciliation reversals/refunds.
+- Visual charting libraries or polished data visualization.
 
 ## Setup / run
 
-Backend:
-
 ```bash
-python -m uvicorn backend.app.main:app --reload --port 3001
+npm start
 ```
 
-Frontend (separate terminal):
+In a second terminal:
 
 ```bash
-python -m http.server 5173 -d frontend
+python -m http.server 5173 -d web
 ```
 
 Open `http://localhost:5173`.
 
-## Existing tests and build
+## Tests / build
 
 ```bash
-pytest -q
-./scripts/verify_frontend.sh
+npm test
+npm run build
 ```
+
+Existing tests cover current behavior only. Add feature-specific tests based on the requirements; there are intentionally no TODOs or starter tests that encode the funnel solution.
 
 ## 60-minute interview instruction
 
-You have **60 minutes**. Treat this as an AI-assisted product-engineering/FDE live build. Inspect the existing system and the fixture before coding. Decide what to make correct first, implement incrementally, and verify the most failure-prone behavior rather than trying to maximize code volume.
+You have **60 minutes**. Treat this like a demanding AI-assisted product-engineering/FDE live build. First inspect the existing data model, state flow, and fixtures. Then choose a core path, implement incrementally, and verify semantics with focused tests plus an end-to-end browser pass.
 
-A complete happy path without careful handling of duplicates, deterministic allocation, stale previews, retries, and existing revision behavior is intentionally not a complete solution.
-
-**Do not read `INTERVIEWER_NOTES.md` until after you finish the exercise.**
+A visually complete happy path that mishandles event ordering, duplicates, exclusions, 24-hour semantics, or stale async responses should not be considered a strong solution. Prioritize correctness, observable verification, and time management.
