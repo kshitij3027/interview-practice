@@ -1,0 +1,4 @@
+const BASE = 'http://localhost:3001/api';
+export async function getReps(){ const r=await fetch(`${BASE}/reps`); return r.json(); }
+export async function getOpportunities({owner='',stage='',q='',cursor=''}){ const p=new URLSearchParams({limit:'3'}); if(owner)p.set('owner',owner); if(stage)p.set('stage',stage); if(q)p.set('q',q); if(cursor)p.set('cursor',cursor); const r=await fetch(`${BASE}/opportunities?${p}`); if(!r.ok)throw new Error('load_failed'); return r.json(); }
+export async function reassign(id,targetOwnerId,expectedRevision){ const r=await fetch(`${BASE}/opportunities/${id}/reassign`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({target_owner_id:targetOwnerId,expected_revision:expectedRevision})}); const b=await r.json(); if(!r.ok)throw new Error(b.error||'reassign_failed'); return b; }

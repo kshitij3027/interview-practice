@@ -1,53 +1,63 @@
 # Grading Rubric — 100 points
 
-The happy path alone is capped around **60–65** even if the UI looks polished.
+Happy-path-only implementations should generally land at **60–65 points or below**.
 
-## 1. Functional correctness — 20
-- 18–20: preview and commit both work end-to-end on realistic mixed-validity CSV data; committed state matches previewed semantics.
-- 12–17: core flow works but one meaningful correctness area is incomplete.
-- 6–11: only a narrow happy path works.
-- 0–5: feature is largely non-functional.
+## Functional correctness — 20
+- 18–20: End-to-end bulk workflow works across pages and partial outcomes reconcile correctly.
+- 13–17: Core bulk flow works with minor gaps.
+- 7–12: Happy path works but important selection or response behavior is incomplete.
+- 0–6: Workflow is largely nonfunctional.
 
-## 2. Backend/domain behavior — 18
-Assess parsing boundary, account matching, money handling, allocation order, mutation boundaries, and revision semantics.
-- Excellent: domain behavior is explicit, deterministic, and isolated enough to reason about.
-- Acceptable: mostly correct with minor leakage/duplication.
-- Partial: endpoint-heavy implementation with fragile mixed concerns.
-- Failing: incorrect monetary or allocation semantics.
+## Backend/domain behavior — 20
+- Deterministic queue-order processing.
+- Per-item validation and mutation isolation.
+- Correct revision handling.
+- Correct target-owner no-op/capacity semantics.
 
-## 3. Edge cases and safety — 22
-High-weight hidden-evaluator checks include:
-- mixed valid + malformed + unknown-customer rows;
-- duplicate payment IDs inside a file;
-- multiple payments for one account in the same import;
-- payment spanning multiple invoices and leaving account credit;
-- tie-breaking between invoices;
-- stale preview caused by an intervening manual credit;
-- retrying a successful commit;
-- ensuring rejected stale commits apply nothing.
+## Edge cases & consistency — 20
+- Stale revisions do not overwrite newer state.
+- Capacity is consumed by earlier successes within the same batch.
+- Region/closed/missing failures do not poison valid rows.
+- Duplicate IDs cannot double-mutate.
+- Mixed success/failure batches remain internally consistent.
 
-18–22 requires strong handling of most of these. A pure happy path should receive fewer than 10 here.
+## Frontend behavior — 15
+- Selection survives pagination and hidden-by-filter state.
+- In-flight duplicate submission is prevented.
+- Successes are removed and failures retained after response.
+- Current page is reconciled/refreshed after action.
 
-## 4. Frontend behavior — 12
-Evaluate import input, readable preview outcomes, commit state, disabled/in-flight behavior, stale-state recovery, and post-commit refresh.
+## Integration/API contract — 10
+- Request/response contract exposes enough per-item detail for robust UI handling.
+- Frontend does not calculate authoritative capacity itself.
+- Existing single-reassign and list endpoints remain compatible.
 
-## 5. Integration/API contract — 10
-Evaluate whether client and server agree on stable, understandable data shapes and whether server-owned preview state prevents client-side plan tampering.
+## Tests — 7
+- Focused feature tests cover at least deterministic capacity and stale/partial failure behavior.
+- Tests are meaningful rather than snapshots of implementation details.
 
-## 6. Tests — 10
-- 9–10: targeted tests cover deterministic allocation plus at least two important failure/retry cases.
-- 6–8: meaningful backend tests beyond the happy path.
-- 3–5: limited tests or mostly superficial assertions.
-- 0–2: no useful feature tests.
+## Code quality — 4
+- Changes fit existing layering and avoid unnecessary rewrites.
+- Naming/data structures make batch semantics understandable.
 
-## 7. Code quality — 5
-Clarity, naming, reasonable decomposition, minimal accidental complexity, and consistency with the starter architecture.
+## Verification/debugging — 4
+- Candidate demonstrates green baseline plus feature verification.
+- Uses at least one mixed-outcome scenario rather than only a happy path.
 
-## 8. Verification/debugging discipline — 3
-Evidence that the candidate ran existing tests/build, exercised the feature, and checked failure states rather than relying only on generated code.
+## Hidden-evaluator-style checks
+
+The evaluator may exercise cases such as:
+- Client sends IDs in reverse priority order while the target rep has only one slot left.
+- Same ID appears more than once in the batch.
+- One selected row changed revision after selection while neighbors remain valid.
+- A selected row is hidden by a filter when the batch completes.
+- A row is already owned by the target rep while capacity is otherwise full.
+- A high-priority row fails region validation; a lower-priority valid row should still be considered.
+- Existing single reassignment still rejects stale revisions after bulk code is added.
 
 ## Overall calibration
-- **90–100 Excellent:** interview-ready, robust under hidden cases, strong prioritization.
-- **75–89 Strong/acceptable:** core feature correct with a few gaps.
-- **60–74 Partial:** substantial progress, but meaningful correctness/safety holes remain.
-- **Below 60 Failing:** happy-path-only, brittle, or incomplete implementation.
+
+- **90–100 (Excellent):** Correct end-to-end workflow with robust partial failure, deterministic capacity, stale-state handling, tests, and verification.
+- **75–89 (Strong/acceptable):** Core design is sound; a limited edge case or UX reconciliation gap remains.
+- **60–74 (Partial):** Useful happy path exists, but one or more major correctness dimensions are weak.
+- **Below 60 (Failing):** Core semantics are missing, unsafe, or insufficiently integrated.

@@ -1,0 +1,6 @@
+[
+  {"id":"rep-ava","name":"Ava Singh","regions":["west"],"max_active":5},
+  {"id":"rep-ben","name":"Ben Ortiz","regions":["east","central"],"max_active":4},
+  {"id":"rep-cam","name":"Cam Wu","regions":["central","west"],"max_active":4},
+  {"id":"rep-dia","name":"Dia Brooks","regions":["east","west"],"max_active":3}
+]

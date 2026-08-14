@@ -1,93 +1,97 @@
-# Ledger Lens — HARD One-Hour Full-Stack Interview Exercise
+# QueuePilot — HARD One-Hour Full-Stack Interview Exercise
 
 ## Context
 
-Ledger Lens is an internal billing-operations tool for a SaaS company. Finance operators use it to inspect customer balances, open invoices, and record occasional manual credits.
+QueuePilot is an internal sales-operations tool for a B2B software company. Ops leads use it to work a prioritized opportunity queue and occasionally reassign a single opportunity when coverage changes.
 
-The starter application is intentionally already functional. It has a Python/FastAPI backend with in-memory domain state and a dependency-free browser ES-module frontend with an explicit client-side store. Existing behavior spans account routes, domain services, invoice state, frontend API helpers, and detail views.
+The starter app already works. It has a Go HTTP API, in-memory domain/store logic, a browser ES-module frontend with explicit client state, stable cursor pagination, composable filters, a rep roster loaded from JSON, and existing tests for current behavior.
 
 ## Existing behavior
 
-- The account list shows customer name, external customer reference, available credit, and a revision number.
-- Selecting an account shows that account's invoices and current remaining balances.
-- Operators can add a manual customer credit with a positive amount and non-empty reason.
-- Manual credits increase the account credit balance and its revision.
-- The backend is the source of truth; restarting it resets sample data.
-- Existing tests cover current account, invoice, and manual-credit behavior.
+- Opportunities are sorted by `priority_score` descending, then `id` ascending.
+- The queue supports account search, owner filtering, stage filtering, and cursor pagination.
+- A user can reassign one visible opportunity at a time.
+- Single reassignment uses the opportunity `revision` to reject stale writes.
+- Closed opportunities cannot be reassigned.
+- A rep may only own opportunities in regions listed in `fixtures/rep_roster.json`.
+- Each rep has a `max_active` capacity; closed opportunities do not count toward capacity.
+- Restarting the backend resets sample opportunity data.
 
 ## Customer/business problem
 
-A payment partner sends Finance a settlement CSV several times per day. Operators currently reconcile those rows by hand against customer invoices. The export is not perfectly clean: customer references may have whitespace/casing differences, rows may be duplicated, malformed rows can appear, and an account may change between the time an operator previews an import and the time they apply it.
+Quarter-end territory changes require sales ops to move groups of opportunities quickly. Today an operator must open and reassign records one by one. That is slow, and it becomes dangerous when the queue is paginated: selected records may be on different pages, records may change while the operator is working, and the target rep may run out of capacity partway through a move.
 
-A representative file is provided at `fixtures/customer_settlement_aug14.csv`.
-
-Finance wants a workflow that lets an operator inspect what the import would do before committing it, then safely apply the same reconciliation plan without silently using stale account state.
+Ops wants a bulk workflow that is fast but does not silently overwrite newer changes or pretend the entire batch succeeded when only some records were eligible.
 
 ## Primary feature request
 
-**Add a settlement-import workflow that previews a pasted/uploaded CSV, deterministically reconciles valid payments against open invoices, and then commits that exact preview safely with duplicate and stale-state protection.**
+**Add a cross-page bulk reassignment workflow that moves selected opportunities to one rep with deterministic partial-success behavior, stale-write protection, and accurate client reconciliation.**
 
 ## Acceptance criteria
 
-1. Add a UI flow where an operator can load/paste CSV content and request a **preview** without mutating server state.
-2. Parse the columns `payment_id`, `customer_ref`, `amount`, `received_at`, and `note`. Header order may vary. Empty trailing lines must not create rows.
-3. Resolve `customer_ref` after trimming surrounding whitespace and comparing case-insensitively to account `external_id`. Unknown customers must be reported as row-level errors, not abort the entire preview.
-4. `amount` must represent a strictly positive dollar amount with at most two decimal places and must be converted without floating-point rounding drift. Malformed rows must be reported individually while other valid rows continue through preview.
-5. Within one file, repeated `payment_id` values represent the same external payment. Exactly one occurrence may be considered for reconciliation; later duplicates must be identified deterministically and must not double-count money.
-6. For each valid, non-duplicate payment, allocate money only to that customer's **open** invoices, ordered by earliest `due_date`, then lexicographically by invoice `id`. Partial invoice payment is allowed. Any remainder becomes account credit.
-7. The preview response must contain enough information for the UI to show, per input row, whether it is valid/error/duplicate and, for applicable rows, the proposed invoice allocations and proposed remainder-to-credit. It must also expose the account revisions the plan was based on.
-8. Previewing must not change invoice balances, invoice statuses, account credits, account revisions, or existing manual-credit behavior.
-9. Add a **commit** action that applies the exact previewed plan. The server must reject the commit if any affected account revision no longer matches the revision used by that preview; it must not partially apply a stale plan.
-10. A successful commit must update invoice `remaining_cents`, mark invoices `paid` when their remaining balance reaches zero, add any payment remainder to account credit, and increment each affected account revision exactly once for the whole committed import (not once per row or allocation).
-11. Re-committing the same preview/import must be retry-safe: it must not apply payments twice. The client must be able to distinguish an already-committed retry from a genuinely invalid/stale request.
-12. After commit success, refresh/reconcile the account list and currently selected account detail without requiring a browser reload.
-13. If commit fails because the preview is stale, preserve the imported CSV in the UI, show a useful stale-state message, and make it straightforward for the operator to generate a fresh preview.
-14. Existing manual-credit behavior must continue to work and must still participate in revision changes, so a manual credit created after preview can invalidate a settlement commit.
+1. Add row selection to the queue and allow selections to persist while navigating between cursor pages. A selected opportunity must retain the revision observed when it was selected.
+2. Filtering/searching may hide selected opportunities, but must not silently drop them. The UI must show the total selection count even when some selected rows are not on the current page.
+3. Add a bulk action that targets one rep and sends the selected opportunity IDs with their expected revisions to the backend. Duplicate IDs in a request must not cause the same opportunity to be processed twice.
+4. The backend must process the unique selected opportunities in deterministic queue order: `priority_score` descending, then `id` ascending, regardless of the order supplied by the client.
+5. Each opportunity is evaluated independently. One failure must not abort other valid moves. The response must make each item's outcome distinguishable and include a useful batch summary.
+6. A row must fail without mutation if it no longer has the expected revision, is closed, does not exist, or the target rep does not cover its region.
+7. Target-rep capacity must be enforced across the batch. Successful earlier moves in the same deterministic batch consume capacity for later rows. Moving an opportunity that is already owned by the target rep must not consume an additional capacity slot.
+8. An opportunity that succeeds must change owner and increment revision exactly once. A failed opportunity must not change owner or revision.
+9. Capacity decisions must use the current server state at execution time, not counts calculated by the browser.
+10. After a partial-success response, the UI must remove successful opportunities from the selection, keep failed opportunities selected for correction/retry, refresh the visible page, and present a concise success/failure summary without requiring a browser reload.
+11. If a selected opportunity is no longer visible because of current filters, its success or failure must still reconcile correctly in selection state.
+12. Re-submitting a failed stale item after the user refreshes/reselects it with its new revision should be possible without clearing unrelated selections.
+13. Existing single-opportunity reassignment, filtering, search, ordering, and cursor pagination must continue to work.
+14. The client must prevent accidental double-submission of the same bulk request while it is in flight.
 
 ## Constraints
 
-- Keep the backend in-memory; no database, Redis, queue, auth provider, or external API.
-- You may add endpoints, service/domain modules, shared response types, and tests as needed.
-- Treat a preview as server-owned state: do not trust the client to send arbitrary invoice allocations back and have the server apply them blindly.
-- Keep the implementation interview-sized. You do not need production persistence across backend restarts.
-- Use integer cents for persisted monetary values.
+- Keep the current Go + browser ES-module stack.
+- Keep storage in-memory; no database, Redis, queue, auth provider, or external API.
+- Use the existing rep roster and capacity rules as the source of truth.
+- You may add endpoints, service/store methods, frontend state helpers, and tests.
+- Do not replace cursor pagination with offset pagination or fetch the entire dataset just to implement selection.
 
 ## Out of scope
 
 - Authentication/authorization.
-- Multi-process/distributed coordination.
-- Persisting imports across process restarts.
-- Supporting quoted CSV fields containing embedded newlines.
-- Fancy drag-and-drop upload UI or visual design polish.
-- Reconciliation reversals/refunds.
+- Distributed locking or multiple backend processes.
+- Persisting state across backend restarts.
+- Undo/history UI.
+- Visual polish beyond clear usable controls and feedback.
 
 ## Setup / run
 
 Backend:
 
 ```bash
-python -m uvicorn backend.app.main:app --reload --port 3001
+go run ./cmd/server
 ```
 
 Frontend (separate terminal):
 
 ```bash
-python -m http.server 5173 -d frontend
+python -m http.server 5173 -d web
 ```
 
 Open `http://localhost:5173`.
 
-## Existing tests and build
+## Tests / build
 
 ```bash
-pytest -q
-./scripts/verify_frontend.sh
+go test ./...
+go build ./...
+node --check web/api.js
+node --check web/store.js
+node --check web/app.js
 ```
+
+Existing tests cover current behavior only. Add feature-specific tests you consider necessary.
 
 ## 60-minute interview instruction
 
-You have **60 minutes**. Treat this as an AI-assisted product-engineering/FDE live build. Inspect the existing system and the fixture before coding. Decide what to make correct first, implement incrementally, and verify the most failure-prone behavior rather than trying to maximize code volume.
+You have **60 minutes**. Treat this as an AI-assisted live coding interview. Inspect the repository before asking an agent to change it, identify the core correctness risks, implement incrementally, and verify both backend and UI behavior.
 
-A complete happy path without careful handling of duplicates, deterministic allocation, stale previews, retries, and existing revision behavior is intentionally not a complete solution.
+A complete-looking happy path with incorrect capacity, stale revision, pagination, or partial-failure semantics will score poorly. Prioritize correctness and observable verification over cosmetic completeness.
 
-**Do not read `INTERVIEWER_NOTES.md` until after you finish the exercise.**
+**Do not read `INTERVIEWER_NOTES.md` until after you finish.**
