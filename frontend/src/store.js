@@ -5,6 +5,11 @@ export function createStore() {
     detail: null,
     error: '',
     creditBusy: false,
+    csvText: '',
+    preview: null,
+    settlementBusy: false,
+    settlementError: '',
+    settlementCommitted: false,
   };
   const listeners = new Set();
 

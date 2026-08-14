@@ -2,6 +2,7 @@ import { api } from './api.js';
 import { createStore } from './store.js';
 import { renderAccountTable } from './accountTable.js';
 import { renderAccountPanel } from './accountPanel.js';
+import { renderSettlementPanel } from './settlementPanel.js';
 
 const root = document.querySelector('#app');
 const store = createStore();
@@ -28,7 +29,8 @@ function render(state) {
     <div class="layout">
       ${renderAccountTable(state.accounts, state.selectedId)}
       ${renderAccountPanel(state.detail, state.creditBusy)}
-    </div>`;
+    </div>
+    ${renderSettlementPanel(state)}`;
 
   root.querySelectorAll('[data-account-id]').forEach(row => row.addEventListener('click', async () => {
     const id = row.dataset.accountId;
@@ -49,6 +51,44 @@ function render(state) {
       store.set({ error: error.message });
     } finally {
       store.set({ creditBusy: false });
+    }
+  });
+
+  root.querySelector('#settlement-preview-form')?.addEventListener('submit', async event => {
+    event.preventDefault();
+    const form = new FormData(event.currentTarget);
+    const csvText = String(form.get('csvText') ?? '');
+    store.set({ csvText, settlementBusy: true, settlementError: '', settlementCommitted: false });
+    try {
+      const preview = await api.previewSettlement(csvText);
+      store.set({ preview });
+    } catch (error) {
+      store.set({ preview: null, settlementError: error.message });
+    } finally {
+      store.set({ settlementBusy: false });
+    }
+  });
+
+  root.querySelector('#settlement-commit')?.addEventListener('click', async () => {
+    const { preview } = store.get();
+    if (!preview) return;
+    store.set({ settlementBusy: true, settlementError: '' });
+    try {
+      const result = await api.commitSettlement(preview.preview_id);
+      store.set({ preview: null, settlementCommitted: result.status });
+      await refresh();
+    } catch (error) {
+      if (error.status === 409) {
+        store.set({
+          preview: null,
+          settlementCommitted: false,
+          settlementError: 'Preview is stale — re-submit CSV to get a fresh preview',
+        });
+      } else {
+        store.set({ settlementError: error.message });
+      }
+    } finally {
+      store.set({ settlementBusy: false });
     }
   });
 }
