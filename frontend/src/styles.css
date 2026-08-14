@@ -10,4 +10,16 @@ tbody tr.selected { background: #eef4ff; }
 form { display: grid; gap: 8px; margin-top: 18px; }
 input, button { padding: 9px; }
 .error { background: #fff1f1; border: 1px solid #e2a6a6; padding: 10px; }
+.success { background: #f0fbf3; border: 1px solid #a6d9b6; padding: 10px; }
 @media (max-width: 800px) { .layout { grid-template-columns: 1fr; } }
+
+.settlement-panel { margin-top: 20px; }
+.settlement-panel textarea { width: 100%; font-family: monospace; box-sizing: border-box; }
+.settlement-panel table { margin-top: 12px; }
+.settlement-panel td, .settlement-panel th { vertical-align: top; }
+.settlement-panel ul { margin: 0; padding-left: 18px; }
+.credit-remainder { margin: 4px 0 0; font-weight: 600; }
+.badge { display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: 0.85em; text-transform: capitalize; }
+.badge-valid { background: #e3f6e8; color: #1c7a34; }
+.badge-error { background: #fde8e8; color: #b3261e; }
+.badge-duplicate { background: #fff4dd; color: #8a5a00; }
