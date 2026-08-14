@@ -87,6 +87,17 @@ test('GET /api/funnel honours a delay and ignores a malformed one', async () => 
   assert.deepEqual(malformed.body, (await getJson(base, '/api/funnel')).body);
 }));
 
+test('the delay ceiling reaches the transport, not just the parser', async () => withServer(async base => {
+  // parseDelayMs('99999') === 5000 is unit-tested, but a route that passed the raw value
+  // through would still satisfy that test and this endpoint would hang for 99 seconds.
+  const startedAt = process.hrtime.bigint();
+  const { status } = await getJson(base, '/api/funnel?delay_ms=99999');
+  const elapsedMs = Number(process.hrtime.bigint() - startedAt) / 1e6;
+  assert.equal(status, 200);
+  assert.ok(elapsedMs < 10000, `expected the clamp to cap the wait, took ${Math.round(elapsedMs)}ms`);
+  assert.ok(elapsedMs >= 4900, `expected roughly the 5s ceiling, took ${Math.round(elapsedMs)}ms`);
+}));
+
 test('a delayed report is computed before the delay, so it comes back stale', async () => withServer(async (base, service, server) => {
   // Synchronising on the server's 'request' event, not on funnel() itself. The handler is
   // already registered as the first 'request' listener, and listeners run in order, so by the
