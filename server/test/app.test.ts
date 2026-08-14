@@ -42,3 +42,74 @@ describe("existing job API", () => {
     expect(response.status).toBe(409);
   });
 });
+
+describe("claim next job", () => {
+  it("claims the highest-priority queued job, earliest createdAt breaking ties", async () => {
+    const response = await request(app)
+      .post("/api/jobs/claim-next")
+      .send({ dispatcher: "Jordan", idempotencyKey: "key-1" });
+
+    expect(response.status).toBe(200);
+    expect(response.body.job.id).toBe("job-102");
+    expect(response.body.job.status).toBe("assigned");
+    expect(response.body.job.assignedTo).toBe("Jordan");
+  });
+
+  it("rejects a blank dispatcher name", async () => {
+    const response = await request(app)
+      .post("/api/jobs/claim-next")
+      .send({ dispatcher: "   ", idempotencyKey: "key-1" });
+
+    expect(response.status).toBe(400);
+  });
+
+  it("rejects a missing idempotency key", async () => {
+    const response = await request(app)
+      .post("/api/jobs/claim-next")
+      .send({ dispatcher: "Jordan" });
+
+    expect(response.status).toBe(400);
+  });
+
+  it("returns the same claimed job when the same idempotency key is repeated", async () => {
+    const first = await request(app)
+      .post("/api/jobs/claim-next")
+      .send({ dispatcher: "Jordan", idempotencyKey: "key-1" });
+
+    const second = await request(app)
+      .post("/api/jobs/claim-next")
+      .send({ dispatcher: "Jordan", idempotencyKey: "key-1" });
+
+    expect(second.status).toBe(200);
+    expect(second.body.job.id).toBe(first.body.job.id);
+
+    const jobs = await request(app).get("/api/jobs");
+    const queuedCount = jobs.body.jobs.filter((job: { status: string }) => job.status === "queued").length;
+    expect(queuedCount).toBe(2);
+  });
+
+  it("claims a different job for two different idempotency keys", async () => {
+    const first = await request(app)
+      .post("/api/jobs/claim-next")
+      .send({ dispatcher: "Jordan", idempotencyKey: "key-1" });
+
+    const second = await request(app)
+      .post("/api/jobs/claim-next")
+      .send({ dispatcher: "Riley", idempotencyKey: "key-2" });
+
+    expect(first.body.job.id).not.toBe(second.body.job.id);
+  });
+
+  it("returns a distinguishable non-2xx response when no queued jobs remain", async () => {
+    await request(app).post("/api/jobs/claim-next").send({ dispatcher: "Jordan", idempotencyKey: "key-1" });
+    await request(app).post("/api/jobs/claim-next").send({ dispatcher: "Riley", idempotencyKey: "key-2" });
+    await request(app).post("/api/jobs/claim-next").send({ dispatcher: "Sam", idempotencyKey: "key-3" });
+
+    const response = await request(app)
+      .post("/api/jobs/claim-next")
+      .send({ dispatcher: "Casey", idempotencyKey: "key-4" });
+
+    expect(response.status).toBe(409);
+    expect(response.body.error).toBe("no-queued-jobs");
+  });
+});

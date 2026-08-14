@@ -37,6 +37,7 @@ const initialJobs: DeliveryJob[] = [
 ];
 
 let jobs = structuredClone(initialJobs);
+let claims = new Map<string, string>();
 
 export function listJobs() {
   return jobs.map((job) => ({ ...job }));
@@ -52,6 +53,25 @@ export function assignJob(jobId: string, driver: string) {
   return { kind: "ok" as const, job: { ...job } };
 }
 
+export function claimNextJob(dispatcher: string, idempotencyKey: string) {
+  const claimedJobId = claims.get(idempotencyKey);
+  if (claimedJobId) {
+    const job = jobs.find((candidate) => candidate.id === claimedJobId);
+    return { kind: "ok" as const, job: { ...job! } };
+  }
+
+  const nextJob = jobs
+    .filter((job) => job.status === "queued")
+    .sort((a, b) => b.priority - a.priority || a.createdAt.localeCompare(b.createdAt))[0];
+
+  if (!nextJob) return { kind: "no-jobs" as const };
+
+  const result = assignJob(nextJob.id, dispatcher);
+  if (result.kind === "ok") claims.set(idempotencyKey, nextJob.id);
+  return result;
+}
+
 export function resetStore() {
   jobs = structuredClone(initialJobs);
+  claims = new Map();
 }
