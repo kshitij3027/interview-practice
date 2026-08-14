@@ -28,6 +28,8 @@ class Store:
         self.accounts = deepcopy(INITIAL_ACCOUNTS)
         self.invoices = deepcopy(INITIAL_INVOICES)
         self.credit_events: list[CreditEvent] = []
+        self.previews: dict[str, dict] = {}
+        self.committed_preview_ids: set[str] = set()
 
     def snapshot(self):
         return {

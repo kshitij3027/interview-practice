@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from .routes.accounts import router as accounts_router
 from .routes.invoices import router as invoices_router
+from .routes.settlements import router as settlements_router
 
 app = FastAPI(title='Ledger Lens')
 app.add_middleware(
@@ -13,6 +14,7 @@ app.add_middleware(
 )
 app.include_router(accounts_router)
 app.include_router(invoices_router)
+app.include_router(settlements_router)
 
 @app.get('/api/health')
 def health():
