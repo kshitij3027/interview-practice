@@ -5,10 +5,7 @@
   "scripts": {
     "start": "node server.js",
     "test": "node --test test/*.test.js",
-    "test:e2e": "node --test e2e/*.test.js",
+    "test:e2e": "npx -y playwright@1.62.1 test e2e --workers=1",
     "build": "node scripts/verify-build.js"
-  },
-  "devDependencies": {
-    "playwright": "^1.54.0"
   }
 }
