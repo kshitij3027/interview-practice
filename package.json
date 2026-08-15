@@ -4,7 +4,11 @@
   "type": "module",
   "scripts": {
     "start": "node server.js",
-    "test": "node --test",
+    "test": "node --test test/*.test.js",
+    "test:e2e": "node --test e2e/*.test.js",
     "build": "node scripts/verify-build.js"
+  },
+  "devDependencies": {
+    "playwright": "^1.54.0"
   }
 }
