@@ -1,0 +1,2 @@
+export async function readJson(req){let b='';for await(const c of req)b+=c;if(!b)return{};try{return JSON.parse(b)}catch{return null}}
+export function send(res,status,body){res.writeHead(status,{'content-type':'application/json','access-control-allow-origin':'*','access-control-allow-headers':'content-type'});res.end(JSON.stringify(body))}

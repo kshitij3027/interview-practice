@@ -1,0 +1,1 @@
+import http from'node:http';import{createStore}from'./src/dataStore.js';import{makeHandler}from'./src/routes.js';const port=Number(process.env.PORT||3001);http.createServer(makeHandler(createStore())).listen(port,()=>console.log(`API on http://localhost:${port}`));

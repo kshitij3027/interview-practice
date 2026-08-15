@@ -1,0 +1,1 @@
+export const state={accounts:[],flag:null,datasetRevision:0,filter:'all',busy:null,error:''};export function visibleAccounts(){return state.accounts.filter(a=>state.filter==='all'||a.plan===state.filter)}

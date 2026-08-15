@@ -1,0 +1,10 @@
+[
+  {"id":"acct-101","name":"Acme Labs","plan":"pro","region":"us","employees":42},
+  {"id":"acct-102","name":"Bright Systems","plan":"enterprise","region":"eu","employees":420},
+  {"id":"acct-103","name":"Cloud Nine","plan":"starter","region":"us","employees":9},
+  {"id":"acct-104","name":"Delta Works","plan":"pro","region":"apac","employees":88},
+  {"id":"acct-105","name":"Evergreen Inc","plan":"enterprise","region":"us","employees":1200},
+  {"id":"acct-106","name":"Flux Labs","plan":"pro","region":"eu","employees":55},
+  {"id":"acct-107","name":"Gamma Co","plan":"starter","region":"apac","employees":16},
+  {"id":"acct-108","name":"Helio Health","plan":"enterprise","region":"us","employees":650}
+]

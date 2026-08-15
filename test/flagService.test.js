@@ -1,0 +1,3 @@
+import test from'node:test';import assert from'node:assert/strict';import{createStore}from'../src/dataStore.js';import{listAccountsWithStatus,updateAccountOverride}from'../src/flagService.js';
+test('accounts expose override or inherit',()=>{const rows=listAccountsWithStatus(createStore());assert.equal(rows.find(x=>x.id==='acct-102').override,true);assert.equal(rows.find(x=>x.id==='acct-101').override,null)});
+test('service validates boolean',()=>{assert.equal(updateAccountOverride(createStore(),{accountId:'acct-101',enabled:'yes',expectedRevision:1}).status,400)});

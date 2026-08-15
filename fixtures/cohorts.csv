@@ -1,0 +1,5 @@
+cohort_id,label,plan,region,min_employees
+c-pro-us,US Pro,pro,us,0
+c-large-ent,Large Enterprise,enterprise,,500
+c-eu-paid,EU Paid,,eu,1
+c-apac,APAC All,,apac,0

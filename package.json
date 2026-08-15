@@ -1,0 +1,10 @@
+{
+  "name": "rollout-control-plane-exercise",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node --test",
+    "build": "node scripts/verify-build.js"
+  }
+}
