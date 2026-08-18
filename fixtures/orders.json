@@ -1,0 +1,6 @@
+[
+  {"id":"ord-1001","customer":"Acme Dental","shipping_zone":"east","status":"pending","revision":1,"lines":[{"sku":"SKU-RED","qty":2},{"sku":"SKU-BLU","qty":3}]},
+  {"id":"ord-1002","customer":"Juniper Labs","shipping_zone":"west","status":"pending","revision":1,"lines":[{"sku":"SKU-GRN","qty":3},{"sku":"SKU-RED","qty":1},{"sku":"SKU-GRN","qty":2}]},
+  {"id":"ord-1003","customer":"Northstar Books","shipping_zone":"central","status":"pending","revision":1,"lines":[{"sku":"SKU-RED","qty":8}]},
+  {"id":"ord-1004","customer":"Pine Systems","shipping_zone":"east","status":"pending","revision":1,"lines":[{"sku":"SKU-BLU","qty":2}]}
+]

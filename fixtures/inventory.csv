@@ -1,0 +1,13 @@
+warehouse_id,sku,on_hand,reserved
+wh-a,SKU-RED,4,0
+wh-b,SKU-RED,3,0
+wh-c,SKU-RED,7,0
+wh-d,SKU-RED,5,0
+wh-a,SKU-BLU,2,0
+wh-b,SKU-BLU,6,0
+wh-c,SKU-BLU,3,0
+wh-d,SKU-BLU,8,0
+wh-a,SKU-GRN,1,0
+wh-b,SKU-GRN,0,0
+wh-c,SKU-GRN,4,0
+wh-d,SKU-GRN,2,0
