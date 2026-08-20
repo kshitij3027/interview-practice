@@ -1,0 +1,13 @@
+body { font-family: system-ui, sans-serif; margin: 0; background: #f7f7f8; color: #1d1d1f; }
+#app { max-width: 1000px; margin: 0 auto; padding: 24px; }
+main { display: grid; grid-template-columns: 320px 1fr; gap: 24px; }
+section { background: white; border: 1px solid #ddd; border-radius: 10px; padding: 18px; }
+.accounts { display: grid; gap: 8px; }
+.account { text-align: left; padding: 10px; border: 1px solid #ddd; background: white; border-radius: 8px; }
+.account.selected { outline: 2px solid #555; }
+.account span { display: block; color: #666; margin-top: 3px; }
+table { border-collapse: collapse; width: 100%; margin: 16px 0; }
+th, td { text-align: left; border-bottom: 1px solid #ddd; padding: 8px; }
+form { display: flex; gap: 10px; align-items: end; flex-wrap: wrap; }
+label { display: grid; gap: 4px; }
+.error { background: #fff0f0; border: 1px solid #e0a0a0; padding: 10px; border-radius: 8px; margin-bottom: 16px; }

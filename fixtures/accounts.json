@@ -1,0 +1,23 @@
+[
+  {
+    "id":"acct-101","name":"Northstar Labs","revision":3,
+    "segments":[
+      {"start_on":"2026-01-01","end_on":"2026-09-01","plan_key":"starter"},
+      {"start_on":"2026-09-01","end_on":"2026-10-15","plan_key":"growth"},
+      {"start_on":"2026-10-15","end_on":null,"plan_key":"starter"}
+    ]
+  },
+  {
+    "id":"acct-202","name":"Brightlane Health","revision":7,
+    "segments":[
+      {"start_on":"2026-04-10","end_on":"2026-12-01","plan_key":"growth"},
+      {"start_on":"2026-12-01","end_on":null,"plan_key":"enterprise"}
+    ]
+  },
+  {
+    "id":"acct-303","name":"Cedar Commerce","revision":1,
+    "segments":[
+      {"start_on":"2025-11-01","end_on":null,"plan_key":"starter"}
+    ]
+  }
+]

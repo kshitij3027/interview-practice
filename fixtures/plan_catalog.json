@@ -1,0 +1,6 @@
+[
+  {"key":"starter","name":"Starter","active":true},
+  {"key":"growth","name":"Growth","active":true},
+  {"key":"enterprise","name":"Enterprise","active":true},
+  {"key":"legacy-pro","name":"Legacy Pro","active":false}
+]
