@@ -1,0 +1,4 @@
+{"incident_id":"inc-identity","failed_services":["identity"]}
+{"incident_id":"inc-shipping-west","failed_services":["inventory"],"region":"us-west"}
+{"incident_id":"inc-legacy-loop","failed_services":["legacy-sync"]}
+{"incident_id":"inc-mixed","failed_services":["catalog","does-not-exist"]}

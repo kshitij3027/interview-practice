@@ -1,3 +1,0 @@
-const BASE = "http://localhost:3001/api";
-async function request(path, options = {}) { const res = await fetch(`${BASE}${path}`, { headers: { "Content-Type": "application/json", ...(options.headers || {}) }, ...options }); const body = await res.json().catch(() => ({})); if (!res.ok) { const err = new Error(body.message || body.error || `HTTP ${res.status}`); err.status = res.status; err.body = body; throw err; } return body; }
-export const api = { orders: () => request("/orders"), order: (id) => request(`/orders/${encodeURIComponent(id)}`), inventory: (sku = "") => request(`/inventory?sku=${encodeURIComponent(sku)}`), adjust: (payload) => request("/inventory/adjust", { method: "POST", body: JSON.stringify(payload) }), };

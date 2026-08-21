@@ -1,88 +1,127 @@
-# FulfillFlow — HARD One-Hour Full-Stack Interview Exercise
+# RecoveryWave — One-Hour AI-Assisted Problem-Solving Interview
 
-## Context
-FulfillFlow is an internal fulfillment console for a commerce platform. Support and operations teams use it to inspect pending customer orders, check warehouse inventory, and make audited manual stock corrections when physical counts differ from the system.
+## Customer context
+A B2B platform operates a large fleet of internal services. During an incident, one or more services may be restarted or replaced. Services declare hard runtime dependencies on other services. If a dependency is restarted, every service that transitively depends on it must also be restarted before traffic is considered safe again.
 
-The starter application already works. It uses a dependency-free Java 21 HTTP API, an in-memory domain store loaded from CSV/JSON fixtures, and a browser ES-module frontend with explicit client state. Existing tests cover inventory loading, availability, order lookup, and optimistic stock adjustment.
+The operations team currently builds recovery plans by hand. This works for small incidents, but production has roughly **200,000 services**, **1,000,000 dependency records**, and thousands of incident queries per day.
 
-## Existing behavior
-- The dashboard lists pending orders and their line items.
-- Inventory is shown per SKU and warehouse with `on_hand`, `reserved`, and derived `available` quantities.
-- Operators can filter inventory by SKU.
-- Operators can apply a manual stock adjustment with a non-empty reason.
-- Manual adjustments use the global inventory `revision`; stale writes are rejected.
-- An adjustment may not reduce `on_hand` below the quantity already reserved.
-- Successful adjustments increment the inventory revision exactly once.
-- Restarting the server reloads fixture state.
+You are given a representative dataset and asked to build a recovery planner that could plausibly be adapted for production.
 
-## Customer/business problem
-Checkout currently accepts orders before fulfillment capacity is secured. Agents need a short-lived reservation workflow so they can hold stock while confirming a customer's order, without letting two orders consume the same units or leaving inventory permanently reserved if a checkout is abandoned.
+## Supplied data
+`fixtures/services.csv` contains:
+- `service_id` — unique service identifier
+- `tier` — integer operational tier; lower numbers are more critical
+- `region` — service region
 
-Orders may contain the same SKU on more than one line. Inventory is spread across multiple warehouses, and the business wants predictable allocation so support can explain why stock came from a particular location.
+`fixtures/dependencies.csv` contains directed dependency declarations:
+- `service_id`
+- `depends_on`
+- `kind` — `hard` or `soft`
 
-## Primary feature request
-**Add an expiring order-reservation workflow that atomically holds all required inventory using deterministic warehouse allocation, then lets the operator confirm or release that hold with retry-safe and stale-state behavior.**
+A row `checkout,pricing,hard` means checkout cannot safely operate until pricing is available.
 
-## Acceptance criteria
-1. Add a reservation workflow to the existing order detail UI. An operator must be able to reserve a pending order, see the resulting hold/allocation, then confirm or release that hold without reloading the browser.
-2. Before allocation, quantities for duplicate order lines with the same SKU must be aggregated. A SKU must not be planned independently twice just because it appears on two lines.
-3. A reservation is all-or-nothing across the order. If the full aggregated quantity of any SKU cannot be held, create no hold and mutate no inventory. Return shortage details per unavailable SKU.
-4. Availability is `on_hand - reserved` after ignoring/releasing expired holds. An active hold from another order must reduce what this reservation can use.
-5. Warehouse choice must be deterministic. For each SKU, allocate from warehouses in this order: warehouses matching the order's `shipping_zone` first, then lower numeric `pick_rank`, then lexicographically smaller warehouse ID. Splitting a SKU across warehouses is allowed.
-6. Reservation creation must include the inventory revision observed by the client. If that revision is stale, reject before creating a hold or changing any reserved quantity.
-7. Reservation creation must include a client-generated request key. Retrying the same request key for the same order must return the same reservation result and must not reserve stock twice. Reusing that key for a different order must be rejected clearly.
-8. A successful reservation creates a hold that expires exactly **10 minutes** after its server-side creation time, increments the inventory revision exactly once, and changes the order from `pending` to `held` with one order-revision increment.
-9. At most one active hold may exist for an order. A second non-idempotent reserve attempt must not create another allocation for that order.
-10. Confirming an active, unexpired hold must atomically consume its allocation: decrement both `on_hand` and `reserved` by the held quantities, mark the hold `confirmed`, change the order to `fulfilled`, and increment the inventory revision exactly once for the confirmation.
-11. Confirm retry must be safe. Repeating confirmation of the same already-confirmed hold must return the prior successful outcome without consuming inventory or incrementing revisions again.
-12. Releasing an active hold must return its reserved quantities to availability, mark the hold `released`, return the order to `pending`, and increment the inventory revision exactly once. A repeated release must not double-release stock.
-13. Expiry is authoritative on the server. At `expires_at` or later, an active hold can no longer be confirmed. Expired reserved quantities must be released exactly once, and the client must reconcile the order/inventory state when it discovers expiry.
-14. Existing manual stock adjustment must continue to work. While a hold is active, an adjustment that would make `on_hand < reserved` must still be rejected; after release/expiry, that same adjustment may become valid.
-15. After reserve, confirm, release, stale-revision failure, or expiry failure, keep the currently selected order visible and reconcile the displayed order, inventory revision, and availability. A transient request error should not erase the last known-good order data.
+`fixtures/incidents.jsonl` contains incident requests. Each line is a JSON object with:
+- `incident_id`
+- `failed_services` — one or more services that must be restarted
+- optional `region` — if present, only services in that region may appear in the plan
 
-## Constraints
-- Keep the Java 21 + browser ES-module stack.
-- Keep state in one process and in memory. No database, Redis, queue, auth system, or external service.
-- The backend is authoritative for allocation, hold state, expiry, and retries.
-- You may add domain/service classes, routes, frontend state/actions, and focused tests.
-- Use integer quantities only; inventory units are indivisible.
-- Do not replace the existing manual stock-adjustment workflow.
+The fixture intentionally contains duplicates, a cycle, soft dependencies, and services that are not involved in every incident.
+
+## Goal
+Implement `plan_recovery(...)` in `planner.py` and wire the CLI so that each incident produces one JSON result.
+
+For each incident, identify every service that must be restarted because it is failed itself or transitively relies on a failed service through **hard** dependencies. Then partition those services into ordered restart waves.
+
+A service may appear in a wave only when every hard dependency that is also part of the recovery plan is either:
+1. in an earlier wave, or
+2. in the same wave because those services cannot be safely ordered relative to one another.
+
+The output must be deterministic.
+
+## Observable requirements
+For each incident, output:
+
+```json
+{
+  "incident_id": "inc-001",
+  "waves": [["svc-a"], ["svc-b", "svc-c"]],
+  "service_count": 3
+}
+```
+
+The following rules apply:
+
+1. Include the initially failed services if they exist and are eligible for the incident.
+2. Include all services transitively affected through `hard` dependencies only. `soft` dependencies never force another restart.
+3. A service outside an incident's requested region must not appear when `region` is supplied. Region filtering applies to both failed services and affected dependents.
+4. Duplicate dependency rows must not duplicate work or output.
+5. Input may contain self-dependencies and multi-service dependency loops. The planner must still return a valid finite plan.
+6. Services that cannot be ordered relative to one another because of their dependency relationships must be placed in the same wave.
+7. Waves must respect dependency ordering for the affected subgraph: dependencies restart before their dependents.
+8. Within each wave, order service IDs lexicographically.
+9. When multiple valid waves could be emitted at the same point, choose deterministically by the smallest tuple `(tier, service_id)` among services becoming eligible; do not rely on CSV/dictionary iteration order.
+10. Unknown service IDs in an incident must be reported under `unknown_services` and ignored for planning rather than crashing the whole run.
+11. Malformed dependency rows whose endpoints are unknown must be ignored and counted once in a top-level `ignored_dependency_rows` metric.
+12. The process should parse and preprocess the static service/dependency data once, then handle many incident queries without rebuilding all static indexes for every request.
+
+## Production constraints
+Design for this production shape even though the fixture is small:
+
+- ~200k services
+- ~1M dependency rows
+- up to 10k incident queries against the same static graph per process
+- typical incident result: 10–5,000 affected services
+- memory budget: 512 MB
+- target p95 planning latency after startup: under 100 ms for typical incidents
+
+A solution that performs all-pairs analysis, materializes full transitive closure, or rescans all dependency rows for every incident is not considered production-credible.
+
+You may preprocess the static dataset at startup. Be prepared to explain the startup/query-time tradeoff you chose.
+
+## Expected deliverable
+Implement a working Python solution in this repository. You may modify `planner.py`, add focused tests, and add small helper modules if useful.
+
+Your walkthrough should explain:
+- how you model the customer problem;
+- why your approach satisfies ordering and loop semantics;
+- expected startup and per-query complexity;
+- how the approach behaves at production scale;
+- what you would change if latency or memory measurements disagreed with your assumptions;
+- whether an LLM or heuristic component would add value here, and why you did or did not use one.
+
+## In scope
+- Python standard library or lightweight local dependencies if you choose to add them.
+- Preprocessing/indexing.
+- Deterministic or hybrid solutions.
+- Focused unit/integration tests.
 
 ## Out of scope
-- Payment processing.
-- Shipping labels or carrier integrations.
-- Backorders or partial-order reservations.
-- Multi-process/distributed locking.
-- Persistence across server restarts.
-- Authentication/authorization.
-- Styling polish beyond a clear usable workflow.
+- Distributed execution.
+- Persistent databases.
+- Live service discovery.
+- Network calls.
+- A web UI.
 
-## Setup / run
-
-```bash
-./scripts/build.sh
-./scripts/test.sh
-./scripts/run.sh
-```
-
-In another terminal:
+## Run / verify
+Baseline checks:
 
 ```bash
-python3 -m http.server 5173 -d web
+python3 -m unittest -v
+python3 planner.py --help
 ```
 
-Open `http://localhost:5173`.
-
-## Tests / build
+After implementing the feature:
 
 ```bash
-./scripts/test.sh
-./scripts/build.sh
+python3 planner.py \
+  --services fixtures/services.csv \
+  --dependencies fixtures/dependencies.csv \
+  --incidents fixtures/incidents.jsonl
 ```
 
-Existing tests cover current behavior only. Add focused feature tests based on the requirements; there are intentionally no feature TODOs or starter tests that encode the reservation solution.
+Write one JSON object per incident to stdout. Diagnostic logging, if any, should go to stderr.
 
 ## 60-minute interview instruction
-You have **60 minutes**. Treat this as a demanding AI-assisted live coding interview. Inspect the existing store, service boundaries, API contract, frontend state flow, and fixtures before changing code. Identify the highest-risk correctness semantics, implement incrementally, and verify both server behavior and the browser flow.
+You have **60 minutes** and may use Claude Code, Codex, ChatGPT, or other AI tools as you would on the job. Start by inspecting the fixtures and constraints before committing to an implementation. The interviewer cares about the problem decomposition, correctness, scaling argument, verification strategy, and your ability to explain the resulting code—not about memorizing a particular technique.
 
-A polished reservation button with incorrect atomicity, allocation order, expiry, idempotency, revision handling, or inventory accounting should not be considered a strong solution. Prioritize correctness and observable verification over visual polish.
+Do not spend the hour polishing CLI ergonomics. Prioritize a correct, scalable core and enough tests to demonstrate that you understand the difficult cases.

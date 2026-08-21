@@ -1,3 +1,0 @@
-package fulfill;
-import java.nio.file.Path;
-public final class InventoryServiceTest { public static void run() throws Exception { Store s=new Store(Path.of("fixtures")); InventoryService service=new InventoryService(s); var red=service.inventory("SKU-RED"); TestSupport.eq(4,((java.util.List<?>)red.get("items")).size(),"sku filter"); var result=service.adjust("wh-b","SKU-RED",2,1,"cycle count"); TestSupport.ok(result.ok(),"valid adjustment"); TestSupport.eq(2L,result.revision(),"revision increments once"); var stale=service.adjust("wh-b","SKU-RED",1,1,"late tab"); TestSupport.eq("stale_revision",stale.code(),"stale revision rejected"); var missingReason=service.adjust("wh-b","SKU-RED",1,2,"  "); TestSupport.eq("invalid_reason",missingReason.code(),"reason required"); } }
