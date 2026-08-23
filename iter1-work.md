@@ -475,8 +475,9 @@ for all four fixture incidents, every test above passes, `test_baseline.py` unmo
 
 ## 5. Known risks carried into iteration 2
 
-- **D1 remains the highest-stakes call.** If the reference implementation uses maximal layering, all
-  four golden fixtures mismatch. The seam makes the flip one argument wide; ask before Phase 5.
+- **D1 remains the highest-stakes call.** If the reference implementation uses maximal layering,
+  `inc-identity` changes; the other three fixture incidents happen to emit identical waves under
+  both policies. The seam makes the flip one argument wide; ask before Phase 5.
 - **D2 is still undecidable from the fixture** — §2.6 pins it, but a wrong guess stays invisible until
   a real cross-region incident appears.
 - **Hub degree, not result size, governs latency** (§0.4). Phase 6's generator must include a

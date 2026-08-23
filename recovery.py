@@ -223,10 +223,11 @@ class RecoveryPlanner:
             node = self.table.index.get(service_id)
             if node is None:
                 unknown.add(service_id)
-            elif region is None or (
-                region_id is not None and self.table.region_of[node] == region_id
-            ):
+            else:
                 seeds.append(node)
+
+        if region is not None and region_id is None:
+            return set(), sorted(unknown)
 
         visited = set(seeds)
         stack = list(seeds)
@@ -239,8 +240,6 @@ class RecoveryPlanner:
 
         if region is None:
             return visited, sorted(unknown)
-        if region_id is None:
-            return set(), sorted(unknown)
         retained = {node for node in visited if self.table.region_of[node] == region_id}
         return retained, sorted(unknown)
 

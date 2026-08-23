@@ -133,9 +133,17 @@ class AffectedSetTests(unittest.TestCase):
         affected, _ = planner._affected(["east-c"], "east")
         self.assertEqual(names(planner, affected), {"east-a", "east-c"})
 
-        # Failed services outside the requested region are not eligible seeds.
+    def test_out_of_region_seed_propagates(self):
+        services = {
+            "east-a": Service("east-a", 1, "east"),
+            "west-b": Service("west-b", 1, "west"),
+        }
+        dependencies = [Dependency("east-a", "west-b", "hard")]
+        planner = RecoveryPlanner.from_loaded(services, dependencies)
+
+        # Region scopes output, not propagation; seed filtering would hide east-a.
         affected, _ = planner._affected(["west-b"], "east")
-        self.assertEqual(affected, set())
+        self.assertEqual(names(planner, affected), {"east-a"})
 
 
 class WavePlanningTests(unittest.TestCase):
@@ -274,6 +282,119 @@ class WavePlanningTests(unittest.TestCase):
             {"incident_id": "i", "failed_services": ["a"], "region": "east"}
         )
         self.assertEqual(result["waves"], [["a"], ["c"]])
+
+    def test_planner_reuse_is_stateless(self):
+        planner = fixture_planner()
+        incidents = [
+            {"incident_id": "identity", "failed_services": ["identity"]},
+            {
+                "incident_id": "west",
+                "failed_services": ["inventory"],
+                "region": "us-west",
+            },
+            {"incident_id": "loop", "failed_services": ["legacy-sync"]},
+            {
+                "incident_id": "mixed",
+                "failed_services": ["catalog", "does-not-exist"],
+            },
+        ]
+        expected = [planner.plan(incident) for incident in incidents]
+        interleaved = [incidents[2], incidents[0], incidents[3], incidents[1]]
+        actual_by_id = {
+            result["incident_id"]: result
+            for incident in interleaved
+            for result in [planner.plan(incident)]
+        }
+        self.assertEqual(
+            [actual_by_id[result["incident_id"]] for result in expected], expected
+        )
+        self.assertEqual([planner.plan(incident) for incident in incidents], expected)
+
+    def test_incident_order_does_not_affect_results(self):
+        planner = fixture_planner()
+        incidents = [
+            {"incident_id": "a", "failed_services": ["identity"]},
+            {"incident_id": "b", "failed_services": ["catalog"]},
+            {"incident_id": "c", "failed_services": ["legacy-sync"]},
+        ]
+        forward = {result["incident_id"]: result for result in map(planner.plan, incidents)}
+        reverse = {
+            result["incident_id"]: result
+            for result in map(planner.plan, reversed(incidents))
+        }
+        self.assertEqual(reverse, forward)
+
+    def test_incident_without_failed_services_key(self):
+        result = fixture_planner().plan({"incident_id": "empty"})
+        self.assertEqual(result["waves"], [])
+        self.assertEqual(result["service_count"], 0)
+
+    def test_explicit_null_region_matches_absent_region(self):
+        planner = fixture_planner()
+        absent = planner.plan({"incident_id": "i", "failed_services": ["identity"]})
+        explicit = planner.plan(
+            {"incident_id": "i", "failed_services": ["identity"], "region": None}
+        )
+        self.assertEqual(explicit, absent)
+
+    def test_missing_incident_id_is_null(self):
+        result = fixture_planner().plan({"failed_services": []})
+        self.assertIsNone(result["incident_id"])
+
+    def test_plan_level_unknown_region_is_empty_without_graph_traversal(self):
+        planner = fixture_planner()
+        incident = {
+            "incident_id": "i",
+            "failed_services": ["identity", "does-not-exist"],
+            "region": "moon",
+        }
+        with patch.object(
+            planner.dependents,
+            "neighbours",
+            side_effect=AssertionError("unknown region must not traverse the graph"),
+        ):
+            result = planner.plan(incident)
+        self.assertEqual(result["waves"], [])
+        self.assertEqual(result["service_count"], 0)
+        self.assertEqual(result["unknown_services"], ["does-not-exist"])
+
+    def test_plan_level_all_unknown_services(self):
+        result = fixture_planner().plan(
+            {"incident_id": "i", "failed_services": ["z", "x", "z"]}
+        )
+        self.assertEqual(result["waves"], [])
+        self.assertEqual(result["service_count"], 0)
+        self.assertEqual(result["unknown_services"], ["x", "z"])
+
+    def test_maximal_policy_golden_all_incidents(self):
+        planner = fixture_planner("maximal")
+        incidents = [
+            {"incident_id": "inc-identity", "failed_services": ["identity"]},
+            {
+                "incident_id": "inc-shipping-west",
+                "failed_services": ["inventory"],
+                "region": "us-west",
+            },
+            {"incident_id": "inc-legacy-loop", "failed_services": ["legacy-sync"]},
+            {
+                "incident_id": "inc-mixed",
+                "failed_services": ["catalog", "does-not-exist"],
+            },
+        ]
+        expected = [
+            [
+                ["identity"],
+                ["checkout", "fraud", "profile"],
+                ["orders"],
+                ["analytics", "payments"],
+            ],
+            [["inventory"], ["routing", "shipping"], ["returns"]],
+            [["legacy-sync", "partner-feed"]],
+            [["catalog"], ["search"], ["recommendations"]],
+        ]
+        self.assertEqual(
+            [planner.plan(incident)["waves"] for incident in incidents], expected
+        )
 
 
 if __name__ == "__main__":

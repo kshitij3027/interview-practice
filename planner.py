@@ -1,16 +1,13 @@
 #!/usr/bin/env python3
-"""Recovery planning CLI starter.
-
-The parsing/index-loading utilities are implemented so interview time can focus on
-solving the customer problem. The recovery-planning behavior is intentionally not
-implemented.
-"""
+"""Load recovery data and emit deterministic restart plans from the CLI."""
 
 from __future__ import annotations
 
 import argparse
 import csv
 import json
+import sys
+from collections.abc import Mapping
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Iterable
@@ -95,11 +92,17 @@ def build_parser() -> argparse.ArgumentParser:
 
 def main() -> int:
     args = build_parser().parse_args()
-    planner = RecoveryPlanner.from_paths(args.services, args.dependencies)
-
-    for incident in load_incidents(args.incidents):
-        result = planner.plan(incident)
-        print(json.dumps(result, sort_keys=True))
+    try:
+        planner = RecoveryPlanner.from_paths(args.services, args.dependencies)
+        for incident in load_incidents(args.incidents):
+            if not isinstance(incident, Mapping):
+                raise TypeError(
+                    f"incident must be a JSON object, got {type(incident).__name__}"
+                )
+            print(json.dumps(planner.plan(incident), sort_keys=True))
+    except (OSError, TypeError, ValueError) as exc:
+        print(f"planner: {exc}", file=sys.stderr)
+        return 2
     return 0
 
 
