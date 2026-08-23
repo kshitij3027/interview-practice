@@ -15,6 +15,8 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Iterable
 
+from recovery import RecoveryPlanner
+
 
 @dataclass(frozen=True)
 class Service:
@@ -77,11 +79,10 @@ def plan_recovery(
 ) -> dict:
     """Return one recovery-plan result for an incident.
 
-    Implement this function. You may introduce a preprocessed planner/index object
-    and change the CLI to reuse it across incidents; the current signature exists
-    only as a minimal starting interface.
+    This compatibility entry point builds an index for its supplied inputs. Code
+    serving multiple incidents should construct ``RecoveryPlanner`` once instead.
     """
-    raise NotImplementedError("implement recovery planning")
+    return RecoveryPlanner.from_loaded(services, dependencies).plan(incident)
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -94,11 +95,10 @@ def build_parser() -> argparse.ArgumentParser:
 
 def main() -> int:
     args = build_parser().parse_args()
-    services = load_services(args.services)
-    dependencies = load_dependencies(args.dependencies)
+    planner = RecoveryPlanner.from_paths(args.services, args.dependencies)
 
     for incident in load_incidents(args.incidents):
-        result = plan_recovery(services, dependencies, incident)
+        result = planner.plan(incident)
         print(json.dumps(result, sort_keys=True))
     return 0
 
