@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import csv
 import heapq
+import time
 from array import array
 from collections.abc import Callable, Iterator, Mapping, Sequence
 from dataclasses import dataclass
@@ -243,8 +244,74 @@ class RecoveryPlanner:
         retained = {node for node in visited if self.table.region_of[node] == region_id}
         return retained, sorted(unknown)
 
+    def diagnose(self, incident: Mapping[str, object]) -> dict[str, object]:
+        """Plan an incident while collecting deliberately out-of-band diagnostics.
+
+        Benchmark timing must use :meth:`plan`; this method counts graph work and
+        samples phase timers, both of which perturb the operation being observed.
+        """
+        failed, region = self._validated_incident(incident)
+        started = time.perf_counter()
+        affected, unknown, reached_nodes, reverse_edges_scanned = (
+            self._affected_with_counters(failed, region)
+        )
+        affected_ms = (time.perf_counter() - started) * 1_000
+        waves, wave_metrics = self._waves_profiled(affected)
+        return {
+            "result": self._result(incident, affected, unknown, waves),
+            "diagnostics": {
+                "reached_nodes": reached_nodes,
+                "reverse_edges_scanned": reverse_edges_scanned,
+                "affected_ms": affected_ms,
+                **wave_metrics,
+            },
+        }
+
+    def _affected_with_counters(
+        self, failed: Sequence[str], region: str | None
+    ) -> tuple[set[int], list[str], int, int]:
+        """Instrumented counterpart of ``_affected`` for diagnostic runs only."""
+        unknown: set[str] = set()
+        seeds: list[int] = []
+        region_id = None if region is None else self.table.region_ids.get(region)
+        for service_id in failed:
+            node = self.table.index.get(service_id)
+            if node is None:
+                unknown.add(service_id)
+            else:
+                seeds.append(node)
+        if region is not None and region_id is None:
+            return set(), sorted(unknown), 0, 0
+
+        visited = set(seeds)
+        stack = list(seeds)
+        reverse_edges_scanned = 0
+        while stack:
+            dependency = stack.pop()
+            neighbours = self.dependents.neighbours(dependency)
+            reverse_edges_scanned += len(neighbours)
+            for dependent in neighbours:
+                if dependent not in visited:
+                    visited.add(dependent)
+                    stack.append(dependent)
+        if region is None:
+            retained = visited
+        else:
+            retained = {
+                node for node in visited if self.table.region_of[node] == region_id
+            }
+        return retained, sorted(unknown), len(visited), reverse_edges_scanned
+
     def plan(self, incident: Mapping[str, object]) -> dict[str, object]:
         """Produce a deterministic recovery plan for one incident."""
+        failed, region = self._validated_incident(incident)
+        affected, unknown = self._affected(failed, region)
+        return self._result(incident, affected, unknown, self._waves(affected))
+
+    @staticmethod
+    def _validated_incident(
+        incident: Mapping[str, object],
+    ) -> tuple[Sequence[str], str | None]:
         failed = incident.get("failed_services", [])
         if not isinstance(failed, Sequence) or isinstance(failed, (str, bytes)):
             raise TypeError("failed_services must be a sequence of service IDs")
@@ -253,15 +320,119 @@ class RecoveryPlanner:
         region = incident.get("region")
         if region is not None and not isinstance(region, str):
             raise TypeError("region must be a string or null")
+        return failed, region
 
-        affected, unknown = self._affected(failed, region)
-        waves = self._waves(affected)
+    def _result(
+        self,
+        incident: Mapping[str, object],
+        affected: set[int],
+        unknown: list[str],
+        waves: list[list[str]],
+    ) -> dict[str, object]:
         return {
             "incident_id": incident.get("incident_id"),
             "waves": waves,
             "service_count": len(affected),
             "unknown_services": unknown,
             "ignored_dependency_rows": self.ignored_dependency_rows,
+        }
+
+    def _waves_profiled(
+        self, affected: set[int]
+    ) -> tuple[list[list[str]], dict[str, int | float]]:
+        """Instrumented wave construction; never used by the production path."""
+        if not affected:
+            return [], {
+                "retained_edges": 0,
+                "scc_count": 0,
+                "wave_count": 0,
+                "localisation_ms": 0.0,
+                "scc_ms": 0.0,
+                "condensation_ms": 0.0,
+                "key_computation_ms": 0.0,
+                "heap_scheduling_ms": 0.0,
+                "wave_materialization_ms": 0.0,
+            }
+
+        started = time.perf_counter()
+        nodes = sorted(affected)
+        local = {global_node: local_node for local_node, global_node in enumerate(nodes)}
+        adjacency: list[list[int]] = [[] for _ in nodes]
+        retained_edges = 0
+        for local_node, global_node in enumerate(nodes):
+            for target in self.deps.neighbours(global_node):
+                local_target = local.get(target)
+                if local_target is not None:
+                    adjacency[local_node].append(local_target)
+                    retained_edges += 1
+        localisation_ms = (time.perf_counter() - started) * 1_000
+
+        started = time.perf_counter()
+        components, component_of = self._strongly_connected_components(adjacency)
+        scc_ms = (time.perf_counter() - started) * 1_000
+
+        started = time.perf_counter()
+        component_count = len(components)
+        dag: list[list[int]] = [[] for _ in components]
+        indegree = [0] * component_count
+        for source, targets in enumerate(adjacency):
+            source_component = component_of[source]
+            for target in targets:
+                target_component = component_of[target]
+                if source_component != target_component:
+                    dag[target_component].append(source_component)
+                    indegree[source_component] += 1
+        condensation_ms = (time.perf_counter() - started) * 1_000
+
+        started = time.perf_counter()
+        keys = [
+            min(
+                (self.table.tier[nodes[member]], self.table.ids[nodes[member]])
+                for member in component
+            )
+            for component in components
+        ]
+        eligible = [(*keys[c], c) for c in range(component_count) if indegree[c] == 0]
+        heapq.heapify(eligible)
+        key_computation_ms = (time.perf_counter() - started) * 1_000
+
+        waves: list[list[str]] = []
+        heap_scheduling_ms = 0.0
+        wave_materialization_ms = 0.0
+        while eligible:
+            started = time.perf_counter()
+            batch_size = 1 if self.wave_policy == "single_component" else len(eligible)
+            batch = [heapq.heappop(eligible)[-1] for _ in range(batch_size)]
+            for component in batch:
+                for dependent_component in dag[component]:
+                    indegree[dependent_component] -= 1
+                    if indegree[dependent_component] == 0:
+                        heapq.heappush(
+                            eligible, (*keys[dependent_component], dependent_component)
+                        )
+            heap_scheduling_ms += (time.perf_counter() - started) * 1_000
+
+            started = time.perf_counter()
+            wave = [
+                self.table.ids[nodes[member]]
+                for component in batch
+                for member in components[component]
+            ]
+            waves.append(sorted(wave))
+            wave_materialization_ms += (time.perf_counter() - started) * 1_000
+
+        if sum(map(len, waves)) != len(nodes):
+            raise RuntimeError("invalid SCC condensation graph")
+        return waves, {
+            "retained_edges": retained_edges,
+            "scc_count": component_count,
+            "wave_count": len(waves),
+            "localisation_ms": localisation_ms,
+            "scc_ms": scc_ms,
+            "condensation_ms": condensation_ms,
+            "key_computation_ms": key_computation_ms,
+            "heap_scheduling_ms": heap_scheduling_ms,
+            "wave_materialization_ms": wave_materialization_ms,
         }
 
     def _waves(self, affected: set[int]) -> list[list[str]]:

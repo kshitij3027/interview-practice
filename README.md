@@ -125,3 +125,69 @@ Write one JSON object per incident to stdout. Diagnostic logging, if any, should
 You have **60 minutes** and may use Claude Code, Codex, ChatGPT, or other AI tools as you would on the job. Start by inspecting the fixtures and constraints before committing to an implementation. The interviewer cares about the problem decomposition, correctness, scaling argument, verification strategy, and your ability to explain the resulting code—not about memorizing a particular technique.
 
 Do not spend the hour polishing CLI ergonomics. Prioritize a correct, scalable core and enough tests to demonstrate that you understand the difficult cases.
+
+## Implementation walkthrough
+
+`RecoveryPlanner` interns service IDs as integers and builds forward and reverse compressed sparse row
+(CSR) indexes once. An incident walks the reverse index from its failed services to find the transitive
+blast radius. Region filtering is deliberately applied after propagation, so an out-of-region service
+can still carry impact to an eligible dependent. The retained graph is reduced to strongly connected
+components with iterative Tarjan; each component is one indivisible restart unit. A deterministic
+heap-based topological traversal then emits dependencies before dependents, using `(tier, service_id)`
+as its eligibility key.
+
+Startup is `O(V + E + sum(d log d))` time because each adjacency slice is sorted and deduplicated, and
+`O(V + E)` memory. For a query, reverse traversal is `O(R + E_R)`, where `R` is the reached set before
+region retention. SCC construction and ordering are linear in the retained induced graph aside from
+deterministic sorting and heap operations. No transitive closure or per-query scan of all static rows is
+materialized.
+
+This is a deterministic graph problem; an LLM or heuristic would add nondeterminism without improving
+the correctness or asymptotic behavior. If production measurements miss the target, the diagnostic
+run separates reverse traversal, localization, SCC, condensation, key computation, scheduling, and
+materialization so optimization follows measured work. In particular, region-scoped hub incidents can
+return only ~2,000 services while still traversing the entire fleet; region-partitioned traversal would
+need a semantics decision because propagation currently crosses regions by design.
+
+## Scale verification
+
+The production-shape validation is intentionally separate from the unit-test gate:
+
+```bash
+# Full defaults: 200k services, 1M rows, >=200 samples per stratum, 10k queries.
+python3 scripts/bench_scale.py --report /tmp/recoverywave-scale-report.json
+
+# Fast automation/E2E profile (also covered by test_scale_tools.py).
+python3 scripts/bench_scale.py --services 800 --dependency-rows 4000 \
+  --cluster-size 100 --samples-per-stratum 3 --warmup 2 \
+  --throughput-queries 20 --sweep-repetitions 1 \
+  --allow-insufficient-samples --report /tmp/recoverywave-smoke.json
+```
+
+The generator uses a fixed seed and writes its large CSVs to a temporary directory outside the
+repository by default. Its graph includes duplicate, soft, malformed, self-loop, small-cycle,
+large-SCC, multi-region, high-fan-in hub, and 1%-region cases. Workload strata are declared from graph
+position before planning; no incident is selected or discarded based on measured output.
+
+The harness launches three fresh processes: A uses only `perf_counter` for the latency gate, B samples
+normalized `ru_maxrss` after every stratum, every hub/region sweep point, and the 10k run, and C uses
+`tracemalloc`, graph-work counters, and phase timers for explanation. Quantiles use nearest rank and are
+only reported for samples of at least 200; smaller sweep samples expose their sorted tail.
+
+On 2026-08-22, the full default run on arm64 macOS 26.5.2 and Python 3.14.2 produced:
+
+- 200,000 services and 1,000,000 rows; 899,941 unique hard edges and 1,000 ignored malformed rows.
+- **Latency PASS:** nearest-rank pooled in-band p95 **62.77 ms** over 1,750 incidents; p99 64.26 ms,
+  max 85.90 ms. The 1%-region hub stratum had p95 64.83 ms for 2,001 returned services.
+- **Memory PASS:** `ru_maxrss` high-water **221,282,304 bytes (211.0 MiB)**, established by the
+  199,997-service unscoped hub sweep and still below the 512 MiB gate after the full query run.
+- Startup was about 2.0 seconds. The ungated heterogeneous 10k run took 106.34 seconds
+  (94.04 queries/second).
+- The sweep crossed 100 ms for unscoped 30% fan-in and for several large out-of-band result cases;
+  sampled 1% and 5% region cases stayed below 100 ms. Instrumented diagnostics confirmed the
+  in-band 1%-region hub reaches 199,997 nodes and scans 799,945 reverse edges to retain 2,001 nodes,
+  with reverse traversal dominating that class.
+
+These figures describe one synthetic seed on one machine, not a cross-platform production guarantee.
+The JSON report retains every timed incident and every diagnostic record so the result-size histogram,
+structural strata, sweep tails, and phase costs remain auditable.
