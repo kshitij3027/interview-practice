@@ -1,40 +1,41 @@
-import json
 import tempfile
 import unittest
 from pathlib import Path
 
-from planner import load_dependencies, load_incidents, load_services
+from resolver import load_requests, load_rules, parse_utc_timestamp, result_for
 
 
-class BaselineParsingTests(unittest.TestCase):
-    def test_load_services(self):
+class BaselineTests(unittest.TestCase):
+    def test_fixture_rules_parse_and_deduplicate(self):
+        rules = load_rules("fixtures/rules.csv")
+        self.assertEqual(len(rules), 10)
+        self.assertEqual(len({r.rule_id for r in rules}), 10)
+
+    def test_fixture_requests_parse(self):
+        requests = list(load_requests("fixtures/requests.jsonl"))
+        self.assertEqual(len(requests), 8)
+        self.assertEqual(requests[0].request_id, "req-001")
+
+    def test_timestamp_requires_utc(self):
+        with self.assertRaises(ValueError):
+            parse_utc_timestamp("2026-08-15T12:00:00")
+
+    def test_conflicting_duplicate_rule_id_fails(self):
+        content = """rule_id,tenant,region,path_pattern,valid_from,valid_to,priority,action,destination
+x,*,*,**,2026-01-01T00:00:00Z,,1,route,a
+x,*,*,**,2026-01-01T00:00:00Z,,2,route,b
+"""
         with tempfile.TemporaryDirectory() as tmp:
-            path = Path(tmp) / "services.csv"
-            path.write_text("service_id,tier,region\na,2,us-east\nb,1,us-west\n", encoding="utf-8")
-            services = load_services(path)
-            self.assertEqual(set(services), {"a", "b"})
-            self.assertEqual(services["b"].tier, 1)
+            path = Path(tmp) / "rules.csv"
+            path.write_text(content, encoding="utf-8")
+            with self.assertRaisesRegex(ValueError, "conflicting rows"):
+                load_rules(path)
 
-    def test_load_dependencies_preserves_rows(self):
-        with tempfile.TemporaryDirectory() as tmp:
-            path = Path(tmp) / "deps.csv"
-            path.write_text(
-                "service_id,depends_on,kind\na,b,hard\na,b,hard\nc,a,soft\n",
-                encoding="utf-8",
-            )
-            deps = load_dependencies(path)
-            self.assertEqual(len(deps), 3)
-            self.assertEqual(deps[2].kind, "soft")
-
-    def test_load_incidents_jsonl(self):
-        with tempfile.TemporaryDirectory() as tmp:
-            path = Path(tmp) / "incidents.jsonl"
-            path.write_text(
-                json.dumps({"incident_id": "i1", "failed_services": ["a"]}) + "\n",
-                encoding="utf-8",
-            )
-            incidents = list(load_incidents(path))
-            self.assertEqual(incidents[0]["incident_id"], "i1")
+    def test_result_shape_without_match(self):
+        request = next(iter(load_requests("fixtures/requests.jsonl")))
+        out = result_for(request, None)
+        self.assertEqual(out["matched_rule_id"], None)
+        self.assertEqual(out["action"], "default")
 
 
 if __name__ == "__main__":

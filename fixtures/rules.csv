@@ -1,0 +1,12 @@
+rule_id,tenant,region,path_pattern,valid_from,valid_to,priority,action,destination
+r-global-block,*,*,payments/**/chargeback,2026-01-01T00:00:00Z,,90,block,
+r-card-default,*,*,payments/card/*/*,2026-01-01T00:00:00Z,,20,route,standard
+r-visa-recurring,*,*,payments/card/visa/recurring,2026-01-01T00:00:00Z,,40,route,subscription
+r-acme-card,acme,*,payments/card/*/*,2026-01-01T00:00:00Z,,40,route,acme-primary
+r-acme-us-visa,acme,us,payments/card/visa/*,2026-01-01T00:00:00Z,,40,route,acme-us
+r-acme-us-visa-promo,acme,us,payments/card/visa/recurring,2026-08-01T00:00:00Z,2026-09-01T00:00:00Z,50,route,promo
+r-wallet,*,*,payments/wallet/**,2026-01-01T00:00:00Z,,15,route,wallet
+r-zero-segment,*,*,payments/**/refund,2026-01-01T00:00:00Z,,30,route,refunds
+r-literal-star,*,*,payments/card/visa*,2026-01-01T00:00:00Z,,70,route,literal-star
+r-global,*,*,**,2026-01-01T00:00:00Z,,1,route,fallback
+r-global,*,*,**,2026-01-01T00:00:00Z,,1,route,fallback
