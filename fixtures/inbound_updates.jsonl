@@ -1,0 +1,12 @@
+{"event_id":"evt-201","case_ref":" crm-acme-17 ","source_version":6,"changes":{"priority":"urgent"}}
+{"event_id":"evt-202","case_ref":"CRM-ACME-17","source_version":5,"changes":{"status":"pending"}}
+{"event_id":"evt-203","case_ref":"CRM-BRAVO-8","source_version":8,"changes":{"owner_email":null}}
+not valid json at all
+{"event_id":"evt-204","case_ref":"CRM-CLOUD-44","source_version":3,"changes":{"status":"pending","owner_email":"kai@support.example"}}
+{"event_id":"evt-203","case_ref":"CRM-BRAVO-8","source_version":8,"changes":{"owner_email":null}}
+{"event_id":"evt-205","case_ref":"UNKNOWN-1","source_version":1,"changes":{"priority":"high"}}
+{"event_id":"evt-206","case_ref":"CRM-CLOUD-44","source_version":4,"changes":{"priority":"critical","status":"resolved"}}
+{"event_id":"evt-207","case_ref":"CRM-ACME-17","source_version":7,"changes":{"owner_email":"new-owner@support.example","status":"resolved"}}
+{"event_id":"evt-208","case_ref":"CRM-DELTA-3","source_version":8,"changes":{"status":"open"}}
+{"event_id":"evt-209","case_ref":"CRM-BRAVO-8","source_version":10,"changes":{"priority":"high"}}
+{"event_id":"evt-210","case_ref":"CRM-BRAVO-8","source_version":9,"changes":{"status":"resolved"}}

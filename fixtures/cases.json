@@ -1,0 +1,6 @@
+[
+  {"id":"c-101","external_ref":"CRM-ACME-17","customer":"Acme Robotics","status":"open","priority":"high","owner_email":"maya@support.example","external_version":4,"revision":2,"notes":[{"id":"n-1","text":"Customer reproduced on Chrome 128.","author":"ops"}]},
+  {"id":"c-102","external_ref":"CRM-BRAVO-8","customer":"Bravo Health","status":"pending","priority":"normal","owner_email":"leo@support.example","external_version":7,"revision":1,"notes":[]},
+  {"id":"c-103","external_ref":"CRM-CLOUD-44","customer":"Cloudline","status":"open","priority":"urgent","owner_email":null,"external_version":2,"revision":3,"notes":[{"id":"n-2","text":"Waiting for logs from customer.","author":"ops"}]},
+  {"id":"c-104","external_ref":"CRM-DELTA-3","customer":"Delta Works","status":"resolved","priority":"low","owner_email":"nina@support.example","external_version":9,"revision":4,"notes":[]}
+]
