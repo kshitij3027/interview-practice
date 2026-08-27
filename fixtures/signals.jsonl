@@ -1,0 +1,14 @@
+{"observation_id":"obs-001","account_id":"acct-101","metric":"weekly_active_ratio","value":0.82,"observed_at":"2026-08-26T10:00:00Z"}
+{"observation_id":"obs-002","account_id":"acct-101","metric":"open_sev1_tickets","value":0,"observed_at":"2026-08-26T11:00:00Z"}
+{"observation_id":"obs-003","account_id":"acct-102","metric":"weekly_active_ratio","value":0.39,"observed_at":"2026-08-26T09:00:00Z"}
+{"observation_id":"obs-004","account_id":"acct-102","metric":"open_sev1_tickets","value":1,"observed_at":"2026-08-26T08:00:00Z"}
+{"observation_id":"obs-005","account_id":"acct-103","metric":"weekly_active_ratio","value":0.71,"observed_at":"2026-08-20T10:00:00Z"}
+{"observation_id":"obs-006","account_id":"acct-103","metric":"nps","value":9,"observed_at":"2026-08-26T10:30:00Z"}
+{"observation_id":"obs-007","account_id":"acct-104","metric":"weekly_active_ratio","value":0.58,"observed_at":"2026-08-26T12:00:00Z"}
+{"observation_id":"obs-008","account_id":"acct-104","metric":"nps","value":4,"observed_at":"2026-08-26T13:00:00Z"}
+{"observation_id":"obs-009","account_id":"acct-105","metric":"open_sev1_tickets","value":0,"observed_at":"2026-08-26T08:15:00Z"}
+{"observation_id":"obs-010","account_id":"acct-105","metric":"weekly_active_ratio","value":0.77,"observed_at":"2026-08-27T18:00:00Z"}
+{"observation_id":"obs-011","account_id":"acct-102","metric":"weekly_active_ratio","value":0.52,"observed_at":"2026-08-25T09:00:00Z"}
+{"observation_id":"obs-003","account_id":"acct-102","metric":"weekly_active_ratio","value":0.99,"observed_at":"2026-08-26T09:00:00Z"}
+{"observation_id":"obs-012","account_id":"acct-104","metric":"weekly_active_ratio","value":0.62,"observed_at":"2026-08-26T12:00:00Z"}
+{"observation_id":"obs-013","account_id":"acct-101","metric":"nps","value":8,"observed_at":"2026-08-26T09:30:00Z"}

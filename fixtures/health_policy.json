@@ -1,0 +1,17 @@
+{
+  "policy_version": "2026-08-27-a",
+  "as_of": "2026-08-27T15:00:00Z",
+  "default_classification": "healthy",
+  "metrics": {
+    "weekly_active_ratio": {"max_age_hours": 72},
+    "open_sev1_tickets": {"max_age_hours": 48},
+    "nps": {"max_age_hours": 168}
+  },
+  "rules": [
+    {"id":"critical-sev1","classification":"critical","conditions":[{"metric":"open_sev1_tickets","op":"gte","value":1}]},
+    {"id":"critical-low-usage","classification":"critical","conditions":[{"metric":"weekly_active_ratio","op":"lt","value":0.4}]},
+    {"id":"watch-missing-usage","classification":"watch","conditions":[{"metric":"weekly_active_ratio","missing":true}]},
+    {"id":"watch-low-usage","classification":"watch","conditions":[{"metric":"weekly_active_ratio","op":"lt","value":0.65}]},
+    {"id":"watch-low-nps","classification":"watch","conditions":[{"metric":"nps","missing":false},{"metric":"nps","op":"lte","value":5}]}
+  ]
+}

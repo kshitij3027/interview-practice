@@ -1,0 +1,7 @@
+[
+  {"id":"acct-101","name":"Northstar Labs","segment":"enterprise","owner":"mina@example.com","renewal_on":"2026-10-15"},
+  {"id":"acct-102","name":"Pine Systems","segment":"mid-market","owner":"omar@example.com","renewal_on":"2026-09-28"},
+  {"id":"acct-103","name":"Quartz Health","segment":"enterprise","owner":"mina@example.com","renewal_on":"2026-11-03"},
+  {"id":"acct-104","name":"River Retail","segment":"smb","owner":"jo@example.com","renewal_on":"2026-09-12"},
+  {"id":"acct-105","name":"Summit Works","segment":"mid-market","owner":"omar@example.com","renewal_on":"2026-12-01"}
+]
