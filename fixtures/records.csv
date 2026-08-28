@@ -1,0 +1,14 @@
+record_id,source,created_at,quality_score,display_name
+crm:100,crm,2024-01-02T09:00:00Z,88,Northwind Retail
+billing:900,billing,2023-11-15T12:00:00Z,95,Northwind Retail LLC
+support:44,support,2024-03-20T08:30:00Z,95,Northwind
+product:7,product,2024-02-01T10:00:00Z,70,Northwind Workspace
+crm:101,crm,2024-01-03T09:00:00Z,91,Northwind Labs
+billing:901,billing,2023-10-10T12:00:00Z,97,Northwind Labs LLC
+support:45,support,2024-03-21T08:30:00Z,82,NW Labs
+crm:200,crm,2024-05-01T09:00:00Z,85,Bluebird Foods
+billing:990,billing,2024-04-20T12:00:00Z,93,Bluebird Foods Inc
+support:77,support,2024-05-05T08:30:00Z,79,Bluebird
+product:33,product,2024-05-06T11:00:00Z,60,Bluebird Store
+crm:300,crm,2024-06-01T09:00:00Z,90,Acme Test Tenant
+billing:999,billing,2024-06-01T09:00:00Z,90,Acme Test Tenant
