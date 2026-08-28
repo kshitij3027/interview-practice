@@ -1,0 +1,14 @@
+{"event_id":"e-001","type":"link","left":"crm:100","right":"support:44"}
+{"event_id":"e-002","type":"link","left":"billing:900","right":"crm:100"}
+{"event_id":"e-003","type":"query","record_id":"support:44"}
+{"event_id":"e-004","type":"link","left":"crm:101","right":"support:45"}
+{"event_id":"e-005","type":"link","left":"billing:901","right":"crm:101"}
+{"event_id":"e-006","type":"link","left":"support:44","right":"support:45"}
+{"event_id":"e-007","type":"query","record_id":"crm:100"}
+{"event_id":"e-008","type":"link","left":"crm:200","right":"billing:990"}
+{"event_id":"e-009","type":"link","left":"billing:990","right":"support:77"}
+{"event_id":"e-010","type":"link","left":"support:77","right":"product:33"}
+{"event_id":"e-011","type":"link","left":"crm:300","right":"billing:999"}
+{"event_id":"e-012","type":"link","left":"crm:200","right":"crm:300"}
+{"event_id":"e-013","type":"link","left":"crm:100","right":"billing:900"}
+{"event_id":"e-014","type":"query","record_id":"billing:990"}
