@@ -1,164 +1,147 @@
-# RoutePolicy — One-Hour AI-Assisted Problem-Solving Interview
+# MergeGuard — One-Hour AI-Assisted Problem-Solving Interview
 
 ## Customer context
 
-A payments platform lets enterprise customers configure routing policies for transaction events. A policy can send a matching transaction to a processing lane (for example `risk-review`, `low-cost`, or `premium`) or block it.
+A B2B commerce platform ingests customer records from CRM, billing, support, and product systems. The same real-world customer can appear under several source-specific IDs, so downstream teams maintain **link events** saying two records refer to the same customer.
 
-Policies match a hierarchical transaction path such as:
+The platform also receives **separation constraints** saying two records must never be merged. These come from verified account boundaries, contractual tenant isolation, fraud investigations, or explicit human review.
 
-`payments/card/visa/recurring`
+Today, every link event triggers a slow rebuild of the entire customer map. Worse, a bad link can silently connect two groups that contain a forbidden pair and corrupt downstream billing and permissions.
 
-Customers need broad policies ("all card traffic") and narrow overrides ("Visa recurring only"), so the policy language supports literal path segments plus wildcards. The current implementation scans every policy for every transaction. That has become unusable as several customers approach production scale.
-
-You are given representative policies and requests and asked to build the resolver that chooses the single effective policy for each request.
+You are given representative records, initial separation constraints, and an ordered stream of link/query events. Build the in-memory reconciliation engine that can process the stream safely and deterministically.
 
 ## Supplied data
 
-### `fixtures/rules.csv`
+### `fixtures/records.csv`
 
-Each row contains:
+- `record_id` — globally unique source record ID
+- `source` — origin system such as `crm`, `billing`, `support`, or `product`
+- `created_at` — UTC timestamp
+- `quality_score` — integer 0–100; higher means more trusted
+- `display_name` — descriptive text only; do not assume names are unique
 
-- `rule_id` — unique identifier
-- `tenant` — exact tenant ID or `*`
-- `region` — exact region or `*`
-- `path_pattern` — slash-separated pattern
-- `valid_from` — inclusive UTC timestamp
-- `valid_to` — exclusive UTC timestamp, or empty for no expiry
-- `priority` — integer
-- `action` — `route` or `block`
-- `destination` — required for `route`, empty for `block`
+### `fixtures/separations.csv`
 
-Path-pattern syntax:
+Each row contains `record_a,record_b`.
 
-- a literal segment matches itself;
-- `*` matches exactly one segment;
-- `**` matches zero or more complete segments;
-- a pattern contains at most one `**`;
-- matching is against the entire path, not merely a prefix.
+The two records are known to represent different customers. Separation is symmetric. Duplicate rows and reversed duplicates may appear.
 
-Examples:
+### `fixtures/events.jsonl`
 
-- `payments/card/*/recurring`
-- `payments/**/chargeback`
-- `**`
-- `payments/card/visa/recurring`
+Events are processed strictly in file order.
 
-### `fixtures/requests.jsonl`
+`link` event:
 
-Each line contains:
+```json
+{"event_id":"e-001","type":"link","left":"crm:100","right":"billing:900"}
+```
 
-- `request_id`
-- `tenant`
-- `region`
-- `event_time` — UTC timestamp
-- `path`
+`query` event:
+
+```json
+{"event_id":"e-002","type":"query","record_id":"crm:100"}
+```
 
 ## Goal
 
-Implement the policy resolver in `resolver.py`.
+Complete `merge_guard.py` so the process consumes the initial data once and then handles the event stream incrementally.
 
-For each request, return the single policy that wins according to the matching and precedence rules below. The same static rule set is used for many requests, so you may preprocess it once before resolving requests.
+A successful link declares that the two records and **all records already connected to either one** represent the same customer.
 
-The intended deliverable is code you could plausibly explain to a customer and evolve toward the production constraints below.
+A link must be rejected if accepting it would place any known separated pair in the same customer group.
+
+Rejected links must be atomic: they may not partially change group membership, canonical IDs, or future behavior.
+
+For each query, return the current group for that record and its deterministic canonical record.
 
 ## Observable requirements
 
-A rule is eligible only when all of the following are true:
+For a `link` event, emit exactly one JSON object:
 
-1. Its tenant is either `*` or exactly the request tenant.
-2. Its region is either `*` or exactly the request region.
-3. `valid_from <= event_time < valid_to`; an empty `valid_to` means no expiry.
-4. Its `path_pattern` matches the request path using the wildcard semantics above.
+```json
+{"event_id":"e-001","status":"accepted","group_size":3,"canonical_record_id":"billing:900"}
+```
 
-If multiple rules are eligible, choose exactly one using this precedence order:
+or:
 
-1. Higher `priority`.
-2. More literal path segments.
-3. Fewer `**` segments.
-4. Fewer `*` segments.
-5. Exact tenant scope over tenant `*`.
-6. Exact region scope over region `*`.
-7. Lexicographically smaller `rule_id`.
+```json
+{"event_id":"e-007","status":"rejected","reason":"separation_conflict"}
+```
 
-All comparisons above are applied in order. Input row order must never affect the result.
-
-For every request, emit one JSON object:
+For a `query` event, emit:
 
 ```json
 {
-  "request_id": "req-001",
-  "matched_rule_id": "r-102",
-  "action": "route",
-  "destination": "risk-review"
+  "event_id":"e-008",
+  "record_id":"crm:100",
+  "canonical_record_id":"billing:900",
+  "members":["billing:900","crm:100","support:44"]
 }
 ```
 
-If no rule matches, emit:
+Rules:
 
-```json
-{
-  "request_id": "req-002",
-  "matched_rule_id": null,
-  "action": "default",
-  "destination": null
-}
-```
-
-Additional required behavior:
-
-- Duplicate rows with the same `rule_id` and identical contents should be accepted once.
-- Reusing the same `rule_id` with conflicting contents is invalid input and must fail fast with a useful error.
-- Empty path segments are invalid (`payments//visa`) in both rules and requests.
-- `*` and `**` are wildcard tokens only when the entire segment is exactly that token. A segment like `visa*` is a literal string.
-- Rules whose `valid_to <= valid_from` are invalid.
-- Timestamps must be interpreted as UTC-aware times. Reject malformed or timezone-less timestamps rather than silently guessing.
-- A `route` rule without a destination, or a `block` rule with a destination, is invalid.
-- The resolver must be deterministic across repeated runs.
+1. Link events are transitive. If A is already linked to B and B is linked to C, A/B/C are one group.
+2. A link between records already in the same group is accepted as a no-op and must not change the canonical record.
+3. A link is rejected when **any** separation constraint crosses the two groups being joined, including a constraint between non-endpoint members.
+4. Rejected links are fully atomic and must not alter later query results.
+5. Separation rows are symmetric. Duplicate and reversed-duplicate rows must not create duplicate work or change behavior.
+6. Self-separation (`A,A`) is invalid input and must fail fast.
+7. Every record referenced by a separation or event must exist in `records.csv`; unknown IDs must fail fast with a useful error.
+8. Link/query events have unique `event_id` values. Duplicate event IDs are invalid input.
+9. Output member lists are lexicographically sorted.
+10. The canonical record for a group is the member with the highest `quality_score`; ties choose the earliest `created_at`; remaining ties choose lexicographically smaller `record_id`.
+11. Canonical choice must remain deterministic regardless of input row ordering.
+12. The engine must preprocess static data once and process events incrementally. Rebuilding all groups or rescanning every separation row after each link is not production-credible.
+13. The event stream may contain long chains of accepted links, many repeated no-op links, and rejected links between large existing groups.
+14. If a link is rejected, a later different link may still be valid; rejection does not poison either group.
 
 ## Production shape
 
-The fixture is intentionally small. Design the core for approximately:
+Design for approximately:
 
-- 1,500,000 policies loaded at process startup;
-- 20,000,000 request resolutions per day;
-- typical path depth: 4–12 segments, hard maximum 32;
-- about 65% literal-only patterns, 25% containing `*`, 10% containing one `**`;
-- 30,000 tenants and 12 regions;
-- many broad wildcard policies shared across tenants;
-- memory budget: 512 MB;
-- target p95 resolver latency after startup: under 5 ms on typical requests.
+- 8,000,000 records;
+- 22,000,000 accepted historical links loaded at startup;
+- 4,000,000 separation pairs;
+- 500,000 new link events per day;
+- 15,000,000 group queries per day;
+- median group size under 5, but a small number of enterprise groups may contain 100k+ records;
+- 2 GB memory budget for this service;
+- target p95 under 10 ms for typical link and query operations after startup.
 
-A production-credible design should not scan all policies for each request or precompute all possible concrete paths. Be prepared to explain the preprocessing/query-time tradeoff and what behavior could become pathological.
+A solution that scans every record, every group member on both sides, or all separation pairs for each link will not meet the intended production shape. Large-group edge cases matter even though the fixture is small.
+
+You may choose deterministic, heuristic, LLM-assisted, or hybrid techniques, but observable correctness is exact. Be prepared to explain why any probabilistic or model-driven component is safe for the guarantees above.
 
 ## Expected deliverable
 
-Complete `resolver.py`. You may add focused tests and small helper modules.
+Implement the engine and CLI in `merge_guard.py`. You may add focused tests or small helper modules.
 
 Your walkthrough should explain:
 
-- how you model matching and precedence;
-- how preprocessing avoids a full policy scan per request;
-- expected startup memory/time and per-request complexity;
-- how your design handles `**` without producing incorrect duplicate matches or unbounded work;
-- which fixture cases you used to verify correctness;
-- what you would measure before claiming the production target is met;
-- whether an LLM, heuristic, or hybrid component would help this problem, and why.
+- how group membership is represented and updated;
+- how you detect whether two existing groups can be safely joined;
+- what work happens on successful versus rejected links;
+- how canonical records stay correct as groups grow;
+- expected startup, link, and query complexity;
+- which fixture cases you used to verify atomicity and non-endpoint conflicts;
+- where your design could become pathological at production scale;
+- whether an LLM or heuristic component belongs in this solution, and why.
 
 ## In scope
 
 - Python standard library.
-- Preprocessing/indexing of the static policy set.
-- Focused unit or integration tests.
-- A deterministic, heuristic, or hybrid design if you can justify its correctness against the stated behavior.
+- In-memory preprocessing/indexing.
+- Focused tests.
+- Additional small fixture cases if useful.
 
 ## Out of scope
 
 - Persistent databases.
-- Distributed caches.
-- Network services.
-- Policy mutations while the process is running.
-- Authentication/authorization.
-- A web UI.
+- Distributed coordination or cross-process consistency.
+- Online modification of separation constraints.
+- Fuzzy matching that invents new links from names.
+- Authentication or UI work.
 
 ## Run / verify
 
@@ -166,23 +149,24 @@ Baseline checks:
 
 ```bash
 python3 -m unittest -v
-python3 resolver.py --help
+python3 merge_guard.py --help
 ```
 
-After implementing the resolver:
+After implementation:
 
 ```bash
-python3 resolver.py \
-  --rules fixtures/rules.csv \
-  --requests fixtures/requests.jsonl
+python3 merge_guard.py \
+  --records fixtures/records.csv \
+  --separations fixtures/separations.csv \
+  --events fixtures/events.jsonl
 ```
 
-Write one JSON object per request to stdout. Diagnostic logging should go to stderr.
+Write one JSON object per event to stdout. Diagnostic logging, if any, should go to stderr.
 
 ## 60-minute interview instruction
 
 You have **60 minutes** and may use Claude Code, Codex, ChatGPT, or other AI tools as you would on the job.
 
-Start by inspecting the fixtures and constraints. Decide what must be correct first, choose a data representation and lookup strategy, implement incrementally, and verify the difficult cases you think matter most.
+Start by inspecting the fixtures and constraints. Decide which invariants must never be violated before choosing an implementation. Work incrementally and verify both successful and rejected links.
 
-The interviewer is evaluating problem decomposition, correctness, scaling judgment, test strategy, and your ability to explain and defend the code. Do not spend the hour polishing CLI ergonomics.
+The interviewer is evaluating problem decomposition, correctness under adversarial constraints, scaling judgment, test strategy, and your ability to explain and defend the implementation. Prioritize the reconciliation core over CLI polish.
