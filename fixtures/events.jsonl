@@ -1,0 +1,15 @@
+{"event_id":"a-001","source_partition":"collector-a","source_seq":1,"merchant_id":"m-alpha","occurred_at":"2026-08-31T16:00:00Z","card_fingerprint":"card-1","outcome":"declined"}
+{"event_id":"b-001","source_partition":"collector-b","source_seq":10,"merchant_id":"m-alpha","occurred_at":"2026-08-31T16:01:10Z","card_fingerprint":"card-2","outcome":"declined"}
+{"event_id":"a-002","source_partition":"collector-a","source_seq":2,"merchant_id":"m-alpha","occurred_at":"2026-08-31T16:00:40Z","card_fingerprint":"card-1","outcome":"declined"}
+{"event_id":"c-001","source_partition":"collector-c","source_seq":4,"merchant_id":"m-beta","occurred_at":"2026-08-31T16:01:30+00:00","card_fingerprint":"card-9","outcome":"approved"}
+{"event_id":"b-002","source_partition":"collector-b","source_seq":11,"merchant_id":"m-beta","occurred_at":"2026-08-31T16:02:00Z","card_fingerprint":"card-7","outcome":"declined"}
+{"event_id":"b-002","source_partition":"collector-b","source_seq":11,"merchant_id":"m-beta","occurred_at":"2026-08-31T16:02:00Z","card_fingerprint":"card-7","outcome":"declined"}
+{"event_id":"c-002","source_partition":"collector-c","source_seq":5,"merchant_id":"m-beta","occurred_at":"2026-08-31T16:02:00Z","card_fingerprint":"card-8","outcome":"declined"}
+{"event_id":"a-003","source_partition":"collector-a","source_seq":3,"merchant_id":"m-alpha","occurred_at":"2026-08-31T16:03:20Z","card_fingerprint":"card-3","outcome":"approved"}
+{"event_id":"b-003","source_partition":"collector-b","source_seq":12,"merchant_id":"m-alpha","occurred_at":"2026-08-31T16:02:20Z","card_fingerprint":"card-3","outcome":"declined"}
+{"event_id":"c-003","source_partition":"collector-c","source_seq":6,"merchant_id":"m-gamma","occurred_at":"2026-08-31T16:05:00Z","card_fingerprint":"card-x","outcome":"declined"}
+{"event_id":"a-004","source_partition":"collector-a","source_seq":4,"merchant_id":"m-alpha","occurred_at":"2026-08-31T16:03:30Z","card_fingerprint":"card-4","outcome":"declined"}
+{"event_id":"b-004","source_partition":"collector-b","source_seq":13,"merchant_id":"m-beta","occurred_at":"2026-08-31T16:03:30Z","card_fingerprint":"card-10","outcome":"declined"}
+{"event_id":"c-004","source_partition":"collector-c","source_seq":7,"merchant_id":"m-gamma","occurred_at":"2026-08-31T16:06:40Z","card_fingerprint":"card-y","outcome":"declined"}
+{"event_id":"a-005","source_partition":"collector-a","source_seq":5,"merchant_id":"m-alpha","occurred_at":"2026-08-31T16:04:00Z","card_fingerprint":"card-5","outcome":"declined"}
+{"event_id":"b-005","source_partition":"collector-b","source_seq":14,"merchant_id":"m-gamma","occurred_at":"2026-08-31T16:06:40Z","card_fingerprint":"card-z","outcome":"declined"}

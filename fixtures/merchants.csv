@@ -1,0 +1,4 @@
+merchant_id,window_seconds,min_declines,min_distinct_cards,cooldown_seconds
+m-alpha,300,3,2,120
+m-beta,180,2,2,60
+m-gamma,600,4,3,180
