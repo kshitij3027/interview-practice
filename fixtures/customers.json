@@ -1,0 +1,87 @@
+{
+  "dataset_revision": 7,
+  "customers": [
+    {
+      "id": "cus_1001",
+      "name": "Acme Robotics",
+      "segment": "enterprise",
+      "status": "active",
+      "revision": 4,
+      "fields": {
+        "email": {"value": "ops@acmerobotics.com", "verified": true, "updated_at": "2026-08-29T09:10:00Z"},
+        "phone": {"value": "+1-408-555-0181", "verified": false, "updated_at": "2026-07-02T12:00:00Z"}
+      },
+      "external_ids": {"crm": "crm-8841", "billing": "bill-552"},
+      "tags": ["Robotics", "Strategic"],
+      "activities": [
+        {"event_id": "evt-a1", "type": "note", "occurred_at": "2026-08-20T10:00:00Z", "summary": "Renewal planning call"},
+        {"event_id": "evt-a2", "type": "email", "occurred_at": "2026-08-28T16:30:00Z", "summary": "Security questionnaire sent"}
+      ]
+    },
+    {
+      "id": "cus_1002",
+      "name": "Acme Robotics, Inc.",
+      "segment": "enterprise",
+      "status": "prospect",
+      "revision": 2,
+      "fields": {
+        "email": {"value": "operations@acmerobotics.com", "verified": false, "updated_at": "2026-08-30T08:00:00Z"},
+        "phone": {"value": "+1-408-555-0181", "verified": true, "updated_at": "2026-08-25T13:00:00Z"}
+      },
+      "external_ids": {"support": "zd-1933"},
+      "tags": ["robotics", "Pilot"],
+      "activities": [
+        {"event_id": "evt-a3", "type": "meeting", "occurred_at": "2026-08-22T18:00:00Z", "summary": "Pilot kickoff"},
+        {"event_id": "evt-a2", "type": "email", "occurred_at": "2026-08-28T16:30:00Z", "summary": "Security questionnaire sent"}
+      ]
+    },
+    {
+      "id": "cus_1003",
+      "name": "Northstar Health",
+      "segment": "enterprise",
+      "status": "active",
+      "revision": 6,
+      "fields": {
+        "email": {"value": "it@northstar.example", "verified": true, "updated_at": "2026-08-20T11:00:00Z"},
+        "phone": {"value": "+1-415-555-0130", "verified": true, "updated_at": "2026-08-20T11:00:00Z"}
+      },
+      "external_ids": {"crm": "crm-441", "billing": "bill-441"},
+      "tags": ["Healthcare"],
+      "activities": [
+        {"event_id": "evt-n1", "type": "note", "occurred_at": "2026-08-31T08:30:00Z", "summary": "Expansion approved"}
+      ]
+    },
+    {
+      "id": "cus_1004",
+      "name": "North Star Health LLC",
+      "segment": "midmarket",
+      "status": "prospect",
+      "revision": 1,
+      "fields": {
+        "email": {"value": "hello@northstar.example", "verified": false, "updated_at": "2026-08-30T12:00:00Z"},
+        "phone": {"value": "", "verified": false, "updated_at": "2026-08-01T12:00:00Z"}
+      },
+      "external_ids": {"crm": "crm-992"},
+      "tags": ["healthcare", "Inbound"],
+      "activities": [
+        {"event_id": "evt-n2", "type": "email", "occurred_at": "2026-08-30T12:30:00Z", "summary": "Inbound demo request"}
+      ]
+    },
+    {
+      "id": "cus_1005",
+      "name": "BrightCart",
+      "segment": "midmarket",
+      "status": "active",
+      "revision": 3,
+      "fields": {
+        "email": {"value": "admin@brightcart.example", "verified": true, "updated_at": "2026-08-15T09:00:00Z"},
+        "phone": {"value": "+1-650-555-0108", "verified": false, "updated_at": "2026-08-10T09:00:00Z"}
+      },
+      "external_ids": {"crm": "crm-712", "support": "zd-744"},
+      "tags": ["Commerce", "Reference"],
+      "activities": [
+        {"event_id": "evt-b1", "type": "meeting", "occurred_at": "2026-08-27T17:00:00Z", "summary": "QBR"}
+      ]
+    }
+  ]
+}

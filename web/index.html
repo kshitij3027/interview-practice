@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>MergeDesk</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <main>
+    <header><h1>MergeDesk</h1><p>Customer profile operations</p></header>
+    <section class="toolbar">
+      <label>Segment
+        <select id="segment"><option value="">All</option><option>enterprise</option><option>midmarket</option></select>
+      </label>
+      <span id="dataset-revision"></span>
+    </section>
+    <section class="layout">
+      <div><h2>Customers</h2><div id="customers"></div></div>
+      <div><h2>Profile</h2><div id="detail" class="panel muted">Select a customer.</div></div>
+    </section>
+    <div id="error" role="alert"></div>
+  </main>
+  <script type="module" src="/app.js"></script>
+</body>
+</html>
