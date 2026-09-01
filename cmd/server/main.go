@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"net/http"
+	"os"
 
 	"interview-practice/customermerge/internal/httpapi"
 	"interview-practice/customermerge/internal/service"
@@ -14,7 +15,11 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
 	api := httpapi.New(service.NewCustomerService(s))
-	log.Println("MergeDesk running at http://localhost:8080")
-	log.Fatal(http.ListenAndServe(":8080", api.Handler()))
+	log.Printf("MergeDesk running at http://localhost:%s", port)
+	log.Fatal(http.ListenAndServe(":"+port, api.Handler()))
 }
