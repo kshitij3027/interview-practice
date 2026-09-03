@@ -1,0 +1,56 @@
+{
+  "datasetRevision": 17,
+  "incidents": [
+    {
+      "id": "inc-2401",
+      "title": "Checkout latency spike",
+      "severity": "sev1",
+      "status": "active",
+      "startedAt": "2026-09-03T14:10:00Z",
+      "responders": ["Ari", "Mina", "Diego"],
+      "revision": 6,
+      "actionItems": [
+        {"id":"act-901","summary":"Compare gateway p95 by region","owner":"Mina","priority":"p0","dueAt":"2026-09-03T15:00:00Z","status":"open","revision":2},
+        {"id":"act-902","summary":"Disable experimental retry path","owner":"Ari","priority":"p0","dueAt":"2026-09-03T14:45:00Z","status":"done","revision":3},
+        {"id":"act-903","summary":"Prepare customer-impact update","owner":null,"priority":"p1","dueAt":"2026-09-03T15:30:00Z","status":"open","revision":1}
+      ]
+    },
+    {
+      "id": "inc-2398",
+      "title": "Webhook delivery backlog",
+      "severity": "sev2",
+      "status": "monitoring",
+      "startedAt": "2026-09-03T10:05:00Z",
+      "responders": ["Nora", "Ken"],
+      "revision": 4,
+      "actionItems": [
+        {"id":"act-880","summary":"Verify retry drain rate","owner":"Ken","priority":"p1","dueAt":"2026-09-03T17:00:00Z","status":"open","revision":1},
+        {"id":"act-881","summary":"Sample dead-letter payloads","owner":"Nora","priority":"p1","dueAt":null,"status":"done","revision":2}
+      ]
+    },
+    {
+      "id": "inc-2387",
+      "title": "EU audit export incomplete",
+      "severity": "sev3",
+      "status": "active",
+      "startedAt": "2026-09-02T21:20:00Z",
+      "responders": ["Isha", "Bo"],
+      "revision": 2,
+      "actionItems": [
+        {"id":"act-842","summary":"Reproduce missing partition","owner":"Isha","priority":"p2","dueAt":null,"status":"open","revision":1}
+      ]
+    },
+    {
+      "id": "inc-2374",
+      "title": "Mobile login regression",
+      "severity": "sev2",
+      "status": "resolved",
+      "startedAt": "2026-09-01T18:40:00Z",
+      "responders": ["Leah", "Omar"],
+      "revision": 8,
+      "actionItems": [
+        {"id":"act-801","summary":"Backfill affected session metrics","owner":"Omar","priority":"p2","dueAt":"2026-09-04T18:00:00Z","status":"open","revision":1}
+      ]
+    }
+  ]
+}
