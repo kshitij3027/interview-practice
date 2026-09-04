@@ -1,0 +1,4 @@
+{"outage_id":"out-001","site":"JFK","lane_ids":["JFK-01"],"start":"2026-09-04T09:00:00Z","end":"2026-09-04T09:45:00Z"}
+{"outage_id":"out-002","site":"JFK","lane_ids":["JFK-01","JFK-03"],"start":"2026-09-04T09:00:00Z","end":"2026-09-04T09:30:00Z"}
+{"outage_id":"out-003","site":"JFK","lane_ids":["JFK-05"],"start":"2026-09-04T09:00:00Z","end":"2026-09-04T09:15:00Z"}
+{"outage_id":"out-004","site":"EWR","lane_ids":["EWR-02"],"start":"2026-09-04T10:00:00Z","end":"2026-09-04T10:30:00Z"}
