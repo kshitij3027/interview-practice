@@ -1,0 +1,7 @@
+{"request_id":"req-001","from_schema":"crm-v1","to_schema":"warehouse-v3","region":"us","max_latency_ms":100,"max_quality_loss_ppm":250,"max_adapters":4,"disabled_adapters":[]}
+{"request_id":"req-002","from_schema":"crm-v1","to_schema":"warehouse-v3","region":"eu","max_latency_ms":90,"max_quality_loss_ppm":60,"max_adapters":4,"disabled_adapters":[]}
+{"request_id":"req-003","from_schema":"crm-v1","to_schema":"analytics-v4","region":"us","max_latency_ms":150,"max_quality_loss_ppm":260,"max_adapters":5,"disabled_adapters":["a-06","a-06","missing-adapter"]}
+{"request_id":"req-004","from_schema":"crm-v2","to_schema":"crm-v2","region":"eu","max_latency_ms":0,"max_quality_loss_ppm":0,"max_adapters":0,"disabled_adapters":[]}
+{"request_id":"req-005","from_schema":"crm-v1","to_schema":"warehouse-v3","region":"us","max_latency_ms":60,"max_quality_loss_ppm":60,"max_adapters":1,"disabled_adapters":[]}
+{"request_id":"req-006","from_schema":"unknown-v9","to_schema":"warehouse-v3","region":"us","max_latency_ms":100,"max_quality_loss_ppm":100,"max_adapters":4,"disabled_adapters":[]}
+{"request_id":"req-007","from_schema":"crm-v1","to_schema":"warehouse-v3","region":"us","max_latency_ms":70,"max_quality_loss_ppm":220,"max_adapters":3,"disabled_adapters":["a-05"]}

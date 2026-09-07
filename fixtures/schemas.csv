@@ -1,0 +1,11 @@
+schema_id,system,status
+crm-v1,crm,deprecated
+crm-v2,crm,active
+bridge-a,internal,active
+bridge-b,internal,active
+bridge-c,internal,active
+warehouse-v2,warehouse,deprecated
+warehouse-v3,warehouse,active
+billing-v1,billing,active
+analytics-v4,analytics,active
+legacy-export,internal,deprecated
