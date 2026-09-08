@@ -1,0 +1,8 @@
+[
+  {"id":"emp-101","name":"Maya Chen","sites":["SFO"],"roles":["cashier","lead"]},
+  {"id":"emp-102","name":"Luis Ortega","sites":["SFO","OAK"],"roles":["cashier"]},
+  {"id":"emp-103","name":"Priya Shah","sites":["SFO"],"roles":["lead","cashier"]},
+  {"id":"emp-104","name":"Jonah Reed","sites":["OAK"],"roles":["warehouse"]},
+  {"id":"emp-105","name":"Ana Torres","sites":["OAK"],"roles":["cashier","warehouse"]},
+  {"id":"emp-106","name":"Noah Williams","sites":["SFO","OAK"],"roles":["cashier","warehouse"]}
+]

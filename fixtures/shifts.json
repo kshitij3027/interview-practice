@@ -1,0 +1,92 @@
+[
+  {
+    "id": "shift-201",
+    "site": "SFO",
+    "role": "cashier",
+    "starts_at": "2026-09-08T16:00:00Z",
+    "ends_at": "2026-09-08T20:00:00Z",
+    "employee_id": "emp-101",
+    "revision": 1
+  },
+  {
+    "id": "shift-202",
+    "site": "SFO",
+    "role": "lead",
+    "starts_at": "2026-09-08T21:00:00Z",
+    "ends_at": "2026-09-09T01:00:00Z",
+    "employee_id": "emp-103",
+    "revision": 1
+  },
+  {
+    "id": "shift-203",
+    "site": "OAK",
+    "role": "cashier",
+    "starts_at": "2026-09-09T16:00:00Z",
+    "ends_at": "2026-09-09T20:00:00Z",
+    "employee_id": "emp-102",
+    "revision": 1
+  },
+  {
+    "id": "shift-204",
+    "site": "OAK",
+    "role": "warehouse",
+    "starts_at": "2026-09-09T21:00:00Z",
+    "ends_at": "2026-09-10T01:00:00Z",
+    "employee_id": "emp-105",
+    "revision": 1
+  },
+  {
+    "id": "shift-205",
+    "site": "SFO",
+    "role": "cashier",
+    "starts_at": "2026-09-10T15:00:00Z",
+    "ends_at": "2026-09-10T19:00:00Z",
+    "employee_id": "emp-102",
+    "revision": 1
+  },
+  {
+    "id": "shift-206",
+    "site": "OAK",
+    "role": "warehouse",
+    "starts_at": "2026-09-10T22:00:00Z",
+    "ends_at": "2026-09-11T02:00:00Z",
+    "employee_id": "emp-104",
+    "revision": 1
+  },
+  {
+    "id": "shift-207",
+    "site": "OAK",
+    "role": "cashier",
+    "starts_at": "2026-09-11T14:00:00Z",
+    "ends_at": "2026-09-11T18:00:00Z",
+    "employee_id": "emp-105",
+    "revision": 1
+  },
+  {
+    "id": "shift-208",
+    "site": "SFO",
+    "role": "cashier",
+    "starts_at": "2026-09-11T18:00:00Z",
+    "ends_at": "2026-09-11T22:00:00Z",
+    "employee_id": "emp-101",
+    "revision": 1
+  },
+  {
+    "id": "shift-209",
+    "site": "OAK",
+    "role": "warehouse",
+    "starts_at": "2026-09-12T06:00:00Z",
+    "ends_at": "2026-09-12T10:00:00Z",
+    "employee_id": "emp-106",
+    "revision": 1
+  },
+  {
+    "id": "shift-210",
+    "site": "SFO",
+    "role": "cashier",
+    "starts_at": "2026-09-08T19:00:00Z",
+    "ends_at": "2026-09-08T23:00:00Z",
+    "employee_id": "emp-102",
+    "revision": 1
+  }
+]
