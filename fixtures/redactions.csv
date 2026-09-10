@@ -1,0 +1,3 @@
+document_id,redaction_id,page,start,end,category,source,note
+doc-100,manual-11,1,22,44,personal,manual,Verified contact email
+doc-200,manual-12,1,46,50,financial,manual,Card suffix
