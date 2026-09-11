@@ -1,0 +1,16 @@
+promotion_id,target_type,target_id,region,starts_at,ends_at,priority,discount_bps
+promo-root-fall,category,root,*,2026-09-01T00:00:00Z,2026-10-01T00:00:00Z,10,500
+promo-elec-us,category,electronics,us,2026-09-10T00:00:00Z,2026-09-20T00:00:00Z,20,700
+promo-compute-global,category,computing,*,2026-09-11T00:00:00Z,2026-09-12T00:00:00Z,20,650
+promo-laptop-us,category,laptops,us,2026-09-11T08:00:00Z,2026-09-11T18:00:00Z,20,900
+promo-gaming-global,category,gaming_laptops,*,2026-09-11T00:00:00Z,2026-09-13T00:00:00Z,20,800
+promo-p100-special,product,p-100,*,2026-09-11T08:30:00Z,2026-09-11T10:00:00Z,20,600
+promo-p100-us,product,p-100,us,2026-09-11T08:30:00Z,2026-09-11T10:00:00Z,20,550
+promo-phone,category,phones,*,2026-09-01T00:00:00Z,2026-09-30T00:00:00Z,15,400
+promo-coffee-a,category,coffee,us,2026-09-11T08:00:00Z,2026-09-11T09:00:00Z,30,1200
+promo-coffee-b,category,coffee,us,2026-09-11T08:30:00Z,2026-09-11T09:30:00Z,30,1000
+promo-shoes,category,shoes,*,2026-09-01T00:00:00Z,2026-10-01T00:00:00Z,25,750
+promo-running,category,running_shoes,*,2026-09-11T00:00:00Z,2026-09-12T00:00:00Z,25,800
+promo-running-us,category,running_shoes,us,2026-09-11T00:00:00Z,2026-09-12T00:00:00Z,25,780
+promo-expired,category,laptops,*,2026-08-01T00:00:00Z,2026-08-02T00:00:00Z,99,9900
+promo-root-fall,category,root,*,2026-09-01T00:00:00Z,2026-10-01T00:00:00Z,10,500

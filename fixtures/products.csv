@@ -1,0 +1,7 @@
+product_id,category_id,seller_id
+p-100,gaming_laptops,seller-a
+p-101,laptops,seller-b
+p-102,phones,seller-c
+p-200,coffee,seller-a
+p-300,running_shoes,seller-d
+p-301,shoes,seller-e

@@ -1,0 +1,13 @@
+category_id,parent_id,name
+root,,All Products
+electronics,root,Electronics
+computing,electronics,Computing
+laptops,computing,Laptops
+gaming_laptops,laptops,Gaming Laptops
+phones,electronics,Phones
+home,root,Home
+kitchen,home,Kitchen
+coffee,kitchen,Coffee
+apparel,root,Apparel
+shoes,apparel,Shoes
+running_shoes,shoes,Running Shoes
