@@ -1,0 +1,12 @@
+{"request_id":"q-001","host":"API.ACME.COM","method":"GET","path":"/health"}
+{"request_id":"q-002","host":"api.acme.com","method":"GET","path":"/users/admin"}
+{"request_id":"q-003","host":"api.acme.com","method":"DELETE","path":"/users/42"}
+{"request_id":"q-004","host":"api.acme.com","method":"GET","path":"/users/42/files/2026/receipt.pdf"}
+{"request_id":"q-005","host":"api.acme.com","method":"GET","path":"/assets/logo.png"}
+{"request_id":"q-006","host":"shop.acme.com","method":"GET","path":"/orders/9001"}
+{"request_id":"q-007","host":"shop.acme.com","method":"GET","path":"/orders/9001/events"}
+{"request_id":"q-008","host":"eu.shop.acme.com","method":"GET","path":"/orders/17"}
+{"request_id":"q-009","host":"hooks.partner.example","method":"POST","path":"/v1/jobs/abc"}
+{"request_id":"q-010","host":"a.b.partner.example","method":"PATCH","path":"/v1/old/system"}
+{"request_id":"q-011","host":"api.acme.com.","method":"GET","path":"/"}
+{"request_id":"q-012","host":"unknown.example","method":"GET","path":"/nothing/here"}
