@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PaceDesk</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <header>
+    <h1>PaceDesk</h1>
+    <p>Campaign operations</p>
+  </header>
+  <main>
+    <aside>
+      <label>Status
+        <select id="status-filter">
+          <option value="all">All</option>
+          <option value="active">Active</option>
+          <option value="paused">Paused</option>
+        </select>
+      </label>
+      <div id="campaign-list"></div>
+    </aside>
+    <section>
+      <div id="error" role="alert"></div>
+      <div id="campaign-detail"></div>
+    </section>
+  </main>
+  <script type="module" src="/app.js"></script>
+</body>
+</html>

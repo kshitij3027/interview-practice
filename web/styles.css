@@ -1,0 +1,16 @@
+:root { font-family: Inter, system-ui, sans-serif; color: #20242a; background: #f5f6f8; }
+body { margin: 0; }
+header { padding: 1rem 1.5rem; background: white; border-bottom: 1px solid #ddd; }
+header h1 { margin: 0; }
+header p { margin: .25rem 0 0; color: #666; }
+main { display: grid; grid-template-columns: 320px 1fr; gap: 1rem; padding: 1rem; }
+aside, section { background: white; border: 1px solid #ddd; border-radius: 10px; padding: 1rem; }
+select, button { font: inherit; }
+#campaign-list { display: grid; gap: .5rem; margin-top: 1rem; }
+.campaign { text-align: left; display: grid; gap: .2rem; padding: .75rem; border: 1px solid #ddd; border-radius: 8px; background: white; cursor: pointer; }
+.campaign.selected { border-color: #333; }
+.campaign span, .campaign small, .muted { color: #666; }
+dl { display: grid; grid-template-columns: 180px 1fr; gap: .5rem; }
+dt { font-weight: 600; }
+dd { margin: 0; }
+#error { min-height: 1.2rem; margin-bottom: .5rem; color: #a40000; }

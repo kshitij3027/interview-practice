@@ -1,0 +1,13 @@
+{"event_id":"evt-a1","campaign_id":"cmp-atlas","occurred_at":"2026-09-14T16:00:00Z","ingested_at":"2026-09-14T16:01:00Z","kind":"charge","amount_cents":18000}
+{"event_id":"evt-a2","campaign_id":"cmp-atlas","occurred_at":"2026-09-14T21:30:00Z","ingested_at":"2026-09-14T21:31:00Z","kind":"charge","amount_cents":24000}
+{"event_id":"evt-a2","campaign_id":"cmp-atlas","occurred_at":"2026-09-14T21:30:00Z","ingested_at":"2026-09-14T21:31:00Z","kind":"charge","amount_cents":24000}
+{"event_id":"evt-a3","campaign_id":"cmp-atlas","occurred_at":"2026-09-15T02:15:00Z","ingested_at":"2026-09-15T02:16:00Z","kind":"charge","amount_cents":12000}
+{"event_id":"evt-a3-fix","campaign_id":"cmp-atlas","occurred_at":"2026-09-15T02:15:00Z","ingested_at":"2026-09-15T03:00:00Z","kind":"charge","amount_cents":9500,"replaces_event_id":"evt-a3"}
+{"event_id":"evt-a4","campaign_id":"cmp-atlas","occurred_at":"2026-09-15T05:40:00Z","ingested_at":"2026-09-15T05:45:00Z","kind":"refund","amount_cents":2500}
+{"event_id":"evt-a5","campaign_id":"cmp-atlas","occurred_at":"2026-09-15T14:10:00Z","ingested_at":"2026-09-15T14:12:00Z","kind":"charge","amount_cents":31000}
+{"event_id":"evt-a6","campaign_id":"cmp-atlas","occurred_at":"2026-09-15T15:20:00Z","ingested_at":"2026-09-15T18:30:00Z","kind":"charge","amount_cents":10000}
+{"event_id":"evt-a-orphan","campaign_id":"cmp-atlas","occurred_at":"2026-09-15T15:30:00Z","ingested_at":"2026-09-15T15:31:00Z","kind":"charge","amount_cents":7777,"replaces_event_id":"missing-event"}
+{"event_id":"evt-b1","campaign_id":"cmp-boreal","occurred_at":"2026-09-15T13:00:00Z","ingested_at":"2026-09-15T13:02:00Z","kind":"charge","amount_cents":15500}
+{"event_id":"evt-b2","campaign_id":"cmp-boreal","occurred_at":"2026-09-15T15:10:00Z","ingested_at":"2026-09-15T15:11:00Z","kind":"refund","amount_cents":1500}
+{"event_id":"evt-c1","campaign_id":"cmp-cirrus","occurred_at":"2026-09-15T08:30:00Z","ingested_at":"2026-09-15T08:32:00Z","kind":"charge","amount_cents":42000}
+{"event_id":"evt-d1","campaign_id":"cmp-delta","occurred_at":"2026-09-15T06:00:00Z","ingested_at":"2026-09-15T06:03:00Z","kind":"charge","amount_cents":11000}

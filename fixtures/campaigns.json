@@ -1,0 +1,6 @@
+[
+  {"id":"cmp-atlas","account_name":"Atlas Home","name":"Fall Retargeting","timezone":"America/Los_Angeles","status":"active","daily_budget_cents":120000,"revision":3},
+  {"id":"cmp-boreal","account_name":"Boreal Labs","name":"Developer Launch","timezone":"America/New_York","status":"paused","daily_budget_cents":85000,"revision":2},
+  {"id":"cmp-cirrus","account_name":"Cirrus Travel","name":"Autumn Search","timezone":"Europe/London","status":"active","daily_budget_cents":150000,"revision":4},
+  {"id":"cmp-delta","account_name":"Delta Pantry","name":"Marketplace Growth","timezone":"Asia/Kolkata","status":"active","daily_budget_cents":65000,"revision":1}
+]
