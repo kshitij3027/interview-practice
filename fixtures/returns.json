@@ -1,0 +1,8 @@
+[
+  {"id":"RET-1001","order_id":"ORD-8101","warehouse":"LAX","created_at":"2026-09-12T15:30:00Z","closed":false,"expected_parcels":["PKG-A1","PKG-A2"],"received_parcels":[],"revision":3,"exception":{"active":false,"reason":""}},
+  {"id":"RET-1002","order_id":"ORD-8102","warehouse":"LAX","created_at":"2026-09-12T17:10:00Z","closed":false,"expected_parcels":["PKG-B1"],"received_parcels":["PKG-B1"],"revision":2,"exception":{"active":false,"reason":""}},
+  {"id":"RET-1003","order_id":"ORD-8103","warehouse":"SFO","created_at":"2026-09-13T09:45:00Z","closed":false,"expected_parcels":["PKG-C1","PKG-C2","PKG-C3"],"received_parcels":["PKG-C1"],"revision":5,"exception":{"active":true,"reason":"customer reported missing accessory"}},
+  {"id":"RET-1004","order_id":"ORD-8104","warehouse":"SFO","created_at":"2026-09-13T11:00:00Z","closed":false,"expected_parcels":["PKG-A2","PKG-D2"],"received_parcels":[],"revision":1,"exception":{"active":false,"reason":""}},
+  {"id":"RET-1005","order_id":"ORD-8105","warehouse":"SEA","created_at":"2026-09-14T08:20:00Z","closed":false,"expected_parcels":["PKG-E1","PKG-E2"],"received_parcels":["PKG-E1"],"revision":4,"exception":{"active":false,"reason":""}},
+  {"id":"RET-0999","order_id":"ORD-7999","warehouse":"SEA","created_at":"2026-09-10T08:20:00Z","closed":true,"expected_parcels":["PKG-OLD"],"received_parcels":["PKG-OLD"],"revision":8,"exception":{"active":false,"reason":""}}
+]

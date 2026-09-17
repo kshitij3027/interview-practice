@@ -1,0 +1,8 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ReturnDock</title><link rel="stylesheet" href="/styles.css"></head><body>
+<header><h1>ReturnDock</h1><p>Warehouse returns operations</p></header>
+<main>
+<section class="toolbar"><label>Warehouse <select id="warehouse"><option value="">All</option><option>LAX</option><option>SFO</option><option>SEA</option></select></label><label>Receipt state <select id="status"><option value="">All</option><option value="awaiting">Awaiting</option><option value="partial">Partial</option><option value="received">Received</option></select></label><button id="refresh">Refresh</button><span id="dataset"></span></section>
+<div id="error" class="error" hidden></div>
+<section class="layout"><div><h2>Return cases</h2><div id="list" class="list"></div></div><div><h2>Case detail</h2><div id="detail" class="panel muted">Select a return case.</div></div></section>
+<section><h2>Carrier batch reconciliation</h2><div class="panel muted">Read the README and carrier scan fixture to implement the requested workflow.</div></section>
+</main><script type="module" src="/app.js"></script></body></html>
