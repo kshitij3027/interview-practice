@@ -1,0 +1,4 @@
+relation_type,ttl_minutes
+device,60
+payout,180
+address,1440

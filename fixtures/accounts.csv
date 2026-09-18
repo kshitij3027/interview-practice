@@ -1,0 +1,9 @@
+account_id,risk_tier,risk_points
+A100,high,80
+A101,standard,10
+A102,high,60
+A103,standard,15
+A104,standard,5
+A105,high,90
+A106,standard,20
+A107,standard,0
