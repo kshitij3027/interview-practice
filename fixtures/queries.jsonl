@@ -1,0 +1,8 @@
+{"request_id":"q-us-later","region":"us","as_of":"2026-09-21T10:01:00Z","k":3}
+{"request_id":"q-eu-offset","region":"eu","as_of":"2026-09-21T12:05:00+02:00","k":2}
+{"request_id":"q-us-base","region":"us","as_of":"2026-09-21T10:00:00Z","k":3}
+{"request_id":"q-us-empty","region":"us","as_of":"2026-09-21T09:40:00Z","k":2}
+{"request_id":"q-apac","region":"apac","as_of":"2026-09-21T10:00:00Z","k":2}
+{"request_id":"q-unknown-region","region":"latam","as_of":"2026-09-21T10:00:00Z","k":2}
+{"request_id":"q-too-many","region":"eu","as_of":"2026-09-21T10:05:00Z","k":3}
+{"request_id":"q-zero-k","region":"us","as_of":"2026-09-21T10:00:00Z","k":0}
