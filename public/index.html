@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AccessQ</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <main>
+    <header>
+      <div><h1>AccessQ</h1><p>Quarterly access review queue</p></div>
+      <span id="revision"></span>
+    </header>
+    <section class="filters">
+      <label>Status <select id="status"><option value="all">All</option><option value="pending">Pending</option><option value="approved">Approved</option><option value="revoked">Revoked</option></select></label>
+      <label>System <select id="system"><option value="all">All</option></select></label>
+      <label>Risk <select id="risk"><option value="all">All</option><option>low</option><option>medium</option><option>high</option><option>critical</option></select></label>
+      <button id="apply-filters">Apply filters</button>
+    </section>
+    <section class="layout">
+      <div class="panel">
+        <div class="panel-title"><h2>Grants</h2><span id="page-summary"></span></div>
+        <div id="list"></div>
+        <div class="pager"><button id="prev">Previous</button><button id="next">Next</button></div>
+      </div>
+      <div class="panel" id="detail"><p>Select a grant.</p></div>
+    </section>
+    <p class="error" id="error"></p>
+  </main>
+  <script type="module" src="/app.js"></script>
+</body>
+</html>
