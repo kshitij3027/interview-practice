@@ -1,0 +1,10 @@
+[
+{"key":"s01","segment":"internal","tier":"a","zone":"z1","client":"web"},
+{"key":"s02","segment":"external","tier":"a","zone":"z1","client":"ios"},
+{"key":"s03","segment":"external","tier":"b","zone":"z2","client":"web"},
+{"key":"s04","segment":"internal","tier":"b","zone":"z3","client":"android"},
+{"key":"s05","segment":"external","tier":"a","zone":"z4","client":"web"},
+{"key":"s06","segment":"external","tier":"a","zone":"z1","client":"android"},
+{"key":"s07","segment":"external","tier":"c","zone":"z1","client":"web"},
+{"key":"s08","segment":"internal","tier":"a","zone":"z3","client":"ios"}
+]

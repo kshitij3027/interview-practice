@@ -1,0 +1,1 @@
+"""FlagDesk starter application."""

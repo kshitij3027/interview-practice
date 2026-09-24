@@ -1,0 +1,12 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FlagDesk</title><link rel="stylesheet" href="/styles.css"></head>
+<body>
+<header><div><h1>FlagDesk</h1><p>Feature rollout operations</p></div><div>Dataset revision: <strong id="dataset-revision">—</strong></div></header>
+<div id="error" class="error" hidden></div>
+<main><aside><div class="filters">
+<label>Status<select id="status-filter"><option value="">All</option><option value="active">Active</option><option value="paused">Paused</option></select></label>
+<label>Owner<input id="owner-filter" placeholder="e.g. search"></label>
+</div><div id="flag-rows" class="flag-list"></div></aside>
+<section id="detail" class="detail">Select a flag.</section></main>
+<script type="module" src="/app.js"></script></body></html>
