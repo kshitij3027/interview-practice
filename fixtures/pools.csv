@@ -1,0 +1,7 @@
+pool_id,region,sku,tags,unit_price_micros,base_capacity
+west-a100-01,us-west,A100,fp16|ib,1200,8
+west-a100-02,us-west,A100,fp16|ib|secure,950,6
+west-a100-03,us-west,A100,fp16,800,10
+west-h100-01,us-west,H100,fp8|ib,1800,8
+east-a100-01,us-east,A100,fp16|ib,900,8
+west-a100-04,us-west,A100,fp16|ib,950,4

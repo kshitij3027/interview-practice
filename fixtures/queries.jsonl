@@ -1,0 +1,9 @@
+{"request_id":"q-earliest","region":"us-west","sku":"A100","required_tags":["fp16","ib"],"units":4,"duration_minutes":20,"earliest_start":"2026-09-25T09:00:00Z","latest_finish":"2026-09-25T10:30:00Z"}
+{"request_id":"q-boundary","region":"us-west","sku":"A100","required_tags":["secure"],"units":4,"duration_minutes":20,"earliest_start":"2026-09-25T09:40:00Z","latest_finish":"2026-09-25T10:30:00Z"}
+{"request_id":"q-cheap-tie","region":"us-west","sku":"A100","required_tags":["fp16","ib"],"units":2,"duration_minutes":10,"earliest_start":"2026-09-25T09:30:00Z","latest_finish":"2026-09-25T10:00:00Z"}
+{"request_id":"q-no-tag","region":"us-west","sku":"A100","required_tags":["secure","confidential"],"units":1,"duration_minutes":5,"earliest_start":"2026-09-25T09:00:00Z","latest_finish":"2026-09-25T09:30:00Z"}
+{"request_id":"q-long","region":"us-west","sku":"A100","required_tags":["ib"],"units":4,"duration_minutes":45,"earliest_start":"2026-09-25T09:00:00Z","latest_finish":"2026-09-25T11:00:00Z"}
+{"request_id":"q-h100","region":"us-west","sku":"H100","required_tags":["ib"],"units":4,"duration_minutes":30,"earliest_start":"2026-09-25T09:30:00Z","latest_finish":"2026-09-25T10:30:00Z"}
+{"request_id":"q-empty-tags","region":"us-west","sku":"A100","required_tags":[],"units":3,"duration_minutes":15,"earliest_start":"2026-09-25T09:00:00Z","latest_finish":"2026-09-25T09:45:00Z"}
+{"request_id":"q-offset","region":"us-east","sku":"A100","required_tags":["fp16"],"units":3,"duration_minutes":15,"earliest_start":"2026-09-25T02:30:00-07:00","latest_finish":"2026-09-25T10:30:00Z"}
+{"request_id":"q-invalid-duration","region":"us-west","sku":"A100","required_tags":[],"units":1,"duration_minutes":7,"earliest_start":"2026-09-25T09:00:00Z","latest_finish":"2026-09-25T10:00:00Z"}
