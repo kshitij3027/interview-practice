@@ -1,93 +1,227 @@
-# Ledger Lens — HARD One-Hour Full-Stack Interview Exercise
+# GateQueue — HARD One-Hour AI-Assisted Problem-Solving Interview
 
-## Context
+## Customer / business context
 
-Ledger Lens is an internal billing-operations tool for a SaaS company. Finance operators use it to inspect customer balances, open invoices, and record occasional manual credits.
+An enterprise incident-management platform coordinates remediation runbooks for customers during outages. A runbook is a set of tasks such as isolating a failing dependency, validating data, notifying a partner, or restoring traffic. Some tasks cannot begin until specific prerequisite tasks are complete.
 
-The starter application is intentionally already functional. It has a Python/FastAPI backend with in-memory domain state and a dependency-free browser ES-module frontend with an explicit client-side store. Existing behavior spans account routes, domain services, invoice state, frontend API helpers, and detail views.
+Operators frequently **reopen** previously completed tasks when a verification fails. The event feed is at-least-once and is not guaranteed to arrive in timestamp order. During a live incident, the operations UI repeatedly asks:
 
-## Existing behavior
+> “As of this historical instant, which tasks in this runbook are runnable next?”
 
-- The account list shows customer name, external customer reference, available credit, and a revision number.
-- Selecting an account shows that account's invoices and current remaining balances.
-- Operators can add a manual customer credit with a positive amount and non-empty reason.
-- Manual credits increase the account credit balance and its revision.
-- The backend is the source of truth; restarting it resets sample data.
-- Existing tests cover current account, invoice, and manual-credit behavior.
+The current prototype recomputes every task from scratch for every request. That worked for small customers, but it falls over on large runbooks and long incident histories.
 
-## Customer/business problem
+Build the in-process resolver for one immutable snapshot.
 
-A payment partner sends Finance a settlement CSV several times per day. Operators currently reconcile those rows by hand against customer invoices. The export is not perfectly clean: customer references may have whitespace/casing differences, rows may be duplicated, malformed rows can appear, and an account may change between the time an operator previews an import and the time they apply it.
+## Supplied data
 
-A representative file is provided at `fixtures/customer_settlement_aug14.csv`.
+### `fixtures/workflows.csv`
 
-Finance wants a workflow that lets an operator inspect what the import would do before committing it, then safely apply the same reconciliation plan without silently using stale account state.
+Columns:
 
-## Primary feature request
+- `workflow_id` — globally unique workflow identifier.
+- `customer_id` — customer that owns the runbook.
+- `name` — display-only label.
 
-**Add a settlement-import workflow that previews a pasted/uploaded CSV, deterministically reconciles valid payments against open invoices, and then commits that exact preview safely with duplicate and stale-state protection.**
+### `fixtures/tasks.csv`
+
+Columns:
+
+- `task_id` — globally unique task identifier.
+- `workflow_id` — owning workflow.
+- `priority` — signed integer; larger values are more urgent.
+- `due_at` — RFC3339 timestamp with explicit offset.
+
+Every task belongs to exactly one workflow.
+
+### `fixtures/dependencies.csv`
+
+Columns:
+
+- `task_id`
+- `prerequisite_task_id`
+
+A row means `task_id` is runnable only while `prerequisite_task_id` is complete.
+
+Dependencies must remain inside one workflow. Exact duplicate rows are harmless. A task cannot depend on itself. The dependency snapshot must not contain a cycle.
+
+### `fixtures/events.csv`
+
+Columns:
+
+- `event_id` — globally unique logical delivery identifier.
+- `task_id`
+- `occurred_at` — RFC3339 timestamp with explicit offset.
+- `version` — positive integer used to order state changes for the same task at the same instant.
+- `action` — `complete` or `reopen`.
+
+The file is not guaranteed to be ordered.
+
+An exact duplicate row with the same `event_id` is an at-least-once delivery replay and behaves as one event. Reusing an `event_id` with different fields is invalid.
+
+For one task, if multiple events have the same `occurred_at`, increasing `version` defines their order. Reusing the same `(task_id, occurred_at, version)` for different logical events is invalid.
+
+### `fixtures/queries.jsonl`
+
+Each line contains:
+
+- `request_id` — unique request identifier.
+- `workflow_id`
+- `as_of` — historical instant.
+- `limit` — positive integer, at most 50.
+
+Queries are read-only, independent, and may move backward or forward in time.
+
+## State and readiness semantics
+
+A task starts **incomplete**.
+
+For a query at `as_of`, apply every event whose `occurred_at <= as_of`. For each task, process those state changes by `(occurred_at, version)`:
+
+- `complete` makes the task complete.
+- `reopen` makes the task incomplete.
+- Repeating an action that already matches the current state is a valid no-op.
+
+A task is **runnable** at `as_of` exactly when:
+
+1. the task itself is incomplete; and
+2. every direct prerequisite is complete at `as_of`.
+
+A completed task is never returned as runnable.
+
+Completion events are authoritative observations. Do **not** reject an event merely because that task's prerequisites were incomplete when the event occurred. Dependencies gate what is runnable; they do not retroactively invalidate the event feed.
+
+If a prerequisite later reopens, an unfinished dependent may become blocked again. No completion state is cascaded or automatically undone.
+
+All timestamp comparisons are by instant. Different RFC3339 offsets representing the same instant are equivalent.
+
+## Goal
+
+For every valid query, return up to `limit` runnable tasks for that workflow, in this deterministic order:
+
+1. higher `priority`;
+2. then earlier `due_at`;
+3. then lexicographically smaller `task_id`.
+
+A resolved output object has this shape:
+
+```json
+{
+  "request_id": "q-001",
+  "status": "resolved",
+  "task_ids": ["pay-check-ledger", "pay-contact-bank"]
+}
+```
+
+If the workflow exists but no task is runnable, return an empty `task_ids` array.
+
+If a query references an unknown workflow, emit:
+
+```json
+{"request_id":"q-009","status":"invalid","reason":"unknown_workflow"}
+```
+
+Malformed query values, invalid timestamps, non-positive limits, or `limit > 50` produce:
+
+```json
+{"request_id":"q-010","status":"invalid","reason":"invalid_query"}
+```
+
+An invalid query must not stop later queries.
 
 ## Acceptance criteria
 
-1. Add a UI flow where an operator can load/paste CSV content and request a **preview** without mutating server state.
-2. Parse the columns `payment_id`, `customer_ref`, `amount`, `received_at`, and `note`. Header order may vary. Empty trailing lines must not create rows.
-3. Resolve `customer_ref` after trimming surrounding whitespace and comparing case-insensitively to account `external_id`. Unknown customers must be reported as row-level errors, not abort the entire preview.
-4. `amount` must represent a strictly positive dollar amount with at most two decimal places and must be converted without floating-point rounding drift. Malformed rows must be reported individually while other valid rows continue through preview.
-5. Within one file, repeated `payment_id` values represent the same external payment. Exactly one occurrence may be considered for reconciliation; later duplicates must be identified deterministically and must not double-count money.
-6. For each valid, non-duplicate payment, allocate money only to that customer's **open** invoices, ordered by earliest `due_date`, then lexicographically by invoice `id`. Partial invoice payment is allowed. Any remainder becomes account credit.
-7. The preview response must contain enough information for the UI to show, per input row, whether it is valid/error/duplicate and, for applicable rows, the proposed invoice allocations and proposed remainder-to-credit. It must also expose the account revisions the plan was based on.
-8. Previewing must not change invoice balances, invoice statuses, account credits, account revisions, or existing manual-credit behavior.
-9. Add a **commit** action that applies the exact previewed plan. The server must reject the commit if any affected account revision no longer matches the revision used by that preview; it must not partially apply a stale plan.
-10. A successful commit must update invoice `remaining_cents`, mark invoices `paid` when their remaining balance reaches zero, add any payment remainder to account credit, and increment each affected account revision exactly once for the whole committed import (not once per row or allocation).
-11. Re-committing the same preview/import must be retry-safe: it must not apply payments twice. The client must be able to distinguish an already-committed retry from a genuinely invalid/stale request.
-12. After commit success, refresh/reconcile the account list and currently selected account detail without requiring a browser reload.
-13. If commit fails because the preview is stale, preserve the imported CSV in the UI, show a useful stale-state message, and make it straightforward for the operator to generate a fresh preview.
-14. Existing manual-credit behavior must continue to work and must still participate in revision changes, so a manual credit created after preview can invalidate a settlement commit.
+- Emit exactly one result per query in original query-file order.
+- Results must be independent of row order in every CSV file.
+- Exact duplicate dependency rows and exact duplicate event deliveries behave as one logical record.
+- Conflicting reuse of an `event_id` fails dataset validation.
+- Conflicting reuse of `(task_id, occurred_at, version)` fails dataset validation.
+- Unknown task/workflow references, duplicate workflow/task IDs, empty identifiers, malformed timestamps, invalid event actions, and non-positive event versions fail dataset validation.
+- Dependencies cannot cross workflows and cannot contain self-edges or cycles.
+- Events exactly at `as_of` are visible to that query.
+- Same-instant state changes for one task follow ascending `version`.
+- A `reopen` can make a previously runnable dependent become blocked again.
+- A later `complete` can make that dependent runnable again.
+- Repeated `complete` or `reopen` actions are valid no-ops.
+- A task with no prerequisites is runnable whenever it is incomplete.
+- Completed tasks are never returned.
+- Ordering is exactly priority descending, due time ascending, then task ID ascending.
+- Timestamp offsets that denote the same instant must produce the same result.
+- Diagnostic logging belongs on stderr; stdout must remain JSONL.
 
-## Constraints
+## Production constraints
 
-- Keep the backend in-memory; no database, Redis, queue, auth provider, or external API.
-- You may add endpoints, service/domain modules, shared response types, and tests as needed.
-- Treat a preview as server-owned state: do not trust the client to send arbitrary invoice allocations back and have the server apply them blindly.
-- Keep the implementation interview-sized. You do not need production persistence across backend restarts.
-- Use integer cents for persisted monetary values.
+The checked-in fixture is intentionally small. Design for approximately:
 
-## Out of scope
+- 250,000 workflows;
+- 2,000,000 tasks;
+- 8,000,000 dependency rows after deduplication;
+- 50,000,000 state events over a 90-day incident-history horizon;
+- 3,000,000 historical queries per immutable snapshot;
+- most tasks have 0–6 dependents, but a few gate tasks have 100,000+ direct dependents;
+- queries for the same workflow often cluster around nearby timestamps, but query order is arbitrary;
+- `limit` is at most 50;
+- 1.5 GB memory budget;
+- target p95 under 25 ms for a typical query after preprocessing.
 
-- Authentication/authorization.
-- Multi-process/distributed coordination.
-- Persisting imports across process restarts.
-- Supporting quoted CSV fields containing embedded newlines.
-- Fancy drag-and-drop upload UI or visual design polish.
-- Reconciliation reversals/refunds.
+A production-credible design should not rebuild the state of an entire workflow for every query, rescan all 50 million events independently for each request, or traverse the full dependency graph on every lookup.
 
-## Setup / run
+The fixture is small enough that a simplistic approach may appear correct. Your solution should still have a defensible path to the production shape.
 
-Backend:
+## Expected deliverable
+
+Implement the historical readiness capability behind `ReadinessResolver.resolve_all(...)` in `readiness/planner.py`, plus supporting code as needed.
+
+Add focused tests for the correctness risks you consider most important. Be prepared to explain:
+
+- what state you preprocess once;
+- how historical event changes affect unfinished dependents;
+- how you answer arbitrarily ordered historical queries without restarting from an empty snapshot every time;
+- how you produce the first few runnable tasks in deterministic business order;
+- startup, event-processing, and per-query complexity;
+- memory behavior around very high-fanout gate tasks;
+- which malformed-data and timestamp-boundary cases you verified;
+- whether a deterministic, heuristic, LLM-assisted, or hybrid design belongs in the critical path and what guarantees it would preserve or give up.
+
+## Run / verify
+
+Python 3.11+ is sufficient; there are no third-party dependencies.
+
+Baseline checks before changing anything:
 
 ```bash
-python -m uvicorn backend.app.main:app --reload --port 3001
+bash scripts/test.sh
+bash scripts/build.sh
+bash scripts/verify.sh
 ```
 
-Frontend (separate terminal):
+Fixture validation is equivalent to:
 
 ```bash
-python -m http.server 5173 -d frontend
+python3 gatequeue.py validate \
+  --workflows fixtures/workflows.csv \
+  --tasks fixtures/tasks.csv \
+  --dependencies fixtures/dependencies.csv \
+  --events fixtures/events.csv \
+  --queries fixtures/queries.jsonl
 ```
 
-Open `http://localhost:5173`.
-
-## Existing tests and build
+After implementing the resolver:
 
 ```bash
-pytest -q
-./scripts/verify_frontend.sh
+python3 gatequeue.py resolve \
+  --workflows fixtures/workflows.csv \
+  --tasks fixtures/tasks.csv \
+  --dependencies fixtures/dependencies.csv \
+  --events fixtures/events.csv \
+  --queries fixtures/queries.jsonl
 ```
 
-## 60-minute interview instruction
+## Scope / out of scope
 
-You have **60 minutes**. Treat this as an AI-assisted product-engineering/FDE live build. Inspect the existing system and the fixture before coding. Decide what to make correct first, implement incrementally, and verify the most failure-prone behavior rather than trying to maximize code volume.
+In scope: immutable snapshot loading, validation, historical readiness queries, deterministic result ordering, focused tests, and production-scale reasoning.
 
-A complete happy path without careful handling of duplicates, deterministic allocation, stale previews, retries, and existing revision behavior is intentionally not a complete solution.
+Out of scope: mutating the source files, distributed coordination, live event ingestion during a run, persistence, authentication, notification delivery, UI work, or external APIs.
 
-**Do not read `INTERVIEWER_NOTES.md` until after you finish the exercise.**
+## 60-minute AI-assisted interview instruction
+
+You have **60 minutes**. You may use Claude Code, Codex, ChatGPT, or similar tools as you would in a real engineering workflow. Inspect the repository and fixture data yourself first, write down the state/readiness semantics in your own words, then implement incrementally and verify the risky boundaries. A one-shot implementation that only matches the sample data is not sufficient; be ready to defend correctness and scale.

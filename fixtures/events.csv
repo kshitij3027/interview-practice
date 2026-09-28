@@ -1,0 +1,13 @@
+event_id,task_id,occurred_at,version,action
+evt-004,pay-isolate,2026-09-28T09:12:00Z,2,reopen
+evt-001,pay-isolate,2026-09-28T02:05:00-07:00,1,complete
+evt-002,pay-check-ledger,2026-09-28T09:08:00Z,1,complete
+evt-002,pay-check-ledger,2026-09-28T09:08:00Z,1,complete
+evt-006,pay-isolate,2026-09-28T09:21:00Z,4,complete
+evt-005,pay-isolate,2026-09-28T09:21:00Z,3,reopen
+evt-007,pay-contact-bank,2026-09-28T09:25:00Z,1,complete
+evt-008,pay-reconcile,2026-09-28T09:31:00Z,1,complete
+evt-009,search-freeze,2026-09-28T09:04:00Z,1,complete
+evt-010,search-freeze,2026-09-28T09:04:00Z,2,reopen
+evt-011,search-freeze,2026-09-28T09:07:00Z,3,complete
+evt-012,search-verify,2026-09-28T09:15:00Z,1,complete

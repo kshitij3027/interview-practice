@@ -1,0 +1,11 @@
+task_id,prerequisite_task_id
+pay-check-ledger,pay-isolate
+pay-contact-bank,pay-isolate
+pay-reconcile,pay-check-ledger
+pay-reconcile,pay-contact-bank
+pay-restore,pay-reconcile
+pay-postmortem,pay-restore
+search-verify,search-freeze
+search-reindex,search-verify
+search-unfreeze,search-reindex
+search-unfreeze,search-reindex
