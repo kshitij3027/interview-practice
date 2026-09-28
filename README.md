@@ -1,1 +1,3 @@
-# interview-practice
+# QueueCraft
+
+Problem-solving interview exercise.
