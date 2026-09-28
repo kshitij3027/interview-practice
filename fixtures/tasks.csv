@@ -1,0 +1,11 @@
+task_id,workflow_id,priority,due_at
+pay-isolate,wf-payments,90,2026-09-28T09:20:00Z
+pay-check-ledger,wf-payments,80,2026-09-28T09:35:00Z
+pay-contact-bank,wf-payments,70,2026-09-28T09:30:00Z
+pay-reconcile,wf-payments,95,2026-09-28T09:50:00Z
+pay-restore,wf-payments,100,2026-09-28T10:10:00Z
+pay-postmortem,wf-payments,20,2026-09-29T12:00:00Z
+search-freeze,wf-search,100,2026-09-28T09:10:00Z
+search-verify,wf-search,90,2026-09-28T09:25:00Z
+search-reindex,wf-search,80,2026-09-28T09:40:00Z
+search-unfreeze,wf-search,85,2026-09-28T10:00:00Z
