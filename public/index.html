@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>EvalBoard</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header><h1>EvalBoard</h1><p>Offline model-evaluation suite operations</p></header>
+  <main>
+    <aside>
+      <div class="filters">
+        <label>Owner
+          <select id="owner-filter">
+            <option value="">All</option>
+            <option>cx-ai</option><option>finops-ai</option><option>trust-ai</option><option>relevance</option>
+          </select>
+        </label>
+        <label>Status
+          <select id="status-filter"><option value="">All</option><option>active</option><option>paused</option></select>
+        </label>
+      </div>
+      <div id="suite-list"></div>
+    </aside>
+    <section>
+      <p id="error" class="error"></p>
+      <div id="detail"></div>
+    </section>
+  </main>
+  <script type="module" src="/app.js"></script>
+</body>
+</html>

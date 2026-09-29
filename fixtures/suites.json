@@ -1,0 +1,42 @@
+[
+  {
+    "id": "support-reply",
+    "name": "Support Reply Quality",
+    "owner": "cx-ai",
+    "status": "active",
+    "datasetVersion": "support-v7",
+    "approvedRunId": "run-support-base-42",
+    "note": "Watch refund-policy regressions before approving new models.",
+    "revision": 4
+  },
+  {
+    "id": "invoice-extraction",
+    "name": "Invoice Extraction",
+    "owner": "finops-ai",
+    "status": "active",
+    "datasetVersion": "invoice-v3",
+    "approvedRunId": "run-invoice-base-18",
+    "note": "",
+    "revision": 2
+  },
+  {
+    "id": "moderation-triage",
+    "name": "Moderation Triage",
+    "owner": "trust-ai",
+    "status": "paused",
+    "datasetVersion": "moderation-v5",
+    "approvedRunId": "run-mod-base-9",
+    "note": "Paused while the policy labels are being audited.",
+    "revision": 7
+  },
+  {
+    "id": "search-grounding",
+    "name": "Search Grounding",
+    "owner": "relevance",
+    "status": "active",
+    "datasetVersion": "search-v11",
+    "approvedRunId": "run-search-base-31",
+    "note": "",
+    "revision": 1
+  }
+]

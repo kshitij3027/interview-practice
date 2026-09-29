@@ -1,0 +1,15 @@
+[
+  {"id":"run-support-base-42","suiteId":"support-reply","datasetVersion":"support-v7","model":"reply-4.2","createdAt":"2026-09-20T18:10:00Z"},
+  {"id":"run-support-cand-43","suiteId":"support-reply","datasetVersion":"support-v7","model":"reply-4.3-rc1","createdAt":"2026-09-28T20:05:00Z"},
+  {"id":"run-support-cand-44","suiteId":"support-reply","datasetVersion":"support-v7","model":"reply-4.3-rc2","createdAt":"2026-09-29T05:20:00Z"},
+  {"id":"run-support-olddata","suiteId":"support-reply","datasetVersion":"support-v6","model":"reply-4.3-exp","createdAt":"2026-09-28T11:00:00Z"},
+
+  {"id":"run-invoice-base-18","suiteId":"invoice-extraction","datasetVersion":"invoice-v3","model":"extract-1.8","createdAt":"2026-09-22T14:00:00Z"},
+  {"id":"run-invoice-cand-19","suiteId":"invoice-extraction","datasetVersion":"invoice-v3","model":"extract-1.9-rc","createdAt":"2026-09-28T16:00:00Z"},
+
+  {"id":"run-mod-base-9","suiteId":"moderation-triage","datasetVersion":"moderation-v5","model":"triage-0.9","createdAt":"2026-09-19T17:30:00Z"},
+  {"id":"run-mod-cand-10","suiteId":"moderation-triage","datasetVersion":"moderation-v5","model":"triage-1.0-rc","createdAt":"2026-09-27T19:30:00Z"},
+
+  {"id":"run-search-base-31","suiteId":"search-grounding","datasetVersion":"search-v11","model":"ground-3.1","createdAt":"2026-09-18T12:00:00Z"},
+  {"id":"run-search-cand-32","suiteId":"search-grounding","datasetVersion":"search-v11","model":"ground-3.2-rc","createdAt":"2026-09-29T02:00:00Z"}
+]

@@ -1,0 +1,20 @@
+[
+  {"id":"refund-policy","suiteId":"support-reply","datasetVersion":"support-v7","severity":"critical","weight":5},
+  {"id":"late-delivery","suiteId":"support-reply","datasetVersion":"support-v7","severity":"high","weight":3},
+  {"id":"account-close","suiteId":"support-reply","datasetVersion":"support-v7","severity":"medium","weight":2},
+  {"id":"subscription-cancel","suiteId":"support-reply","datasetVersion":"support-v7","severity":"medium","weight":2},
+  {"id":"promo-question","suiteId":"support-reply","datasetVersion":"support-v7","severity":"low","weight":1},
+  {"id":"damaged-item","suiteId":"support-reply","datasetVersion":"support-v7","severity":"high","weight":3},
+
+  {"id":"subtotal","suiteId":"invoice-extraction","datasetVersion":"invoice-v3","severity":"high","weight":3},
+  {"id":"tax","suiteId":"invoice-extraction","datasetVersion":"invoice-v3","severity":"high","weight":3},
+  {"id":"vendor-name","suiteId":"invoice-extraction","datasetVersion":"invoice-v3","severity":"medium","weight":2},
+
+  {"id":"critical-policy-a","suiteId":"moderation-triage","datasetVersion":"moderation-v5","severity":"critical","weight":5},
+  {"id":"critical-policy-b","suiteId":"moderation-triage","datasetVersion":"moderation-v5","severity":"critical","weight":5},
+  {"id":"spam","suiteId":"moderation-triage","datasetVersion":"moderation-v5","severity":"low","weight":1},
+
+  {"id":"freshness","suiteId":"search-grounding","datasetVersion":"search-v11","severity":"high","weight":3},
+  {"id":"citation","suiteId":"search-grounding","datasetVersion":"search-v11","severity":"high","weight":3},
+  {"id":"abstention","suiteId":"search-grounding","datasetVersion":"search-v11","severity":"critical","weight":5}
+]

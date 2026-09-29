@@ -1,0 +1,12 @@
+{
+  "name": "evalboard-interview-practice",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "build": "bash scripts/build.sh",
+    "verify": "node scripts/verify.js",
+    "start": "node src/server.js"
+  }
+}
