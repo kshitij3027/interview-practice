@@ -1,0 +1,7 @@
+id,venue,zone,status,baseline_playlist,playback_mode,revision
+s-lobby,Atlas Center,lobby,active,daily-loop,normal,7
+s-east,Atlas Center,concourse,active,wayfinding-loop,normal,3
+s-window,Birch Market,storefront,active,retail-loop,muted,2
+s-lobby2,Cobalt Hall,lobby,active,event-loop,normal,5
+s-north,Cobalt Hall,concourse,offline,maintenance-loop,muted,4
+s-front,Drift Gallery,storefront,active,gallery-loop,normal,1

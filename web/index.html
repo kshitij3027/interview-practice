@@ -1,0 +1,13 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ScreenFlow</title>
+<style>
+body{font-family:system-ui,sans-serif;margin:0;background:#f6f7f9;color:#1d2430}header{padding:18px 24px;background:white;border-bottom:1px solid #ddd}
+main{display:grid;grid-template-columns:340px 1fr;gap:16px;padding:16px}section{background:white;border:1px solid #ddd;border-radius:8px;padding:14px}
+.filters,.actions{display:flex;gap:8px;margin-bottom:12px}select,button{padding:7px 9px}.screen{width:100%;text-align:left;border:0;border-bottom:1px solid #eee;background:transparent;padding:10px 4px;cursor:pointer}.screen:hover{background:#f5f7fa}
+.muted{color:#667085}.error{color:#a00020;min-height:1.2em}.row{display:flex;justify-content:space-between;gap:12px;margin:8px 0}
+</style></head>
+<body><header><strong>ScreenFlow</strong> <span class="muted">venue playback operations</span></header>
+<main><section><div class="filters"><select id="zoneFilter"><option value="">all zones</option><option value="lobby">lobby</option><option value="concourse">concourse</option><option value="storefront">storefront</option></select>
+<select id="statusFilter"><option value="">all status</option><option value="active">active</option><option value="offline">offline</option></select></div><div id="screenList"></div></section>
+<section><div id="error" class="error"></div><div id="detail"><span class="muted">Select a screen.</span></div></section></main>
+<script type="module" src="/app.js"></script></body></html>

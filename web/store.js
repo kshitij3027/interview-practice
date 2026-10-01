@@ -1,0 +1,2 @@
+export function createStore(){return{filters:{zone:"",status:""},screens:[],selectedId:null,detail:null,datasetRevision:null,error:"",loadingList:false,loadingDetail:false,savingMode:false,selectionToken:0};}
+export function upsertScreen(state,screen){const i=state.screens.findIndex(x=>x.id===screen.id);if(i>=0)state.screens[i]=screen;if(state.detail?.screen?.id===screen.id)state.detail.screen=screen;}

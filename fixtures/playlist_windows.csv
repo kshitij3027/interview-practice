@@ -1,0 +1,8 @@
+window_id,screen_id,start_at,end_at,playlist_id,priority,reason,state
+win-100,s-lobby,2026-10-01T15:00:00Z,2026-10-01T17:00:00Z,launch-loop,3,launch-window,active
+win-101,s-lobby,2026-10-01T10:30:00-04:00,2026-10-01T11:30:00-04:00,sponsor-loop,5,partner-demo,active
+win-102,s-lobby,2026-10-01T15:00:00Z,2026-10-01T15:45:00Z,vip-loop,5,vip-arrival,active
+win-200,s-east,2026-10-02T00:00:00Z,2026-10-02T06:00:00Z,overnight-loop,2,overnight-event,active
+win-201,s-east,2026-10-02T02:00:00Z,2026-10-02T03:00:00Z,security-message,2,temporary-message,active
+win-300,s-lobby2,2026-10-01T22:00:00+00:00,2026-10-02T02:00:00+00:00,conference-loop,4,conference-cutover,cancelled
+win-400,s-window,2026-10-03T08:00:00Z,2026-10-03T09:00:00Z,opening-loop,1,store-opening,active
