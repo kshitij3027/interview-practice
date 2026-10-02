@@ -1,0 +1,14 @@
+locker_id,lat,lon,status,max_parcel_size,available_slots,queue_minutes,capabilities
+sf-market-a,37.774900,-122.419400,active,M,4,4,returns|qr
+sf-market-b,37.774900,-122.419400,active,L,2,7,returns|qr|cold
+sf-mission,37.759860,-122.414800,active,L,2,3,returns|qr|cold
+sf-embarcadero,37.795500,-122.393700,maintenance,XL,10,1,returns|qr|cold
+sf-sunset,37.753900,-122.494400,offline,XL,5,0,returns|qr
+Oakland-lake,37.804360,-122.271110,active,XL,0,2,returns|qr
+berkeley-shattuck,37.871520,-122.273000,active,S,5,4,returns
+sj-downtown,37.338200,-121.886300,active,XL,8,7,returns|qr|battery
+nyc-union,40.735900,-73.990600,active,L,6,5,returns|qr
+sydney-cbd,-33.868800,151.209300,active,XL,4,6,returns|qr|cold
+dateline-east,0.000000,179.900000,active,L,3,6,returns
+dateline-west,0.000000,-179.900000,active,XL,3,4,returns|cold
+north-89,89.900000,45.000000,active,M,2,2,returns

@@ -1,0 +1,8 @@
+{"request_id":"q-sf-basic","lat":37.7749,"lon":-122.4194,"parcel_size":"S","required_capabilities":["returns"],"max_distance_meters":8000,"limit":4}
+{"request_id":"q-sf-cold","lat":37.7700,"lon":-122.4200,"parcel_size":"L","required_capabilities":["cold","qr"],"max_distance_meters":12000,"limit":3}
+{"request_id":"q-dateline","lat":0.0,"lon":180.0,"parcel_size":"M","required_capabilities":["returns"],"max_distance_meters":20000,"limit":5}
+{"request_id":"q-pole","lat":89.95,"lon":-135.0,"parcel_size":"S","required_capabilities":["returns"],"max_distance_meters":20000,"limit":3}
+{"request_id":"q-battery","lat":37.3382,"lon":-121.8863,"parcel_size":"XL","required_capabilities":["battery"],"max_distance_meters":2000,"limit":2}
+{"request_id":"q-no-match","lat":34.0522,"lon":-118.2437,"parcel_size":"XL","required_capabilities":["cold"],"max_distance_meters":10000,"limit":5}
+{"request_id":"q-invalid-size","lat":37.7,"lon":-122.4,"parcel_size":"XXL","required_capabilities":[],"max_distance_meters":5000,"limit":5}
+{"request_id":"q-invalid-limit","lat":37.7,"lon":-122.4,"parcel_size":"S","required_capabilities":[],"max_distance_meters":5000,"limit":0}
