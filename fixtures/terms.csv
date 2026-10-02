@@ -1,0 +1,12 @@
+term_id,locale,text,popularity,active
+t-001,en-US,wireless headphones,980,true
+t-002,en-US,wireless earbuds,1200,true
+t-003,en-US,wired headphones,700,true
+t-004,en-US,weather station,500,true
+t-005,en-US,water bottle,900,true
+t-006,en-US,women's running shoes,1100,true
+t-007,en-US,workbench,300,true
+t-008,en-US,wireless charger,850,true
+t-009,en-US,wireless charging pad,600,false
+t-010,en-US,winter gloves,650,true
+t-011,fr-FR,écouteurs sans fil,400,true

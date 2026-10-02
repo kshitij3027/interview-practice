@@ -1,0 +1,10 @@
+{"request_id":"q-001","locale":"en-US","text":"wireles","max_edits":1,"limit":5}
+{"request_id":"q-002","locale":"en-US","text":"bluetooh","max_edits":1,"limit":5}
+{"request_id":"q-003","locale":"en-US","text":"wirelss char","max_edits":1,"limit":5}
+{"request_id":"q-004","locale":"en-US","text":"weather","max_edits":0,"limit":5}
+{"request_id":"q-005","locale":"en-US","text":"water botle","max_edits":1,"limit":5}
+{"request_id":"q-006","locale":"en-US","text":"running shos","max_edits":1,"limit":5}
+{"request_id":"q-007","locale":"fr-FR","text":"ecouteurs","max_edits":1,"limit":5}
+{"request_id":"q-008","locale":"en-US","text":"wireless charging p","max_edits":0,"limit":5}
+{"request_id":"q-009","locale":"de-DE","text":"wireless","max_edits":0,"limit":3}
+{"request_id":"q-bad","locale":"en-US","text":"wireless","max_edits":4,"limit":3}

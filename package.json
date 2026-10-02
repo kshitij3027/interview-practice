@@ -1,0 +1,14 @@
+{
+  "name": "querymend-interview",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/*.test.js",
+    "build": "bash scripts/build.sh",
+    "verify": "bash scripts/verify.sh"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
