@@ -1,0 +1,11 @@
+query_key,queue_id,start_at,end_at,limit_items
+q-alpha-overload,q-alpha,2026-10-05T08:30:00Z,2026-10-05T11:00:00Z,22
+q-alpha-boundary,q-alpha,2026-10-05T10:40:00+00:00,2026-10-05T12:00:00Z,25
+q-alpha-end-exclusive,q-alpha,2026-10-05T11:45:00Z,2026-10-05T12:00:00Z,25
+q-beta-offset,q-beta,2026-10-05T15:30:00Z,2026-10-05T17:00:00Z,10
+q-gamma-atomic,q-gamma,2026-10-04T22:30:00Z,2026-10-05T00:30:00Z,7
+q-delta-start-high,q-delta,2026-10-05T06:00:00Z,2026-10-05T08:00:00Z,1
+q-unknown,q-missing,2026-10-05T00:00:00Z,2026-10-06T00:00:00Z,10
+q-invalid-window,q-alpha,2026-10-05T12:00:00Z,2026-10-05T12:00:00Z,10
+q-before-snapshot,q-alpha,2026-09-30T23:00:00Z,2026-10-01T01:00:00Z,10
+q-equal-limit,q-beta,2026-10-05T15:00:00Z,2026-10-05T15:45:00Z,12

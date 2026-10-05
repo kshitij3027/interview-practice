@@ -1,0 +1,5 @@
+queue_id,snapshot_start,opening_backlog
+q-alpha,2026-10-01T00:00:00Z,15
+q-beta,2026-10-01T00:00:00-07:00,8
+q-gamma,2026-10-01T00:00:00+02:00,5
+q-delta,2026-10-01T00:00:00Z,2
