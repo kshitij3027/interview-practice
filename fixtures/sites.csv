@@ -1,0 +1,9 @@
+site_id,region
+west-hub,west
+alpha,west
+beta,west
+gamma,west
+delta,west
+remote,west
+east-hub,east
+east-client,east
