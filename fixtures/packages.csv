@@ -1,0 +1,8 @@
+package_id,display_name
+app-shell,Application Shell
+auth-kit,Authentication Kit
+telemetry-core,Telemetry Core
+rule-engine,Rules Engine
+ui-runtime,UI Runtime
+crypto-lib,Crypto Library
+exporter,Telemetry Exporter

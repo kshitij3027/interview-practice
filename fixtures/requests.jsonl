@@ -1,0 +1,5 @@
+{"request_id":"req-shell-upgrade","targets":[{"package_id":"app-shell","min_version":"4.1.0","max_version_exclusive":"5.0.0"}],"blocked_versions":[],"allow_canary":false,"max_changes":5}
+{"request_id":"req-joint-compatible","targets":[{"package_id":"telemetry-core","min_version":"1.5.0","max_version_exclusive":"3.0.0"},{"package_id":"app-shell","min_version":"4.1.0","max_version_exclusive":"5.0.0"}],"blocked_versions":[],"allow_canary":false,"max_changes":6}
+{"request_id":"req-cycle","targets":[{"package_id":"telemetry-core","min_version":"2.0.0","max_version_exclusive":"3.0.0"}],"blocked_versions":[],"allow_canary":false,"max_changes":5}
+{"request_id":"req-canary-enabled","targets":[{"package_id":"rule-engine","min_version":"5.2.0","max_version_exclusive":"6.0.0"}],"blocked_versions":[],"allow_canary":true,"max_changes":4}
+{"request_id":"req-invalid","targets":[{"package_id":"missing-package","min_version":"1.0.0","max_version_exclusive":"2.0.0"}],"blocked_versions":[],"allow_canary":false,"max_changes":2}

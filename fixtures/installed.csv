@@ -1,0 +1,7 @@
+package_id,version
+app-shell,4.0.0
+auth-kit,2.0.0
+telemetry-core,1.5.0
+rule-engine,5.0.0
+ui-runtime,3.0.0
+crypto-lib,1.0.0

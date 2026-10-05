@@ -1,0 +1,17 @@
+dependency_id,package_id,version,requires_package_id,min_version,max_version_exclusive
+dep-shell-auth-400,app-shell,4.0.0,auth-kit,2.0.0,3.0.0
+dep-shell-ui-400,app-shell,4.0.0,ui-runtime,3.0.0,4.0.0
+dep-shell-auth-410,app-shell,4.1.0,auth-kit,2.1.0,3.0.0
+dep-shell-ui-410,app-shell,4.1.0,ui-runtime,3.1.0,4.0.0
+dep-shell-rule-410,app-shell,4.1.0,rule-engine,5.0.0,6.0.0
+dep-rule-auth-500,rule-engine,5.0.0,auth-kit,2.0.0,3.0.0
+dep-rule-auth-510,rule-engine,5.1.0,auth-kit,2.1.0,3.0.0
+dep-rule-auth-520,rule-engine,5.2.0,auth-kit,3.0.0,4.0.0
+dep-auth-crypto-200,auth-kit,2.0.0,crypto-lib,1.0.0,2.0.0
+dep-auth-crypto-210,auth-kit,2.1.0,crypto-lib,1.1.0,2.0.0
+dep-auth-crypto-300,auth-kit,3.0.0,crypto-lib,2.0.0,3.0.0
+dep-telemetry-auth-150,telemetry-core,1.5.0,auth-kit,2.0.0,3.0.0
+dep-telemetry-auth-200,telemetry-core,2.0.0,auth-kit,3.0.0,4.0.0
+dep-telemetry-exporter-200,telemetry-core,2.0.0,exporter,2.1.0,3.0.0
+dep-exporter-telemetry-210,exporter,2.1.0,telemetry-core,2.0.0,3.0.0
+dep-shell-auth-410,app-shell,4.1.0,auth-kit,2.1.0,3.0.0
