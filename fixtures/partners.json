@@ -1,0 +1,30 @@
+[
+  {
+    "id": "acme-retail",
+    "name": "Acme Retail",
+    "status": "active",
+    "note": "Holiday feed migration in progress.",
+    "revision": 4
+  },
+  {
+    "id": "bluebird-outdoors",
+    "name": "Bluebird Outdoors",
+    "status": "active",
+    "note": "Uses legacy field names from ERP export.",
+    "revision": 2
+  },
+  {
+    "id": "cedar-home",
+    "name": "Cedar Home",
+    "status": "paused",
+    "note": "Paused while source contract is renegotiated.",
+    "revision": 7
+  },
+  {
+    "id": "delta-parts",
+    "name": "Delta Parts",
+    "status": "active",
+    "note": "High-volume B2B order feed.",
+    "revision": 1
+  }
+]
