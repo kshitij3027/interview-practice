@@ -1,0 +1,6 @@
+[
+  {"id":"ep_acme_billing","tenant":"acme","name":"Billing events","url":"https://hooks.acme.example/billing","enabled":true,"revision":7},
+  {"id":"ep_acme_crm","tenant":"acme","name":"Partner CRM","url":"https://crm.acme.example/hooks","enabled":false,"revision":4},
+  {"id":"ep_bravo_orders","tenant":"bravo","name":"Order mirror","url":"https://bravo.example/orders","enabled":true,"revision":9},
+  {"id":"ep_coral_audit","tenant":"coral","name":"Audit sink","url":"https://events.coral.example/audit","enabled":true,"revision":3}
+]
