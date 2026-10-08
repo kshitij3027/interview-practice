@@ -1,0 +1,13 @@
+# POST-PRACTICE ONLY — ThermoTrace Interviewer Notes
+
+Evaluator only. **Underlying structure:** normalize retried readings by sampleId (latest receivedAt instant; deterministic tie), collapse equal observedAt instants, then scan ordered observations into contiguous same-direction temperature-excursion runs. Bad quality is a barrier, not a row to skip. A qualifying interval needs two consecutive reliable same-side readings, a positive gap <= maxGapSeconds, and inclusive safe-band endpoints. Emit only runs with duration >= triggerSeconds. Per-shipment indexed/grouped reads plus sorting cost O(m log m) time and O(m) space for m samples; scanning sorted readings costs O(m). Repeated global scans are wasteful at 5k shipments.
+
+**Fixture discoveries:** SH-101 has a hot 09:05–09:15 UTC 600-second run; SH-102 only an isolated hot spike; SH-103 a 1,800-second high-side run despite an older sm-33 retry; SH-104 is closed but can preview; SH-105 has an unreliable intervening sample, leaving only a 420-second run; SH-106 contains two IDs at the same instant and later receipt wins.
+
+**Hidden checks:** reordered/duplicated JSONL; conflicting retry payloads; time-zone-offset equivalence; tied receivedAt/observedAt; lower-temperature excursions; exact safe-band, gap and duration boundaries; zero/one sample; disjoint episodes; poor-quality barriers; cross-shipment logical ID anomaly; closed commit; no-op revisions; malformed keys; delayed review racing note edit; repeated same-key original-result replay; key reused with different shipment; in-flight duplicate requests; older A response arriving after selection B.
+
+**State design:** preview must not write. Commit recomputes server evidence, stores summary, sets a sticky hold when warranted, checks revision/lifecycle AFTER delay, and advances dataset and shipment revisions only on real change. A pending/completed idempotency registry can coalesce same-key requests and cache the original result. Strong alternatives include a per-shipment immutable index/cache or lazy sorting, provided invalidation is correct.
+
+**Naive/AI failure modes:** flagging any hot point, bridging bad data, adding disconnected exposure, sorting timestamp strings, trusting client booleans, checking revision before delay, double-applying retries, refreshing the wrong selected shipment. Favor correctness over unnecessary frameworks.
+
+**Suggested 60 minutes:** 10 inspect data/UI; 20 normalize and evaluate; 15 server commit/retry; 10 UI; 5 targeted verification. Walk through SH-101/102/105 and a delayed stale commit; ask for complexity and how live ingestion changes the design.
