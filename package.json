@@ -1,0 +1,12 @@
+{
+  "name": "return-credit-desk",
+  "private": true,
+  "type": "module",
+  "engines": {"node": ">=20"},
+  "scripts": {
+    "test": "node --test test/*.test.js",
+    "build": "node --check src/model.js && node --check src/store.js && node --check src/http.js && node --check src/server.js && node --check public/app.js",
+    "verify": "node scripts/verify.mjs",
+    "start": "node src/server.js"
+  }
+}

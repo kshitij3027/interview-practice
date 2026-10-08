@@ -1,0 +1,39 @@
+[
+  {
+    "id": "ORD-201", "customer": "Cascade Camping", "placedAt": "2026-09-24T09:30:00-07:00", "status": "delivered", "shippingCents": 799,
+    "note": "Package delivered at reception", "revision": 3,
+    "lines": [
+      {"lineId": "LN-A", "sku": "STOVE-2", "label": "Compact trail stove", "quantity": 3, "unitPriceCents": 1599, "discountCents": 200, "taxCents": 93, "refundedQuantity": 1, "refundedCents": 1564},
+      {"lineId": "LN-B", "sku": "FUEL-4", "label": "Fuel canisters", "quantity": 2, "unitPriceCents": 4200, "discountCents": 500, "taxCents": 302, "refundedQuantity": 0, "refundedCents": 0}
+    ],
+    "refunds": [{"id": "RF-019", "reason": "Damaged stove", "items": [{"lineId": "LN-A", "quantity": 1, "amountCents": 1564}], "totalCents": 1564}]
+  },
+  {
+    "id": "ORD-202", "customer": "Sunset Robotics", "placedAt": "2026-09-27T17:45:00Z", "status": "in_transit", "shippingCents": 1599,
+    "note": "Carrier handoff complete", "revision": 1,
+    "lines": [{"lineId": "LN-C", "sku": "KIT-9", "label": "Sensor kit", "quantity": 2, "unitPriceCents": 9999, "discountCents": 1000, "taxCents": 1491, "refundedQuantity": 0, "refundedCents": 0}], "refunds": []
+  },
+  {
+    "id": "ORD-203", "customer": "Arbor Field Supply", "placedAt": "2026-09-26T14:00:00+01:00", "status": "delivered", "shippingCents": 0,
+    "note": "", "revision": 2,
+    "lines": [
+      {"lineId": "LN-D", "sku": "CLIP-8", "label": "Mounting clips", "quantity": 4, "unitPriceCents": 999, "discountCents": 299, "taxCents": 139, "refundedQuantity": 0, "refundedCents": 0},
+      {"lineId": "LN-E", "sku": "BRACKET-1", "label": "Heavy bracket", "quantity": 1, "unitPriceCents": 2499, "discountCents": 0, "taxCents": 206, "refundedQuantity": 0, "refundedCents": 0}
+    ], "refunds": []
+  },
+  {
+    "id": "ORD-204", "customer": "North Shore Labs", "placedAt": "2026-09-29T11:15:00Z", "status": "cancelled", "shippingCents": 499,
+    "note": "Customer cancelled before dispatch", "revision": 4,
+    "lines": [{"lineId": "LN-F", "sku": "SEAL-3", "label": "Weather seal", "quantity": 2, "unitPriceCents": 1999, "discountCents": 400, "taxCents": 297, "refundedQuantity": 0, "refundedCents": 0}], "refunds": []
+  },
+  {
+    "id": "ORD-205", "customer": "Cedar School", "placedAt": "2026-09-25T20:00:00-04:00", "status": "delivered", "shippingCents": 899,
+    "note": "Recipient verified", "revision": 5,
+    "lines": [{"lineId": "LN-G", "sku": "LAMP-7", "label": "Rechargeable reading light", "quantity": 3, "unitPriceCents": 1299, "discountCents": 0, "taxCents": 235, "refundedQuantity": 0, "refundedCents": 0}], "refunds": []
+  },
+  {
+    "id": "ORD-206", "customer": "Bright Office", "placedAt": "2026-09-22T08:15:00+00:00", "status": "delivered", "shippingCents": 999,
+    "note": "Partial return authorized", "revision": 2,
+    "lines": [{"lineId": "LN-H", "sku": "PAD-3", "label": "Desk pads", "quantity": 2, "unitPriceCents": 299, "discountCents": 100, "taxCents": 25, "refundedQuantity": 0, "refundedCents": 0}], "refunds": []
+  }
+]

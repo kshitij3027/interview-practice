@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ReturnCredit — Operations</title><link rel="stylesheet" href="/styles.css"></head>
+<body>
+<header><h1>ReturnCredit</h1><p>Marketplace returns operations · fixture workspace</p></header>
+<main>
+  <section class="panel sidebar">
+    <h2>Orders</h2><form id="filters"><input id="search" aria-label="Search orders" placeholder="Order or customer"><select id="status" aria-label="Status"><option value="">All statuses</option><option value="delivered">Delivered</option><option value="in_transit">In transit</option><option value="cancelled">Cancelled</option></select><button>Apply</button></form>
+    <p id="listStatus" role="status"></p><div id="orders"></div>
+  </section>
+  <section class="panel detail"><h2>Order detail</h2><p id="detailStatus" role="status">Choose an order.</p><div id="detail"></div></section>
+</main>
+<script type="module" src="/app.js"></script>
+</body></html>
