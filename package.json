@@ -1,0 +1,1 @@
+{"name":"thermotrace-interview-starter","private":true,"type":"module","engines":{"node":">=20"},"scripts":{"test":"node --test tests/*.test.js","build":"node --check server/data.js && node --check server/store.js && node --check server/http.js && node --check client/app.js","verify":"node server/data.js","start":"node server/http.js"}}

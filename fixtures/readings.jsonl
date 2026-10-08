@@ -1,0 +1,14 @@
+{"sampleId":"sm-11","shipmentId":"SH-101","observedAt":"2026-10-08T09:00:00Z","receivedAt":"2026-10-08T09:00:30Z","tempC":5,"quality":"ok"}
+{"sampleId":"sm-12","shipmentId":"SH-101","observedAt":"2026-10-08T09:05:00Z","receivedAt":"2026-10-08T09:05:20Z","tempC":9,"quality":"ok"}
+{"sampleId":"sm-13","shipmentId":"SH-101","observedAt":"2026-10-08T09:10:00Z","receivedAt":"2026-10-08T09:10:20Z","tempC":9.2,"quality":"ok"}
+{"sampleId":"sm-14","shipmentId":"SH-101","observedAt":"2026-10-08T09:15:00Z","receivedAt":"2026-10-08T09:15:20Z","tempC":9.5,"quality":"ok"}
+{"sampleId":"sm-15","shipmentId":"SH-101","observedAt":"2026-10-08T09:20:00Z","receivedAt":"2026-10-08T09:20:20Z","tempC":7.8,"quality":"ok"}
+{"sampleId":"sm-13","shipmentId":"SH-101","observedAt":"2026-10-08T09:10:00Z","receivedAt":"2026-10-08T09:10:20Z","tempC":9.2,"quality":"ok"}
+{"sampleId":"sm-21","shipmentId":"SH-102","observedAt":"2026-10-08T10:00:00Z","receivedAt":"2026-10-08T10:00:20Z","tempC":7.7,"quality":"ok"}
+{"sampleId":"sm-22","shipmentId":"SH-102","observedAt":"2026-10-08T10:04:00Z","receivedAt":"2026-10-08T10:04:20Z","tempC":8,"quality":"ok"}
+{"sampleId":"sm-23","shipmentId":"SH-102","observedAt":"2026-10-08T10:08:00Z","receivedAt":"2026-10-08T10:08:20Z","tempC":8.2,"quality":"ok"}
+{"sampleId":"sm-24","shipmentId":"SH-102","observedAt":"2026-10-08T10:12:00Z","receivedAt":"2026-10-08T10:12:20Z","tempC":7.9,"quality":"ok"}
+{"sampleId":"sm-31","shipmentId":"SH-103","observedAt":"2026-10-08T09:00:00Z","receivedAt":"2026-10-08T09:00:10Z","tempC":-20,"quality":"ok"}
+{"sampleId":"sm-32","shipmentId":"SH-103","observedAt":"2026-10-08T09:10:00Z","receivedAt":"2026-10-08T09:10:10Z","tempC":-14,"quality":"ok"}
+{"sampleId":"sm-33","shipmentId":"SH-103","observedAt":"2026-10-08T09:25:00Z","receivedAt":"2026-10-08T09:25:10Z","tempC":-12,"quality":"ok"}
+{"sampleId":"sm-34","shipmentId":"SH-103","observedAt":"2026-10-08T09:40:00Z","receivedAt":"2026-10-08T09:40:10Z","tempC":-13,"quality":"ok"}

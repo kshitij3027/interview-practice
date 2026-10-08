@@ -1,0 +1,13 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ThermoTrace · Cold-chain desk</title><link rel="stylesheet" href="/style.css"></head>
+<body><header><strong>ThermoTrace</strong><span>Cold-chain operations</span></header>
+<main><section class="panel"><h2>Shipments</h2><div class="filters">
+<label>Site <select id="site"><option value="">All</option><option>west</option><option>east</option><option>central</option></select></label>
+<label>State <select id="state"><option value="">All</option><option>active</option><option>closed</option></select></label>
+<label>Find <input id="search" placeholder="Customer, shipment, product"></label></div>
+<p id="list-status"></p><div id="shipments"></div></section>
+<section class="panel"><h2>Selected shipment</h2><div id="detail">Choose a shipment.</div>
+<form id="note-form" hidden><label>Operator note<textarea id="note" maxlength="500" rows="4"></textarea></label>
+<button type="submit">Save note</button></form><p id="detail-status" role="status"></p></section></main>
+<script type="module" src="/app.js"></script></body></html>
