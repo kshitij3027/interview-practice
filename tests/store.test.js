@@ -1,0 +1,5 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {loadBins,noteValue} from '../lib/catalog.js';import {BinStore} from '../lib/store.js';
+test('fixture validates',()=>{const x=loadBins();assert.ok(x.length>=6);assert.ok(x.some(b=>b.status==='locked'));});
+test('notes validate and normalize',()=>{assert.equal(noteValue('  hi  '),'hi');assert.throws(()=>noteValue('x'.repeat(201)));});
+test('filter and stable ordering',()=>{const s=new BinStore();const x=s.list({zone:'A'});assert.equal(x.total,3);assert.deepEqual(x.items.map(b=>b.id),['B-A1','B-A2','B-A3']);});
+test('defensive detail and exact revision changes',()=>{const s=new BinStore();let a=s.detail('B-A1');a.bin.onHand=999;assert.equal(s.detail('B-A1').bin.onHand,52);assert.equal(s.setNote('B-A1',' Tuesday count pending ',2).changed,false);assert.equal(s.datasetRevision,1);assert.equal(s.setNote('B-A1','Investigating',2).changed,true);assert.equal(s.detail('B-A1').bin.revision,3);assert.equal(s.datasetRevision,2);assert.throws(()=>s.setNote('B-A1','stale',2),e=>e.status===409);});

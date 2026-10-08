@@ -1,0 +1,2 @@
+{"scanId":"scan-4","binId":"B-A2","counter":"device-1","observedAt":"2026-10-08T08:07:00Z","receivedAt":"2026-10-08T08:07:10Z","sequence":1,"unit":"case","quantity":12}
+{"scanId":"scan-5","binId":"B-A2","counter":"device-1","observedAt":"2026-10-08T08:10:00Z","receivedAt":"2026-10-08T08:10:05Z","sequence":2,"unit":"each","quantity":1}

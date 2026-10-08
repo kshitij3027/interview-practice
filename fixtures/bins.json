@@ -1,0 +1,79 @@
+[
+  {
+    "id": "B-A1",
+    "zone": "A",
+    "sku": "VALVE-04",
+    "label": "Valve assembly",
+    "onHand": 52,
+    "caseSize": 6,
+    "status": "active",
+    "revision": 2,
+    "note": "Tuesday count pending"
+  },
+  {
+    "id": "B-A2",
+    "zone": "A",
+    "sku": "GASKET-12",
+    "label": "Gasket pack",
+    "onHand": 147,
+    "caseSize": 12,
+    "status": "active",
+    "revision": 1,
+    "note": ""
+  },
+  {
+    "id": "B-A3",
+    "zone": "A",
+    "sku": "VALVE-04",
+    "label": "Valve assembly",
+    "onHand": 0,
+    "caseSize": 6,
+    "status": "locked",
+    "revision": 3,
+    "note": "QC lock"
+  },
+  {
+    "id": "B-B1",
+    "zone": "B",
+    "sku": "FILTER-02",
+    "label": "Air filter",
+    "onHand": 38,
+    "caseSize": 4,
+    "status": "active",
+    "revision": 2,
+    "note": ""
+  },
+  {
+    "id": "B-B2",
+    "zone": "B",
+    "sku": "SEAL-08",
+    "label": "Seal kit",
+    "onHand": 212,
+    "caseSize": 10,
+    "status": "active",
+    "revision": 4,
+    "note": "Bin relabeled"
+  },
+  {
+    "id": "B-C1",
+    "zone": "C",
+    "sku": "FILTER-02",
+    "label": "Air filter",
+    "onHand": 21,
+    "caseSize": 4,
+    "status": "active",
+    "revision": 1,
+    "note": ""
+  },
+  {
+    "id": "B-C2",
+    "zone": "C",
+    "sku": "HOSE-07",
+    "label": "Hydraulic hose",
+    "onHand": 17,
+    "caseSize": 5,
+    "status": "active",
+    "revision": 2,
+    "note": ""
+  }
+]
