@@ -1,0 +1,21 @@
+rule_id,issue_code,phrase,weight,channels,active
+R01,WATER,water leak,6,*,true
+R02,WATER,leak,9,*,true
+R03,WATER,major water leak,5,email|phone,true
+R04,ELECTRICAL,power outage,10,*,true
+R05,ELECTRICAL,outage,4,chat|email,true
+R06,WATER,pipe burst,8,*,true
+R07,SAFETY,gas smell,15,phone|chat,true
+R08,SAFETY,smell,2,*,true
+R09,ROOF,roof damage,7,*,true
+R10,ROOF,roof,4,*,true
+R11,BILLING,denied payment,8,email,true
+R12,BILLING,payment,3,*,true
+R13,VEHICLE,broken windshield,7,*,true
+R14,VEHICLE,windshield,4,*,true
+R15,WATER,leak,9,*,true
+R16,LEGACY,pipe leak,100,*,false
+R17,WATER,water leak,6,*,true
+R07,SAFETY,gas smell,15,phone|chat,true
+R18,SAFETY,gas-smell,6,*,true
+R19,ROOF,roof damage,7,*,true

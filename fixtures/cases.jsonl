@@ -1,0 +1,13 @@
+{"case_id":"C01","channel":"email","text":"There was a major water leak near a pipe burst.","max_findings":3}
+{"case_id":"C02","channel":"chat","text":"Power outage, then outage. No gas smell.","max_findings":2}
+{"case_id":"C03","channel":"phone","text":"Roof damage and a broken windshield; roof damage too.","max_findings":3}
+{"case_id":"C04","channel":"email","text":"Denied payment and payment. leak-leak leaking.","max_findings":4}
+{"case_id":"C05","channel":"phone","text":"gas smell gas-smell gas smell","max_findings":2}
+{"case_id":"C06","channel":"chat","text":"WATER LEAK, water leak!","max_findings":1}
+{"case_id":"C07","channel":"email","text":"roofed powersurge leaks","max_findings":5}
+{"case_id":"C08","channel":"phone","text":"","max_findings":3}
+{"case_id":"C09","channel":"email","text":"pipe burst and power outage","max_findings":true}
+{"case_id":"C10","channel":"smoke","text":"leak","max_findings":1}
+{"case_id":"C11","channel":"chat","text":"gas smell at the property","max_findings":1}
+not valid json
+{"case_id":"C12","channel":"email","text":"payment","max_findings":1}

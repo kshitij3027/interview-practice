@@ -1,0 +1,1 @@
+"""ClaimSignal reference input contracts."""
