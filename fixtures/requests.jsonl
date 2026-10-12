@@ -1,0 +1,12 @@
+{"request_id":"linux-agent","platform":"linux-x64","max_download_kb":100,"roots":[{"name":"agent","min_version":"1.0.0","max_version_exclusive":"3.0.0"}]}
+{"request_id":"shared-module","platform":"linux-x64","max_download_kb":180,"roots":[{"name":"agent","min_version":"1.0.0","max_version_exclusive":"3.0.0"},{"name":"analytics","min_version":"1.0.0","max_version_exclusive":"3.0.0"}]}
+{"request_id":"cycles-allowed","platform":"mac-arm64","max_download_kb":12,"roots":[{"name":"probe","min_version":"1.0.0","max_version_exclusive":"2.0.0"}]}
+{"request_id":"tight-budget","platform":"linux-x64","max_download_kb":38,"roots":[{"name":"agent","min_version":"2.0.0","max_version_exclusive":"2.1.0"}]}
+{"request_id":"repeated-roots","platform":"linux-x64","max_download_kb":160,"roots":[{"name":"agent","min_version":"1.0.0","max_version_exclusive":"3.0.0"},{"name":"agent","min_version":"2.0.0","max_version_exclusive":"3.0.0"}]}
+{"request_id":"disjoint-roots","platform":"linux-x64","max_download_kb":160,"roots":[{"name":"agent","min_version":"1.0.0","max_version_exclusive":"2.0.0"},{"name":"agent","min_version":"2.0.0","max_version_exclusive":"3.0.0"}]}
+{"request_id":"mac-agent","platform":"mac-arm64","max_download_kb":100,"roots":[{"name":"agent","min_version":"2.0.0","max_version_exclusive":"3.0.0"}]}
+{"request_id":"incompatible","platform":"mac-arm64","max_download_kb":200,"roots":[{"name":"analytics","min_version":"2.0.0","max_version_exclusive":"3.0.0"}]}
+{"request_id":"unknown-name","platform":"linux-x64","max_download_kb":100,"roots":[{"name":"unknown","min_version":"1.0.0","max_version_exclusive":"2.0.0"}]}
+not-json
+{"request_id":"bad-budget","platform":"linux-x64","max_download_kb":true,"roots":[{"name":"agent","min_version":"1.0.0","max_version_exclusive":"3.0.0"}]}
+{"request_id":"after-error","platform":"linux-x64","max_download_kb":9,"roots":[{"name":"metrics","min_version":"1.0.0","max_version_exclusive":"2.0.0"}]}
