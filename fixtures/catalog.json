@@ -1,0 +1,191 @@
+{
+  "tenants": [
+    {
+      "id": "orchid",
+      "name": "Orchid Cloud",
+      "revision": 4
+    },
+    {
+      "id": "harbor",
+      "name": "Harbor Commerce",
+      "revision": 2
+    }
+  ],
+  "articles": [
+    {
+      "id": "oc-101",
+      "tenantId": "orchid",
+      "title": "Reset your account password",
+      "body": "Recover access using verified email, backup codes, or security key.",
+      "tags": [
+        "account",
+        "login",
+        "password"
+      ],
+      "category": "account",
+      "published": true,
+      "note": "Confirm customer domain before sending.",
+      "revision": 2
+    },
+    {
+      "id": "oc-102",
+      "tenantId": "orchid",
+      "title": "Unlock sign-in after failed attempts",
+      "body": "Account sign-in lockout and verification after repeated login failures.",
+      "tags": [
+        "account",
+        "login",
+        "lockout"
+      ],
+      "category": "account",
+      "published": true,
+      "note": "",
+      "revision": 1
+    },
+    {
+      "id": "oc-103",
+      "tenantId": "orchid",
+      "title": "Set up SSO with SAML",
+      "body": "Configure company single sign on, identity providers, and login policies.",
+      "tags": [
+        "sso",
+        "login",
+        "security"
+      ],
+      "category": "security",
+      "published": true,
+      "note": "",
+      "revision": 1
+    },
+    {
+      "id": "oc-104",
+      "tenantId": "orchid",
+      "title": "Manage multi-factor recovery",
+      "body": "Recovery codes and login verification for lost authenticator devices.",
+      "tags": [
+        "account",
+        "login",
+        "mfa"
+      ],
+      "category": "account",
+      "published": true,
+      "note": "",
+      "revision": 3
+    },
+    {
+      "id": "oc-105",
+      "tenantId": "orchid",
+      "title": "Invoice billing contacts",
+      "body": "Change notification recipients and view invoice delivery history.",
+      "tags": [
+        "billing",
+        "invoice"
+      ],
+      "category": "billing",
+      "published": true,
+      "note": "",
+      "revision": 1
+    },
+    {
+      "id": "oc-106",
+      "tenantId": "orchid",
+      "title": "Account recovery escalation",
+      "body": "Escalate access recovery and suspicious login tickets for enterprise accounts.",
+      "tags": [
+        "account",
+        "login",
+        "escalation"
+      ],
+      "category": "account",
+      "published": true,
+      "note": "",
+      "revision": 1
+    },
+    {
+      "id": "oc-107",
+      "tenantId": "orchid",
+      "title": "Legacy login bypass (retired)",
+      "body": "Do not share with customers. Archived procedure.",
+      "tags": [
+        "account",
+        "login"
+      ],
+      "category": "security",
+      "published": false,
+      "note": "Retired",
+      "revision": 1
+    },
+    {
+      "id": "oc-108",
+      "tenantId": "orchid",
+      "title": "Review workspace audit logs",
+      "body": "Investigate security and user activity for workspace administrators.",
+      "tags": [
+        "security",
+        "audit",
+        "login"
+      ],
+      "category": "security",
+      "published": true,
+      "note": "",
+      "revision": 1
+    },
+    {
+      "id": "hc-201",
+      "tenantId": "harbor",
+      "title": "Login to merchant portal",
+      "body": "Account access help and merchant sign-in steps.",
+      "tags": [
+        "account",
+        "login"
+      ],
+      "category": "account",
+      "published": true,
+      "note": "",
+      "revision": 1
+    },
+    {
+      "id": "hc-202",
+      "tenantId": "harbor",
+      "title": "Merchant dispute dashboard",
+      "body": "Track order disputes and chargeback evidence.",
+      "tags": [
+        "billing",
+        "chargeback"
+      ],
+      "category": "billing",
+      "published": true,
+      "note": "",
+      "revision": 1
+    },
+    {
+      "id": "hc-203",
+      "tenantId": "harbor",
+      "title": "Recover lost 2FA device",
+      "body": "Restore merchant access after phone replacement.",
+      "tags": [
+        "account",
+        "security",
+        "login"
+      ],
+      "category": "account",
+      "published": true,
+      "note": "",
+      "revision": 1
+    },
+    {
+      "id": "hc-204",
+      "tenantId": "harbor",
+      "title": "Legacy merchant auth notes",
+      "body": "Historical internal guidance.",
+      "tags": [
+        "account",
+        "login"
+      ],
+      "category": "security",
+      "published": false,
+      "note": "",
+      "revision": 1
+    }
+  ]
+}

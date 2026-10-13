@@ -1,0 +1,12 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FindFix • Knowledge Search</title><link rel="stylesheet" href="/style.css"></head>
+<body><header><h1>FindFix</h1><p>Tenant knowledge search for support operators</p></header>
+<main><section class="panel"><h2>Find answers</h2>
+<form id="filters"><label>Tenant <select id="tenant" name="tenant"></select></label>
+<label>Search <input id="query" name="query" value="login" autocomplete="off"></label>
+<label>Category <select id="category" name="category"><option value="all">All</option><option value="account">Account</option><option value="security">Security</option><option value="billing">Billing</option></select></label>
+<button type="submit">Search</button></form><p id="summary" aria-live="polite"></p><div id="results"></div></section>
+<section class="panel"><h2>Article</h2><div id="article"><p>Select an article.</p></div>
+<form id="note-form" hidden><label>Operator note <textarea id="note" rows="3" maxlength="300"></textarea></label><button type="submit">Save note</button></form>
+<p id="feedback" role="status"></p></section></main><script type="module" src="/app.js"></script></body></html>
