@@ -1,0 +1,13 @@
+{
+  "name": "wavesend-interview",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "engines": {"node": ">=20"},
+  "scripts": {
+    "test": "node --test tests/*.test.mjs",
+    "build": "node scripts/check.mjs",
+    "verify": "node scripts/verify.mjs",
+    "start": "node src/http.mjs"
+  }
+}

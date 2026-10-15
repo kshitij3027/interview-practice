@@ -1,0 +1,22 @@
+{
+  "datasetRevision": 12,
+  "campaigns": [
+    {"id":"camp-launch","name":"Fall Launch","segment":"launch","channel":"sms","message":"Your launch invite is ready","status":"active","revision":3},
+    {"id":"camp-renewal","name":"Renewal Update","segment":"renewal","channel":"sms","message":"Your renewal options are available","status":"active","revision":1},
+    {"id":"camp-events","name":"Event Reminder","segment":"events","channel":"sms","message":"Your event starts soon","status":"paused","revision":2}
+  ],
+  "contacts": [
+    {"id":"c-101","name":"Asha Rao","phone":"(415) 555-0101","segment":"launch","status":"active","note":"VIP attendee","revision":2,"simulation":"accepted"},
+    {"id":"c-102","name":"Ben Ortiz","phone":"+1 415 555 0102","segment":"launch","status":"active","note":"","revision":1,"simulation":"transient"},
+    {"id":"c-103","name":"Cora Lin","phone":"4155550103","segment":"launch","status":"active","note":"Call after 5","revision":0,"simulation":"accepted"},
+    {"id":"c-104","name":"Dee Shah","phone":"1-415-555-0104","segment":"launch","status":"archived","note":"","revision":1,"simulation":"accepted"},
+    {"id":"c-105","name":"Evan Brooks","phone":"415-555-0105","segment":"launch","status":"active","note":"","revision":3,"simulation":"rejected"},
+    {"id":"c-106","name":"Faye Chen","phone":"+14155550106","segment":"launch","status":"active","note":"","revision":0,"simulation":"accepted"},
+    {"id":"c-107","name":"Gia Cole","phone":"4155550101","segment":"launch","status":"active","note":"Duplicate household number","revision":1,"simulation":"accepted"},
+    {"id":"c-108","name":"Hugo Wells","phone":"41555501XX","segment":"launch","status":"active","note":"","revision":0,"simulation":"accepted"},
+    {"id":"c-109","name":"Ira Singh","phone":"415-555-0109","segment":"renewal","status":"active","note":"","revision":1,"simulation":"accepted"},
+    {"id":"c-110","name":"Jo Miles","phone":"415-555-0110","segment":"renewal","status":"active","note":"","revision":0,"simulation":"transient"},
+    {"id":"c-111","name":"Kai Moore","phone":"415-555-0111","segment":"events","status":"active","note":"","revision":1,"simulation":"accepted"},
+    {"id":"c-112","name":"Lee Park","phone":"415-555-0112","segment":"launch","status":"active","note":"","revision":0,"simulation":"accepted"}
+  ]
+}

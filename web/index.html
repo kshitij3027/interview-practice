@@ -1,0 +1,13 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>WaveSend Operations</title><link rel="stylesheet" href="/styles.css"></head>
+<body>
+  <header><h1>WaveSend <small>Outreach operations</small></h1><p>Browse recipients and campaigns. Changes are local to this interview server.</p></header>
+  <main>
+    <section class="card"><h2>Campaigns</h2><div id="campaigns" aria-live="polite"></div></section>
+    <section class="card"><h2>Contacts</h2><div class="controls"><input id="search" placeholder="Search name, phone, ID" aria-label="Search contacts"><select id="segment"><option value="">All segments</option><option value="launch">Launch</option><option value="renewal">Renewal</option><option value="events">Events</option></select><select id="status"><option value="">All statuses</option><option value="active">Active</option><option value="archived">Archived</option></select></div><p id="count"></p><div id="contacts"></div></section>
+    <section class="card"><h2>Contact detail</h2><div id="detail">Select a contact.</div><form id="note-form" hidden><label for="note">Operator note</label><textarea id="note" maxlength="240"></textarea><button>Save note</button></form><p id="notice" role="status"></p></section>
+  </main>
+  <script type="module" src="/app.js"></script>
+</body>
+</html>

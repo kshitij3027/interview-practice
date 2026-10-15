@@ -1,0 +1,6 @@
+{"id":"h-001","campaignId":"camp-old","contactId":"c-101","phone":"+14155550101","status":"queued","createdAt":"2026-10-14T16:00:00Z"}
+{"id":"h-002","campaignId":"camp-old","contactId":"c-101","phone":"+14155550101","status":"delivered","createdAt":"2026-10-15T14:30:00Z"}
+{"id":"h-003","campaignId":"camp-old","contactId":"c-102","phone":"+14155550102","status":"failed","createdAt":"2026-10-15T14:30:00Z"}
+{"id":"h-004","campaignId":"camp-old","contactId":"c-105","phone":"+14155550105","status":"queued","createdAt":"2026-10-14T16:00:00Z"}
+{"id":"h-005","campaignId":"camp-old","contactId":"c-105","phone":"+14155550105","status":"delivered","createdAt":"2026-10-15T12:00:00Z"}
+{"id":"h-006","campaignId":"camp-old","contactId":"c-109","phone":"+14155550109","status":"delivered","createdAt":"2026-10-12T10:00:00Z"}

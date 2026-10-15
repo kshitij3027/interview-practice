@@ -1,0 +1,14 @@
+{"eventId":"ev-001","contactId":"c-101","kind":"sms_opt_in","effectiveAt":"2026-10-10T10:00:00Z","receivedAt":"2026-10-10T10:03:00Z","source":"self_service"}
+{"eventId":"ev-002","contactId":"c-102","kind":"sms_opt_out","effectiveAt":"2026-10-12T12:00:00-07:00","receivedAt":"2026-10-12T20:00:00Z","source":"support"}
+{"eventId":"ev-003","contactId":"c-102","kind":"sms_opt_in","effectiveAt":"2026-10-12T20:00:00Z","receivedAt":"2026-10-12T20:01:00Z","source":"self_service"}
+{"eventId":"ev-004","contactId":"c-103","kind":"global_opt_out","effectiveAt":"2026-10-11T13:00:00Z","receivedAt":"2026-10-11T13:02:00Z","source":"legal"}
+{"eventId":"ev-005","contactId":"c-103","kind":"sms_opt_in","effectiveAt":"2026-10-14T13:00:00Z","receivedAt":"2026-10-14T13:10:00Z","source":"self_service"}
+{"eventId":"ev-006","contactId":"c-105","kind":"sms_opt_in","effectiveAt":"2026-10-10T10:00:00Z","receivedAt":"2026-10-10T10:01:00Z","source":"support"}
+{"eventId":"ev-007","contactId":"c-106","kind":"sms_opt_out","effectiveAt":"2026-10-13T09:00:00Z","receivedAt":"2026-10-13T09:05:00Z","source":"support"}
+{"eventId":"ev-007","contactId":"c-106","kind":"sms_opt_out","effectiveAt":"2026-10-13T09:00:00Z","receivedAt":"2026-10-13T09:06:00Z","source":"support"}
+{"eventId":"ev-008","contactId":"c-107","kind":"sms_opt_out","effectiveAt":"2026-10-14T09:00:00Z","receivedAt":"2026-10-14T09:05:00Z","source":"legal"}
+{"eventId":"ev-009","contactId":"c-109","kind":"sms_opt_in","effectiveAt":"2026-10-10T10:00:00Z","receivedAt":"2026-10-10T10:01:00Z","source":"self_service"}
+{"eventId":"ev-010","contactId":"c-110","kind":"global_opt_in","effectiveAt":"2026-10-13T09:00:00Z","receivedAt":"2026-10-13T09:05:00Z","source":"self_service"}
+{"eventId":"ev-011","contactId":"c-112","kind":"sms_opt_out","effectiveAt":"2026-10-14T09:00:00Z","receivedAt":"2026-10-14T09:05:00Z","source":"support"}
+{"eventId":"ev-012","contactId":"c-112","kind":"sms_opt_in","effectiveAt":"2026-10-14T09:00:00Z","receivedAt":"2026-10-14T09:06:00Z","source":"self_service"}
+{"eventId":"ev-013","contactId":"c-112","kind":"global_opt_in","effectiveAt":"2026-10-14T09:00:00Z","receivedAt":"2026-10-14T09:06:00Z","source":"self_service"}
