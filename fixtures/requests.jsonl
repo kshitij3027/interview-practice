@@ -1,0 +1,12 @@
+{"request_id":"q-a","type":"span","span_id":"S-06"}
+{"request_id":"q-b","type":"span","span_id":"S-17"}
+{"request_id":"q-c","type":"span","span_id":"S-09"}
+{"request_id":"q-d","type":"span","span_id":"S-15"}
+{"request_id":"q-e","type":"span","span_id":"S-18"}
+{"request_id":"q-f","type":"span","span_id":"S-01"}
+{"request_id":"q-g","type":"top","limit":5}
+{"request_id":"q-g","type":"top","limit":2}
+{"request_id":"bad","type":"top","limit":true}
+{"request_id":"bad2","type":"span","span_id":"S-404"}
+{"request_id":"bad3","type":"top","limit":0}
+not-json

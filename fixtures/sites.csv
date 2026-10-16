@@ -1,0 +1,17 @@
+site_id,kind,active_accounts,priority_accounts
+HUB-A,core,0,0
+HUB-B,core,0,0
+X-1,exchange,0,0
+X-2,exchange,0,0
+X-3,exchange,0,0
+X-4,exchange,0,0
+A-1,access,90,12
+A-2,access,40,30
+A-3,access,110,9
+A-4,access,25,5
+A-5,access,0,0
+A-6,access,55,20
+B-1,access,70,35
+OFF-1,access,66,11
+OFF-2,access,18,3
+Z-1,access,41,8
