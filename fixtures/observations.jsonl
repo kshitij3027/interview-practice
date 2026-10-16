@@ -1,0 +1,12 @@
+{"request_id":"m1","route_id":"R-METRO-7","scans":["DEPOT","HUB_A","LOCKER_12","HUB_A","RETURN"],"max_repairs":0}
+{"request_id":"m2","route_id":"R-METRO-7","scans":["DEPOT","HUB_A","HUB_A","RETURN"],"max_repairs":1}
+{"request_id":"m3","route_id":"R-METRO-7","scans":["DEPOT","HUB_A","BAD_SCAN","LOCKER_12","HUB_A","RETURN"],"max_repairs":2}
+{"request_id":"c1","route_id":"R-COAST-4","scans":["DOCK_1","SORT_N","TRANSFER","SORT_N","PORT_2"],"max_repairs":1}
+{"request_id":"l1","route_id":"R-LOOP-9","scans":["START","PICKUP","HUB_B","HUB_B","FINISH"],"max_repairs":2}
+{"request_id":"l2","route_id":"R-LOOP-9","scans":["START","HUB_B","PICKUP","PICKUP","HUB_B","FINISH"],"max_repairs":2}
+{"request_id":"e1","route_id":"R-EXPRESS-2","scans":["ORIGIN","AIR_1","ZZZ","CUSTOMS","DESTIN"],"max_repairs":1}
+{"request_id":"e2","route_id":"R-EXPRESS-2","scans":["ORIGIN","AIR_1","ZZZ","CUSTOMS","DESTIN"],"max_repairs":0}
+{"request_id":"u1","route_id":"R-NOT-HERE","scans":[],"max_repairs":16}
+{"request_id":"bad","route_id":"R-METRO-7","scans":["DEPOT"],"max_repairs":true}
+{"request_id":"m1","route_id":"R-COAST-4","scans":[],"max_repairs":16}
+not-json
