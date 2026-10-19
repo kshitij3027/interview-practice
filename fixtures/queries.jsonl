@@ -1,0 +1,12 @@
+{"request_id":"t-1","type":"ticket","ticket_id":"K-100","as_of":"2026-10-19T12:00:00Z"}
+{"request_id":"t-2","type":"ticket","ticket_id":"K-101","as_of":"2026-10-20T11:30:00Z"}
+{"request_id":"t-3","type":"ticket","ticket_id":"K-102","as_of":"2026-10-19T16:00:00Z"}
+{"request_id":"t-4","type":"ticket","ticket_id":"K-103","as_of":"2026-10-25T12:00:00Z"}
+{"request_id":"t-5","type":"ticket","ticket_id":"K-105","as_of":"2026-10-19T08:00:00+01:00"}
+{"request_id":"t-6","type":"ticket","ticket_id":"K-106","as_of":"2026-10-19T11:00:00Z"}
+{"request_id":"top-1","type":"overdue","as_of":"2026-10-20T12:00:00Z","limit":3}
+{"request_id":"top-1","type":"overdue","as_of":"2026-10-26T12:00:00Z","limit":50}
+{"request_id":"bad-limit","type":"overdue","as_of":"2026-10-19T12:00:00Z","limit":true}
+{"request_id":"missing","type":"ticket","ticket_id":"K-404","as_of":"2026-10-19T12:00:00Z"}
+{"request_id":"bad-time","type":"ticket","ticket_id":"K-100","as_of":"2026-10-19T12:00:00"}
+not-json
