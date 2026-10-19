@@ -1,0 +1,13 @@
+{"request_id":"r-before","market":"CHIPS","as_of_ms":500,"action":"buy","lots":5}
+{"request_id":"r-at","market":"CHIPS","as_of_ms":1000,"action":"buy","lots":7}
+{"request_id":"r-price-change","market":"CHIPS","as_of_ms":1100,"action":"buy","lots":12}
+{"request_id":"r-after-cancel","market":"CHIPS","as_of_ms":1200,"action":"buy","lots":20}
+{"request_id":"r-sell","market":"CHIPS","as_of_ms":1200,"action":"sell","lots":10}
+{"request_id":"r-reopen","market":"CHIPS","as_of_ms":1500,"action":"buy","lots":9}
+{"request_id":"r-market","market":"BOLTS","as_of_ms":1400,"action":"buy","lots":50}
+{"request_id":"r-future","market":"BOLTS","as_of_ms":999999,"action":"sell","lots":25}
+{"request_id":"r-unknown","market":"MISSING","as_of_ms":1000,"action":"buy","lots":1}
+{"request_id":"r-bool","market":"CHIPS","as_of_ms":true,"action":"buy","lots":1}
+{"request_id":"r-zero","market":"CHIPS","as_of_ms":1100,"action":"buy","lots":0}
+not valid json
+{"request_id":"r-at","market":"CHIPS","as_of_ms":1000,"action":"buy","lots":3}
