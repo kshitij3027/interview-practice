@@ -40,4 +40,3 @@ def parse_request(line: str, known_tickets: set[str]) -> dict[str, Any]:
             raise QueryError(request_id, "invalid_query")
         return {"request_id": request_id, "type": kind, "as_of": as_of, "limit": limit}
     raise QueryError(request_id, "invalid_query")
-

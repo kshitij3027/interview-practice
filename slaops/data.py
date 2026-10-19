@@ -122,4 +122,3 @@ def load_snapshot(coverage_path, blackouts_path, tickets_path, pauses_path) -> S
         if pause.owner not in tickets:
             raise SnapshotError(f"pause {pause.key}: unknown ticket")
     return Snapshot(coverage, blackouts, tickets, pauses)
-

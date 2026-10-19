@@ -11,4 +11,3 @@ class PromiseClock:
 
     def resolve(self, request: dict[str, Any]) -> dict[str, Any]:
         return {"request_id": request["request_id"], "status": "not_implemented"}
-
