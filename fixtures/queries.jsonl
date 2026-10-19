@@ -1,0 +1,17 @@
+{"request_id":"q01","asset_id":"A-STRIP","kind":"status"}
+{"request_id":"q02","asset_id":"A-STRIP","kind":"read","start":0,"end":12}
+{"request_id":"q03","asset_id":"B-HOLE","kind":"status"}
+{"request_id":"q04","asset_id":"B-HOLE","kind":"read","start":5,"end":12}
+{"request_id":"q05","asset_id":"B-HOLE","kind":"read","start":0,"end":7}
+{"request_id":"q06","asset_id":"C-CONFLICT","kind":"status"}
+{"request_id":"q07","asset_id":"C-CONFLICT","kind":"read","start":0,"end":2}
+{"request_id":"q08","asset_id":"D-SHA","kind":"status"}
+{"request_id":"q09","asset_id":"D-SHA","kind":"read","start":0,"end":5}
+{"request_id":"q10","asset_id":"E-EMPTY","kind":"status"}
+{"request_id":"q11","asset_id":"E-EMPTY","kind":"read","start":0,"end":0}
+{"request_id":"q12","asset_id":"F-SPARSE","kind":"status"}
+{"request_id":"q13","asset_id":"F-SPARSE","kind":"read","start":999999999999,"end":1000000000000}
+{"request_id":"q14","asset_id":"F-SPARSE","kind":"read","start":1,"end":2}
+{"request_id":"q15","asset_id":"MISSING","kind":"status"}
+{"request_id":"q16","asset_id":"A-STRIP","kind":"read","start":false,"end":2}
+{broken json
