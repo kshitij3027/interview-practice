@@ -1,0 +1,5 @@
+{
+  "seedAt": "2026-10-12T00:00:00Z",
+  "facilityLabels": ["North Hub", "East Hub"],
+  "scenario": "Synthetic hourly-worker corrections"
+}

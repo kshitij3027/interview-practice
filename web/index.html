@@ -1,0 +1,12 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ShiftPay | Operations</title><link rel="stylesheet" href="/styles.css"></head>
+<body>
+  <header><h1>ShiftPay</h1><p>Operations · Shift Review</p></header>
+  <main>
+    <section class="panel toolbar"><label>Employee <select id="employee"><option value="">All employees</option></select></label><label>Status <select id="status"><option value="">All statuses</option><option>approved</option><option>draft</option><option>void</option></select></label><label>Search <input id="query" placeholder="ID, person, note, hub"></label></section>
+    <section class="columns"><div class="panel"><h2>Shifts <span id="count"></span></h2><p id="listMessage" class="muted"></p><div id="shiftList"></div></div>
+    <div class="panel"><h2>Shift details</h2><p id="detailMessage" class="muted">Select a shift.</p><div id="details"></div><form id="noteForm" hidden><label>Internal note<textarea id="note" rows="3" maxlength="400"></textarea></label><button id="saveNote">Save note</button></form></div></section>
+  </main>
+  <script type="module" src="/app.js"></script>
+</body></html>
