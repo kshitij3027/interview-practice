@@ -1,0 +1,16 @@
+{"eventId":"EV-20","caseId":"C-102","at":"2026-10-19T10:30:00-07:00","type":"email","body":"iOS repro attached","externalRef":"msg-ios"}
+{"eventId":"EV-01","caseId":"C-101","at":"2026-10-18T12:01:00Z","type":"email","body":"Mobile sync 401","externalRef":"msg-101"}
+{"eventId":"EV-04","caseId":"C-101","at":"2026-10-19T08:15:00Z","type":"note","body":"Requested audit logs","externalRef":""}
+{"eventId":"EV-10","caseId":"C-102","at":"2026-10-18T14:01:00Z","type":"email","body":"Login broken after update","externalRef":"msg-102"}
+{"eventId":"EV-10","caseId":"C-103","at":"2026-10-18T07:01:00-07:00","type":"email","body":"Login broken after update","externalRef":"msg-102"}
+{"eventId":"EV-22","caseId":"C-103","at":"2026-10-19T06:00:00Z","type":"note","body":"Retried with token","externalRef":""}
+{"eventId":"EV-24","caseId":"C-104","at":"2026-10-19T12:02:00Z","type":"email","body":"Same login issue","externalRef":"msg-104"}
+{"eventId":"EV-33","caseId":"C-105","at":"2026-10-18T12:01:00Z","type":"chat","body":"Reset email not arriving","externalRef":"chat-5"}
+{"eventId":"EV-44","caseId":"C-106","at":"2026-10-19T16:01:00Z","type":"email","body":"Invoice charged twice","externalRef":"invoice-1"}
+{"eventId":"EV-45","caseId":"C-107","at":"2026-10-17T12:01:00Z","type":"chat","body":"Role admin missing","externalRef":"chat-7"}
+{"eventId":"EV-51","caseId":"C-201","at":"2026-10-17T11:10:00Z","type":"email","body":"Cannot sign in","externalRef":"msg-201"}
+{"eventId":"EV-60","caseId":"C-202","at":"2026-10-16T11:10:00Z","type":"note","body":"Dispute closed","externalRef":""}
+{"eventId":"EV-70","caseId":"C-203","at":"2026-10-19T05:10:00Z","type":"chat","body":"Exports stalled","externalRef":"chat-203"}
+{"eventId":"EV-77","caseId":"C-101","at":"2026-10-19T08:20:00Z","type":"note","body":"Partner reproduction","externalRef":"ref-77"}
+{"eventId":"EV-77","caseId":"C-104","at":"2026-10-19T08:20:00Z","type":"note","body":"Partner reproduction updated","externalRef":"ref-77"}
+{"eventId":"EV-78","caseId":"C-105","at":"2026-10-19T09:20:00Z","type":"note","body":"Followup requested","externalRef":"ref-78"}
