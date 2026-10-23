@@ -1,0 +1,13 @@
+{"request_id":"q-us-basic","market":"US","seller_id":"seller-alfa","as_of_ms":500,"fingerprint_hex":"00000000000000000000000000000000","max_bit_errors":2,"limit":5,"min_risk_score":0}
+{"request_id":"q-us-exact","market":"US","seller_id":"seller-charlie","as_of_ms":500,"fingerprint_hex":"00000000000000000000000000000000","max_bit_errors":0,"limit":3,"min_risk_score":0}
+{"request_id":"q-us-late","market":"US","seller_id":"seller-bravo","as_of_ms":1100,"fingerprint_hex":"00000000000000000000000000000003","max_bit_errors":2,"limit":4,"min_risk_score":70}
+{"request_id":"q-risk","market":"US","seller_id":"seller-other","as_of_ms":650,"fingerprint_hex":"00000000000000000000000000000001","max_bit_errors":3,"limit":3,"min_risk_score":85}
+{"request_id":"q-uk","market":"UK","seller_id":"seller-other","as_of_ms":500,"fingerprint_hex":"00000000000000000000000000000000","max_bit_errors":1,"limit":2,"min_risk_score":0}
+{"request_id":"q-de","market":"DE","seller_id":"seller-kilo","as_of_ms":500,"fingerprint_hex":"FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF","max_bit_errors":0,"limit":3,"min_risk_score":0}
+{"request_id":"q-unknown","market":"JP","seller_id":"seller-other","as_of_ms":500,"fingerprint_hex":"00000000000000000000000000000000","max_bit_errors":3,"limit":2,"min_risk_score":0}
+{"request_id":"q-edge","market":"US","seller_id":"seller-other","as_of_ms":700,"fingerprint_hex":"00000000000000000000000000000003","max_bit_errors":0,"limit":20,"min_risk_score":0}
+{"request_id":"q-upper","market":"US","seller_id":"seller-other","as_of_ms":900,"fingerprint_hex":"FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF","max_bit_errors":3,"limit":2,"min_risk_score":0}
+{"request_id":"q-repeated","market":"US","seller_id":"seller-alfa","as_of_ms":100,"fingerprint_hex":"00000000000000000000000000000000","max_bit_errors":1,"limit":1,"min_risk_score":0}
+{"request_id":"q-repeated","market":"US","seller_id":"seller-alfa","as_of_ms":0,"fingerprint_hex":"00000000000000000000000000000000","max_bit_errors":1,"limit":1,"min_risk_score":0}
+{"request_id":"q-bool","market":"US","seller_id":"seller-other","as_of_ms":true,"fingerprint_hex":"00000000000000000000000000000000","max_bit_errors":3,"limit":2,"min_risk_score":0}
+{"request_id":"q-badhex","market":"US","seller_id":"seller-other","as_of_ms":4,"fingerprint_hex":"nope","max_bit_errors":2,"limit":3,"min_risk_score":0}
