@@ -1,0 +1,16 @@
+incident_id,responder_id,eta_minutes
+P0-A,N-1,1
+P0-A,E-1,4
+P0-B,N-1,2
+P0-C,E-1,1
+P0-C,S-1,8
+P1-A,N-2,3
+P1-A,S-1,2
+P1-A,E-2,1
+P1-B,N-2,1
+P1-B,E-2,1
+P1-C,S-1,1
+P2-A,S-1,1
+P2-B,Z-1,0
+P2-C,E-2,10
+P0-A,N-1,1

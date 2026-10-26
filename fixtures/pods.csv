@@ -1,0 +1,5 @@
+pod_id,max_parallel
+NORTH,2
+EAST,1
+SOUTH,1
+SHADOW,0

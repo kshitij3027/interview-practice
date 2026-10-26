@@ -1,0 +1,7 @@
+responder_id,pod_id,capacity
+N-1,NORTH,1
+N-2,NORTH,1
+E-1,EAST,1
+E-2,EAST,2
+S-1,SOUTH,1
+Z-1,SHADOW,2
