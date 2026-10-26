@@ -1,0 +1,15 @@
+{"request_id":"baseline"}
+{"request_id":"closure-east","disabled_lanes":["L-05","L-10"]}
+{"request_id":"no-port","stock_overrides":{"D-PORT":0}}
+{"request_id":"zero-critical","need_overrides":{"C-NORTH":{"critical":0,"routine":5},"C-SOUTH":{"critical":0,"routine":0}}}
+{"request_id":"extra-stock","stock_overrides":{"D-RESERVE":6,"D-EMPTY":3}}
+{"request_id":"two-parallel","disabled_lanes":["L-05","L-05"]}
+{"request_id":"fully-idle","stock_overrides":{"D-PORT":0,"D-RIDGE":0,"D-DELTA":0,"D-RESERVE":0}}
+{"request_id":"baseline"}
+{"request_id":"unknown-lane","disabled_lanes":["L-999"]}
+{"request_id":"bool-stock","stock_overrides":{"D-PORT":true}}
+{"request_id":"bad-needs","need_overrides":{"C-EAST":{"critical":2}}}
+{"request_id":"changed-client","need_overrides":{"C-SMALL":{"critical":2,"routine":2}}}
+{"request_id":"empty-list","disabled_lanes":[]}
+not-json
+{"request_id":"after-bad"}

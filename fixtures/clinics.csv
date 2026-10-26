@@ -1,0 +1,7 @@
+clinic_id,critical,routine
+C-NORTH,6,1
+C-EAST,4,4
+C-SOUTH,3,3
+C-ISLAND,2,1
+C-HILL,2,0
+C-SMALL,0,2
