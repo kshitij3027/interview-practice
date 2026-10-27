@@ -1,0 +1,238 @@
+{
+  "datasetRevision": 7,
+  "sites": [
+    {
+      "id": "SEA-YARD",
+      "tenantId": "harbor",
+      "name": "Harbor Assembly Yard",
+      "openUtc": "07:00",
+      "closeUtc": "19:00",
+      "capacity": 2,
+      "requiredCredentials": [
+        "safety",
+        "insurance",
+        "background"
+      ]
+    },
+    {
+      "id": "DC-ANNEX",
+      "tenantId": "harbor",
+      "name": "Harbor Data Annex",
+      "openUtc": "00:00",
+      "closeUtc": "23:59",
+      "capacity": 1,
+      "requiredCredentials": [
+        "safety",
+        "background"
+      ]
+    },
+    {
+      "id": "NY-DEPOT",
+      "tenantId": "orchid",
+      "name": "Orchid East Depot",
+      "openUtc": "12:00",
+      "closeUtc": "22:00",
+      "capacity": 3,
+      "requiredCredentials": [
+        "safety",
+        "insurance"
+      ]
+    }
+  ],
+  "vendors": [
+    {
+      "id": "VEN-101",
+      "tenantId": "harbor",
+      "name": "Apex Mechanical",
+      "active": true
+    },
+    {
+      "id": "VEN-102",
+      "tenantId": "harbor",
+      "name": "BrightSpark Electrical",
+      "active": true
+    },
+    {
+      "id": "VEN-103",
+      "tenantId": "harbor",
+      "name": "Delta Inspections",
+      "active": false
+    },
+    {
+      "id": "VEN-104",
+      "tenantId": "harbor",
+      "name": "Eon Maintenance",
+      "active": true
+    },
+    {
+      "id": "VEN-201",
+      "tenantId": "orchid",
+      "name": "Orbis Logistics",
+      "active": true
+    },
+    {
+      "id": "VEN-202",
+      "tenantId": "orchid",
+      "name": "Lumen Safety",
+      "active": true
+    }
+  ],
+  "visits": [
+    {
+      "id": "VIS-001",
+      "tenantId": "harbor",
+      "vendorId": "VEN-101",
+      "siteId": "SEA-YARD",
+      "status": "requested",
+      "startAt": "2026-11-02T09:00:00Z",
+      "endAt": "2026-11-02T12:00:00Z",
+      "purpose": "Pump refurbishment",
+      "note": "Bring authorized PPE.",
+      "revision": 2,
+      "issuedPassId": null
+    },
+    {
+      "id": "VIS-002",
+      "tenantId": "harbor",
+      "vendorId": "VEN-102",
+      "siteId": "SEA-YARD",
+      "status": "requested",
+      "startAt": "2026-11-02T10:00:00Z",
+      "endAt": "2026-11-02T13:00:00Z",
+      "purpose": "PLC replacement",
+      "note": "",
+      "revision": 3,
+      "issuedPassId": null
+    },
+    {
+      "id": "VIS-003",
+      "tenantId": "harbor",
+      "vendorId": "VEN-103",
+      "siteId": "SEA-YARD",
+      "status": "requested",
+      "startAt": "2026-11-02T13:00:00Z",
+      "endAt": "2026-11-02T15:00:00Z",
+      "purpose": "Hazard survey",
+      "note": "",
+      "revision": 1,
+      "issuedPassId": null
+    },
+    {
+      "id": "VIS-004",
+      "tenantId": "harbor",
+      "vendorId": "VEN-104",
+      "siteId": "DC-ANNEX",
+      "status": "requested",
+      "startAt": "2026-11-02T15:00:00Z",
+      "endAt": "2026-11-02T17:00:00Z",
+      "purpose": "Cooling service",
+      "note": "",
+      "revision": 2,
+      "issuedPassId": null
+    },
+    {
+      "id": "VIS-005",
+      "tenantId": "harbor",
+      "vendorId": "VEN-101",
+      "siteId": "DC-ANNEX",
+      "status": "requested",
+      "startAt": "2026-11-03T22:00:00Z",
+      "endAt": "2026-11-04T01:00:00Z",
+      "purpose": "UPS upgrade",
+      "note": "",
+      "revision": 3,
+      "issuedPassId": null
+    },
+    {
+      "id": "VIS-006",
+      "tenantId": "harbor",
+      "vendorId": "VEN-102",
+      "siteId": "SEA-YARD",
+      "status": "confirmed",
+      "startAt": "2026-11-03T14:00:00Z",
+      "endAt": "2026-11-03T16:00:00Z",
+      "purpose": "Generator wiring",
+      "note": "",
+      "revision": 1,
+      "issuedPassId": null
+    },
+    {
+      "id": "VIS-007",
+      "tenantId": "harbor",
+      "vendorId": "VEN-104",
+      "siteId": "SEA-YARD",
+      "status": "cancelled",
+      "startAt": "2026-11-03T09:00:00Z",
+      "endAt": "2026-11-03T10:00:00Z",
+      "purpose": "Cancelled service",
+      "note": "",
+      "revision": 2,
+      "issuedPassId": null
+    },
+    {
+      "id": "VIS-008",
+      "tenantId": "harbor",
+      "vendorId": "VEN-101",
+      "siteId": "SEA-YARD",
+      "status": "issued",
+      "startAt": "2026-10-27T10:00:00Z",
+      "endAt": "2026-10-27T11:00:00Z",
+      "purpose": "Existing pass",
+      "note": "",
+      "revision": 3,
+      "issuedPassId": "PASS-VIS-008"
+    },
+    {
+      "id": "VIS-009",
+      "tenantId": "orchid",
+      "vendorId": "VEN-201",
+      "siteId": "NY-DEPOT",
+      "status": "requested",
+      "startAt": "2026-11-02T14:00:00Z",
+      "endAt": "2026-11-02T16:00:00Z",
+      "purpose": "Conveyor inspection",
+      "note": "",
+      "revision": 1,
+      "issuedPassId": null
+    },
+    {
+      "id": "VIS-010",
+      "tenantId": "orchid",
+      "vendorId": "VEN-202",
+      "siteId": "NY-DEPOT",
+      "status": "requested",
+      "startAt": "2026-11-02T16:00:00Z",
+      "endAt": "2026-11-02T17:00:00Z",
+      "purpose": "Dock safety visit",
+      "note": "",
+      "revision": 2,
+      "issuedPassId": null
+    },
+    {
+      "id": "VIS-900",
+      "tenantId": "harbor",
+      "vendorId": "VEN-104",
+      "siteId": "SEA-YARD",
+      "status": "issued",
+      "startAt": "2026-11-02T10:30:00Z",
+      "endAt": "2026-11-02T11:30:00Z",
+      "purpose": "Existing contractor pass",
+      "note": "",
+      "revision": 1,
+      "issuedPassId": "PASS-VIS-900"
+    },
+    {
+      "id": "VIS-901",
+      "tenantId": "harbor",
+      "vendorId": "VEN-102",
+      "siteId": "DC-ANNEX",
+      "status": "issued",
+      "startAt": "2026-11-02T15:30:00Z",
+      "endAt": "2026-11-02T16:30:00Z",
+      "purpose": "Existing annex pass",
+      "note": "",
+      "revision": 2,
+      "issuedPassId": "PASS-VIS-901"
+    }
+  ]
+}

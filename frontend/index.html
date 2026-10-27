@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PermitLens — Contractor Visits</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header><div class="mark">PL</div><div><h1>PermitLens</h1><small>Vendor visits &amp; site operations</small></div></header>
+  <main>
+    <aside>
+      <div class="controls">
+        <label>Account <select id="tenant"></select></label>
+        <label>Status <select id="status"><option value="all">All visits</option><option value="requested">Requested</option><option value="confirmed">Confirmed</option><option value="issued">Issued</option><option value="cancelled">Cancelled</option></select></label>
+        <label>Find visit <input id="search" type="search" placeholder="Reference, vendor, purpose"></label>
+      </div>
+      <div class="list-title"><h2>Scheduled visits</h2><span id="count"></span></div>
+      <div id="visits" class="visits" aria-live="polite"></div>
+    </aside>
+    <section class="detail">
+      <div id="summary" class="summary"><p>Select a visit to see its details.</p></div>
+      <section id="notes" class="notes" hidden>
+        <h3>Operations note</h3>
+        <textarea id="note" rows="4" maxlength="240" aria-label="Operations note"></textarea>
+        <div class="note-actions"><button id="save-note">Save note</button><span id="note-status"></span></div>
+      </section>
+    </section>
+  </main>
+  <footer id="status-line" role="status"></footer>
+  <script type="module" src="/app.js"></script>
+</body>
+</html>

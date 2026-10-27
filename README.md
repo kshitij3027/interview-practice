@@ -1,1 +1,57 @@
-# interview-practice
+# PermitLens — HARD 60-minute AI-assisted full-stack interview
+
+## Context
+PermitLens is a contractor-operations console for organizations with multiple industrial sites. A maintenance vendor may have a scheduled visit, but the site cannot issue an entry pass unless its safety evidence is current and the site's occupancy limit remains satisfied. Operators need to act quickly without approving a stale or invalid visit.
+
+## Existing behavior — already working
+This starter is a functioning **Python 3.11+ standard-library HTTP service** with fixture-backed in-memory state and dependency-free browser ES modules. The UI lists visits by account, status, and free-text search; shows visit/vendor/site details; and lets operators edit internal notes. The backend validates tenant ownership and note revisions. A changed trimmed note increments the visit and dataset revisions once; an identical note changes neither; stale changes return HTTP 409. Lists sort by arrival time then visit ID, with `total` measured before `limit`. The frontend ignores outdated list/detail responses when the operator changes selections. **Keep these existing features working.**
+
+## Supplied data
+`fixtures/workspace.json` contains 3 sites, 6 vendors, and 12 visits across two accounts. Sites define daily UTC opening and closing times, simultaneous-pass capacity, and required credential categories. Visits have half-open appointment intervals, statuses (`requested`, `confirmed`, `issued`, `cancelled`), revisions, and optional issued pass IDs. Some pre-existing passes occupy capacity.
+
+`fixtures/credentials.jsonl` contains 26 unordered verification/revocation records for `safety`, `insurance`, and `background`. Delivery can be replayed; an event ID may be received more than once, timestamps may conflict, and some records are malformed. `effectiveAt`, `recordedAt`, and `expiresAt` have different meanings. Restarting the server restores all initial data. The checked-in fixtures are representative, not production-sized.
+
+## Customer/business problem
+A facility manager receives a call that a contractor has arrived. They want to **review whether a scheduled visit can receive a time-limited entry pass and then issue exactly the pass they reviewed**. Between review and issuance, a second operator may change notes or issue another pass. An HTTP response may get lost even though the server successfully issued the pass. Issuing two passes, exceeding simultaneous capacity, accepting expired evidence, or showing a stale success on the wrong visit would be serious operational errors.
+
+## Primary feature request
+Implement **one end-to-end, server-authoritative pass review-and-issue workflow** for an existing scheduled visit. Show a review that explains eligibility, required credential evidence, and site occupancy; allow the operator to issue the reviewed pass using a retry-safe request key; display the authoritative receipt and updated visit; and recover from conflicts, retries, and stale browser requests. Implement domain behavior, API routes, a usable browser flow, and focused tests. The requested feature is **not** implemented in the starter.
+
+## Acceptance criteria — observable behavior
+1. Add `POST /api/visits/:id/pass-preview?tenant=<id>` accepting an empty JSON object. Return a review token (`previewId`), visit and site identifiers, eligible/ineligible verdict, stable ordered reason codes, human-readable explanations, credential findings, site occupancy summary, and observed visit/dataset revisions. A preview **does not mutate state**. Return structured HTTP 400/404 errors as appropriate.
+2. Add `POST /api/visits/:id/passes?tenant=<id>` accepting `{previewId,expectedVisitRevision,expectedDatasetRevision,requestKey,delayMs?}`. A success returns an immutable receipt, issued pass ID, updated authoritative visit, and new revisions. Reject 400 invalid requests, 404 unknown resources, and 409 eligibility/staleness/replay conflicts with useful structured details. Any unsuccessful request leaves all state unchanged.
+3. A pass is eligible only when the visit belongs to the chosen account, has status `requested` or `confirmed`, and its vendor is active. `cancelled` and already-`issued` visits are ineligible. Visits and sites must belong to the same account. Only the original visit's scheduled interval can be issued; do not let the browser create a different time range.
+4. Visit intervals are half-open `[startAt,endAt)` and must be valid, explicitly offset-aware ISO-8601 instants with whole-minute precision, positive duration, and length no more than 12 hours. A visit must fit wholly within **one UTC calendar date** and within its site's daily `[openUtc,closeUtc)` access window. The opening time is inclusive and the closing time is a permitted departure instant. A visit crossing UTC midnight is not permitted even if both days are open. Compare instants rather than lexicographic timestamp strings.
+5. For each site-required category (`safety`, `insurance`, `background`), choose authoritative evidence for that vendor as of **visit start**. Ignore evidence becoming effective after arrival. For event-ID replays belonging to a single vendor, the copy with the latest `recordedAt` wins; when receipt instants tie, use lexicographically greatest canonical JSON representation. An event ID reused **across vendors** is unsafe evidence for all vendors involved and must be discarded. Malformed evidence is ignored rather than breaking unrelated visits.
+6. From the surviving events for each required category, the one with greatest `effectiveAt` on or before arrival wins; break effective-time ties by latest `recordedAt`, then lexicographically **smallest** event ID. Evidence only clears a requirement if that winner has decision `verified` and a valid expiry **at or after departure**. `revoked`, missing, and expired evidence are different explanatory reasons. An expiry exactly equal to the visit's departure is valid. Ignore categories not required at that site.
+7. Capacity applies to the entire candidate interval, not just arrival. Count overlapping **issued** passes at the same site; intervals that only touch at an endpoint do not overlap. Issuance must not make the number of concurrent issued passes exceed `capacity` at **any instant** in the candidate interval. Visits with other statuses consume no capacity. Return enough occupancy information for an operator to understand a denial; do not expose another account's private visits.
+8. Each preview represents the exact authoritative eligibility evaluation of one visit and its observed revisions, with a server-held token valid for at most 10 minutes. A preview for the wrong account/visit, absent or expired token, or ineligible visit cannot be issued. The browser cannot provide or override the verdict, evidence, proposed time, capacity count, or pass ID. A preview may be consumed by **at most one successful issuance**, apart from an idempotent replay of its original success.
+9. A real issuance changes only the target visit (`status: issued`, a unique deterministic pass ID, and a single audit entry). The visit and dataset revisions increment **exactly once**; unrelated notes, visits, and account data do not change. The issued pass immediately appears in later reviews' capacity calculations and in existing list/detail responses. No-op or failed attempts must not change revisions.
+10. Trim `requestKey`; require 8–64 characters and scope it to the account. Its successful identity includes account, visit ID, token, expected revisions, and the preview's authoritative visit/window intent. Same-key/same-intent retry returns the **original** receipt with no new issuance, even after intervening changes. Same-key/different-intent returns HTTP 409. A failed request must not consume the key. Check successful replay **before** rejecting stale revisions or consumed previews.
+11. `delayMs`, when provided, is an integer from 0 to 1200. Recheck eligibility, visit and dataset revisions immediately before mutation **after any delay**, including capacity changes caused by another issuance. Concurrent requests for the same visit/key must not issue twice. If an operator edits a note or another pass is issued during the delay, reject a stale review atomically. Return a usable conflict response so the browser can request a fresh review intentionally.
+12. Browser: select a visit, request review, see precise credential and occupancy explanations, issue a pass, and see the authoritative result without page reload. Editing an operation note, switching account/visit/filter, or refreshing data must not allow an old review to be issued as current. Ignore late list/detail/review/issue responses after navigation. Disable accidental duplicate clicks; after network failure retain the request key and review so an uncertain issuance can be retried safely. On 409 preserve the operator's context and offer a new review rather than silently resubmitting.
+13. Add meaningful verification covering replayed and cross-vendor event IDs, offset-equivalent instants, expiry exactly at departure, wrong credential category, the transition from verified to revoked, occupancy peak **after** arrival, touching intervals, midnight boundary, tenant isolation, stale notes, concurrent issuance, lost-response retry, and existing listing/note regressions. Production snapshots may contain **100,000 visits, 250,000 credential rows and 50,000 existing passes**. Repeated previews should not scan every unrelated event and pass; target roughly 400 ms per review after initialization on typical hardware. State your scale and tradeoff assumptions.
+
+## Constraints
+Keep Python 3.11+ standard library, single-process in-memory state, checked-in fixtures, and vanilla browser code. No database, Redis, external verification API, queue, third-party framework, npm/pip installation, login system, or credentials. Use the current note-edit revision model without breaking existing contracts. You own solution architecture and prioritization; delivering a correct vertical slice with clear tradeoffs is more important than shallow completion of every UI detail.
+
+## Expected deliverable
+Runnable domain/API/browser changes, focused automated tests, and an explanation of correctness, race recovery, runtime/memory behavior, and remaining limitations. Candidate-side code must not contain an already-completed pass issuance implementation.
+
+## Out of scope
+Real physical door readers, vendor identity authentication, credential issuer integration, local timezones/daylight-saving rules, multi-site pass transfers, persistence across restart, distributed servers, deletion or cancellation of an issued pass, and redesigning the existing visit directory.
+
+## Setup, run, and verification
+Requires Python 3.11+ and a modern browser; optional Node.js is used only to syntax-check browser code. No installation step.
+
+```bash
+./scripts/build.sh
+./scripts/test.sh
+./scripts/verify.sh
+./scripts/run.sh
+```
+
+Open **http://localhost:8080**. To use another port, run `PORT=8081 ./scripts/run.sh`. The provided tests establish a **green existing-behavior baseline**, not complete feature coverage.
+
+## Explicit 60-minute AI-assisted interview instruction
+You have **exactly 60 minutes**. You may use Claude Code, Codex, ChatGPT, or similar assistance. First inspect the working application, data formats, and baseline tests. Work incrementally across relevant layers, run tests, verify invariants, and be prepared to walk through your decisions, failure recovery, latency estimates, and incomplete edges. Avoid delegating the entire task to one unreviewed AI prompt.
