@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CaptionGate | Media Operations</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <header><h1>CaptionGate</h1><p>Media operations · caption inventory</p></header>
+  <main>
+    <aside>
+      <label>Studio <select id="studio"></select></label>
+      <label>Status <select id="status"><option value="">All</option><option value="ready">Ready</option><option value="processing">Processing</option><option value="archived">Archived</option></select></label>
+      <label>Find asset <input id="search" placeholder="Title, series or ID" /></label>
+      <p id="count"></p>
+      <nav id="assets"></nav>
+    </aside>
+    <article><p id="message" role="status"></p><div id="detail">Choose an asset.</div></article>
+  </main>
+  <script type="module" src="/app.js"></script>
+</body>
+</html>

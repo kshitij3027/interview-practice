@@ -1,0 +1,7 @@
+{
+  "name": "captiongate-starter",
+  "private": true,
+  "type": "module",
+  "engines": {"node": ">=20"},
+  "scripts": {"start": "node src/server.js", "test": "node --test tests/*.test.js", "build": "bash scripts/build.sh", "verify": "bash scripts/verify.sh"}
+}

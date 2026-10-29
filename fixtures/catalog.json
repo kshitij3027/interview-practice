@@ -1,0 +1,17 @@
+{
+  "datasetRevision": 42,
+  "studios": [
+    {"id":"atlas","name":"Atlas Documentary"},
+    {"id":"cedar","name":"Cedar Learning"}
+  ],
+  "assets": [
+    {"id":"A-101","studioId":"atlas","title":"City of Bridges","series":"Urban Atlas","status":"ready","durationMs":189500,"supportedLocales":["en-US","es-ES","fr-FR"],"revision":3,"note":"Spanish narration needs editorial review.","captions":{"en-US":[{"startMs":0,"endMs":2200,"text":"Welcome to the city."},{"startMs":2200,"endMs":4500,"text":"Every bridge has a story."}],"es-ES":[{"startMs":0,"endMs":2100,"text":"Bienvenidos a la ciudad."}]}},
+    {"id":"A-102","studioId":"atlas","title":"Desert Rivers","series":"Earth Lines","status":"ready","durationMs":212750,"supportedLocales":["en-US","fr-FR"],"revision":1,"note":"Reviewed by production.","captions":{"en-US":[{"startMs":0,"endMs":1500,"text":"Water moves beneath the sand."}]}},
+    {"id":"A-103","studioId":"atlas","title":"Northern Lights","series":"Earth Lines","status":"processing","durationMs":203000,"supportedLocales":["en-US","es-ES"],"revision":0,"note":"Awaiting final video export.","captions":{}},
+    {"id":"A-104","studioId":"atlas","title":"Railways at Dawn","series":"Urban Atlas","status":"archived","durationMs":99500,"supportedLocales":["en-US"],"revision":6,"note":"Archive reference only.","captions":{"en-US":[{"startMs":250,"endMs":1900,"text":"The first train arrives."}]}},
+    {"id":"C-201","studioId":"cedar","title":"Introduction to Fractions","series":"Practical Math","status":"ready","durationMs":120000,"supportedLocales":["en-US","es-ES"],"revision":4,"note":"Teacher approved existing English captions.","captions":{"en-US":[{"startMs":0,"endMs":2900,"text":"A fraction represents part of a whole."}]}},
+    {"id":"C-202","studioId":"cedar","title":"Lab Safety Basics","series":"Hands-on Science","status":"ready","durationMs":178000,"supportedLocales":["en-US","fr-FR"],"revision":2,"note":"Check chemical name spelling.","captions":{"en-US":[{"startMs":600,"endMs":2100,"text":"Safety comes first."}]}},
+    {"id":"C-203","studioId":"cedar","title":"Plant Cell Structure","series":"Hands-on Science","status":"processing","durationMs":156500,"supportedLocales":["en-US","es-ES"],"revision":1,"note":"Waiting for illustrations.","captions":{}},
+    {"id":"C-204","studioId":"cedar","title":"The Shape of Sound","series":"Physics Minute","status":"ready","durationMs":77500,"supportedLocales":["en-US","es-ES","fr-FR"],"revision":0,"note":"No changes requested.","captions":{}}
+  ]
+}
