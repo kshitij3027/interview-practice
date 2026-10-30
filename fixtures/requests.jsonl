@@ -1,0 +1,13 @@
+{"request_id":"scan-east-1","region":"east","seen_at_ms":150,"chunks_b64":["YWI=","","Yw==","ZGU="],"limit":4}
+{"request_id":"scan-west","region":"west","seen_at_ms":250,"chunks_b64":["Y2FiY2E=","YmM="]}
+{"request_id":"scan-raw","region":"east","seen_at_ms":250,"chunks_b64":["AGFi","Y/8=","AA=="]}
+{"request_id":"scan-emea","region":"emea","seen_at_ms":800,"chunks_b64":["Y2FiY2Rl"],"limit":2}
+{"request_id":"scan-boundary","region":"east","seen_at_ms":1000,"chunks_b64":["YWJj"]}
+{"request_id":"scan-empty","region":"east","seen_at_ms":40,"chunks_b64":["",""]}
+{"request_id":"scan-east-1","region":"east","seen_at_ms":500,"chunks_b64":["YWJjYWJj"],"limit":1}
+{"request_id":"unknown-region","region":"north","seen_at_ms":50,"chunks_b64":[""]}
+{"request_id":"invalid-encoding","region":"west","seen_at_ms":100,"chunks_b64":["YQ"]}
+{"request_id":"invalid-type","region":"west","seen_at_ms":true,"chunks_b64":[""]}
+{"request_id":"invalid-limit","region":"west","seen_at_ms":0,"chunks_b64":[""],"limit":0}
+{"request_id":"scan-no-match","region":"emea","seen_at_ms":9999,"chunks_b64":["YWJj"]}
+{"request_id":"bad-json","region":"east",
