@@ -1,0 +1,15 @@
+{"request_id":"q1","site_id":"EAST-DEPOT","from_ms":100,"until_ms":450}
+{"request_id":"q2","site_id":"WEST-HUB","from_ms":99,"until_ms":102}
+{"request_id":"q3","site_id":"NORTH-YARD","from_ms":200,"until_ms":400}
+{"request_id":"q4","site_id":"PORT-EDGE","from_ms":750,"until_ms":900}
+{"request_id":"q5","site_id":"EMPTY-LOT","from_ms":0,"until_ms":900}
+{"request_id":"q6","site_id":"EAST-DEPOT","from_ms":300,"until_ms":400}
+{"request_id":"q7","site_id":"EAST-DEPOT","from_ms":350,"until_ms":401}
+{"request_id":"q8","site_id":"SOUTH-LOT","from_ms":0,"until_ms":1000}
+{"request_id":"q9","site_id":"WEST-HUB","from_ms":0,"until_ms":1000000000000}
+{"request_id":"q10","site_id":"PORT-EDGE","from_ms":100000,"until_ms":200000}
+{"request_id":"q11","site_id":"EAST-DEPOT","from_ms":450,"until_ms":450}
+not json!
+{"request_id":"q13","site_id":"MISSING","from_ms":0,"until_ms":100}
+{"request_id":"q14","site_id":"PORT-EDGE","from_ms":0,"until_ms":true}
+{"request_id":"q15","site_id":"EAST-DEPOT","from_ms":100,"until_ms":300}
