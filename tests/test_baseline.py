@@ -52,6 +52,12 @@ class StarterTests(unittest.TestCase):
             parse_request('{"request_id":"r","region":"missing","seen_at_ms":1,"chunks_b64":[""]}', self.catalog.regions)
         self.assertEqual(err.exception.reason, "unknown_region")
 
+    def test_rejects_overlong_region_as_malformed(self):
+        region = "r" * 41
+        with self.assertRaises(RequestError) as err:
+            parse_request('{"request_id":"r","region":"' + region + '","seen_at_ms":1,"chunks_b64":[""]}', self.catalog.regions)
+        self.assertEqual(err.exception.reason, "invalid_request")
+
     def test_scan_hook_returns_request_scoped_result(self):
         request = parse_request('{"request_id":"r","region":"east","seen_at_ms":1,"chunks_b64":["YQ=="]}', self.catalog.regions)
         result = SignalScanner(self.catalog).scan(request)
