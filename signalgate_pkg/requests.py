@@ -9,6 +9,7 @@ import re
 from dataclasses import dataclass
 
 _ID = re.compile(r"[A-Za-z0-9_-]{1,128}\Z", re.ASCII)
+_REGION_ID = re.compile(r"[A-Za-z0-9_-]{1,40}\Z", re.ASCII)
 _MAX_MS = 10**12
 
 
@@ -45,7 +46,7 @@ def parse_request(line: str, regions: frozenset[str]) -> ScanRequest:
     when = item.get("seen_at_ms")
     limit = item.get("limit", 5)
     chunks = item.get("chunks_b64")
-    if rid is None or not _valid_id(region) or type(when) is not int or not 0 <= when <= _MAX_MS:
+    if rid is None or not isinstance(region, str) or _REGION_ID.fullmatch(region) is None or type(when) is not int or not 0 <= when <= _MAX_MS:
         raise RequestError("invalid_request", rid)
     if type(limit) is not int or not 1 <= limit <= 20:
         raise RequestError("invalid_request", rid)
