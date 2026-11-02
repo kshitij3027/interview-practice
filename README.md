@@ -1,67 +1,62 @@
-# SignalGate — HARD 60-minute AI-assisted customer interview
+# SkyParcel — HARD 60-minute AI-assisted customer interview
 
-## Customer / business context
+## A message from the customer
 
-A B2B API gateway provider receives binary request bodies in transport chunks. Its abuse-response team maintains a catalog of **exact byte signatures** that indicate known risky payloads. Each signature applies either globally or to one deployment region, has an effective time window, and carries an analyst-defined priority. Operators need to identify the highest-priority distinct signatures seen in each request, not merely the earliest substring encountered. A prototype decodes each body and searches it separately for every signature; it fails at production volume and sometimes misses a signature split across chunks.
+Hi! We operate a fleet of delivery drones. Our compliance team receives **waypoint review** requests from partner dispatchers before individual takeoff decisions. Each review asks which local operating restrictions cover one waypoint at one time and altitude. Restrictions can be concave, contain exempt interior areas, overlap at different priorities, and expire on different schedules. The current service checks every restriction for every waypoint and sometimes incorrectly approves a point directly on a boundary.
 
-Treat this as a real customer escalation. You choose the solution strategy. Deterministic, heuristic, LLM-based or hybrid approaches are permitted if you can defend their ability to meet the exact observable contract. No external SDK, credentials, or network service is required.
+We need a component that returns the **highest-ranked matching restrictions**, with the same answer regardless of catalog row order. This is a *lookup and audit* feature, not a flight-plan generator or flight-control system. Please deliver a runnable, explainable implementation and describe your performance tradeoffs. You own the technical approach; deterministic, heuristic, LLM-assisted, and hybrid designs are allowed, but outputs must meet the exact contract. No credentials, network service, or extra packages are required.
 
 ## Supplied data
 
-- `fixtures/regions.csv`: `region_id`. Region identifiers are case-sensitive, 1–40 ASCII letters/digits/`_`/`-`. Identical repeated region rows are harmless. Region `*` is reserved and cannot be declared.
-- `fixtures/signatures.csv`: `signature_id,region,priority,valid_from_ms,valid_until_ms,pattern_hex,enabled`. A region is `*` (all declared regions) or a declared region. Priority is an integer in `[0,1000]`; larger means more important. The time interval is half-open `[valid_from_ms,valid_until_ms)` in integer milliseconds, with `0 <= valid_from_ms < valid_until_ms <= 10^12`. `pattern_hex` is lowercase, even-length hexadecimal representing **1–64 arbitrary bytes**. `enabled` is exactly `true` or `false`. Signature IDs follow the region ID format. Identical replays of a signature ID with identical data count once; conflicting reuse invalidates the whole catalog. Different IDs may use the **same bytes**, even in the same scope. Duplicate signatures remain distinct findings.
-- `fixtures/requests.jsonl`: one independent JSON request per physical line, including malformed examples. Each valid object has `request_id` (1–128 ASCII letters/digits/`_`/`-`), `region`, `seen_at_ms`, `chunks_b64`, and optional `limit` (default 5). `chunks_b64` is a list of **1–128 canonical, padded base64 strings**, each decoding to at most 65,536 bytes; empty chunks are allowed, and total decoded bytes per request may not exceed 1,048,576. The complete payload is the byte-for-byte concatenation of its chunks. `limit` is an integer in `[1,20]` (JSON `true` is not an integer). `seen_at_ms` is a JSON integer in `[0,10^12]`. Extra request fields may be ignored. The base64 representation must round-trip exactly; whitespace, missing padding, or alternate encodings are not accepted.
+- `fixtures/zones.jsonl`: one JSON restriction per physical line (unordered, with one harmless replay). Every record has `zone_id`, `region`, `priority`, `active_from_ms`, `active_until_ms`, `altitude_min_m`, `altitude_max_m`, `outer`, and `holes`.
+- `fixtures/queries.jsonl`: one waypoint review per physical line, including invalid examples. Queries need not be ordered by time. Each valid query contains `request_id`, `region`, `x`, `y`, `at_ms`, `altitude_m`, and optional `limit` (default `3`).
+- `airspace/io.py`: strict structural input parsing and error isolation; `airspace/engine.py`: the unfinished lookup component; `review.py`: CLI; `tests/`: starter tests and `scripts/`: local commands.
 
-CSV headers may appear in any order. Canonical CSV integers contain only base-10 digits with no leading zeroes (except `0`) and no signs. Blank required fields, malformed CSV, missing headers, bad region references, invalid intervals, invalid hex, and conflicting signature-ID replays invalidate the **entire** catalog before scanning starts. Per-query errors do not invalidate other queries.
+Coordinates are integer points on a **fictional planar grid**, not latitude/longitude. A ring is a list of at least three vertices `[x,y]`. Its closing edge, from last vertex to first, is implied: do **not** repeat the initial point. Edges can be diagonal, horizontal, or vertical, and may include collinear intermediate vertices. Rings may have either winding direction. Each restriction has one `outer` ring and zero or more `holes` (rings). The upstream authoring system **guarantees** each ring is simple with positive enclosed area, all holes are strictly inside the outer ring, and holes never touch/overlap each other or the outer ring. You do not have to detect crossings or repair invalid geometric topology.
 
-## Primary customer request
+All IDs (`zone_id`, `region`, `request_id`) are case-sensitive ASCII letters, digits, `_`, `-`, 1–48 characters (request IDs up to 128). JSON numbers must be actual integers (never booleans or numeric strings). Vertex coordinates `x,y` are in `[-10^9,10^9]`; catalog/query times in `[0,10^12]`; altitude in `[0,100000]`; priority in `[0,1000]`. Each zone requires `active_from_ms < active_until_ms` and `altitude_min_m < altitude_max_m`. Each ring has 3–1000 vertices, and each zone has at most 20 holes. Extra object keys may be ignored. Each JSONL physical line must contain one JSON object. Blank catalog lines are invalid.
 
-Implement `SignalScanner.scan(request)` in `signalgate_pkg/scanner.py` and any supporting code/tests. For each valid request, find **every distinct eligible signature ID** whose byte pattern appears as a contiguous substring of the **concatenated** payload (including occurrences crossing chunk boundaries). A signature is eligible iff it is enabled, its region equals the query region or `*`, and `valid_from_ms <= seen_at_ms < valid_until_ms`. Matches are literal, byte-for-byte and case-sensitive; there are no wildcards, Unicode normalization, or token boundaries. Count each signature ID only once, regardless of repeated occurrences; for each matching ID record its **earliest zero-based byte start offset**.
+An identical replay of a `zone_id` with the same parsed business fields counts once. Reusing an ID with different fields, invalid data, or an invalid catalog line **invalidates the whole snapshot** before any query output. Invalid query lines receive an isolated error response, and later lines are still processed. Duplicate `request_id` values are separate, independent queries.
 
-Return exactly:
+## Your one primary task
 
-```json
-{"request_id":"r-example","status":"ok","total_matching_signatures":2,"matches":[{"signature_id":"SIG-001","priority":80,"start":4},{"signature_id":"SIG-007","priority":40,"start":2}]}
-```
+Implement `AirspaceReview.select(query)` in `airspace/engine.py` (and supporting files if useful). For each valid request, select restrictions satisfying **every** condition:
 
-The JSON above illustrates the response shape, **not fixture output**. Rank all eligible matching IDs by **priority descending**, then **earliest start ascending**, then **case-sensitive signature ID ascending**. Return the first `limit` matches; `total_matching_signatures` counts **all** matching eligible IDs even if there are more than `limit`. When none match, emit `total_matching_signatures:0,matches:[]` with `status:"ok"`. Output key names and result types must match the contract. Query order and repeated request IDs have no semantic effect.
+1. The zone has exactly the query's `region`.
+2. Its time window contains `at_ms`: `active_from_ms <= at_ms < active_until_ms`.
+3. Its altitude interval contains `altitude_m`: `altitude_min_m <= altitude_m < altitude_max_m`.
+4. The waypoint is inside its outer boundary **or on any outer edge or vertex**, and is **not inside or on the boundary of any hole**. A hole excludes its boundary. The exact point, not a rounded or approximate position, determines membership.
 
-## Observable acceptance criteria
+Rank all eligible zones by **higher priority first**, then **smaller net enclosed area first** (outer area minus the areas of all holes), then **lexicographically smaller case-sensitive `zone_id`**. Area comparisons must be exact; ties are valid. Return at most `limit` zone IDs in ranked order, with no duplicates. For no matches, return an empty list. Query and catalog ordering must not alter results.
 
-- The `scan` command emits **one compact JSON object per physical query line**, in input order, with no diagnostic messages on stdout. Invalid queries never prevent subsequent queries from completing.
-- Malformed JSON, non-object values, missing/invalid fields, wrong numeric types, oversized chunks/payload, noncanonical base64, or an invalid limit return `{"request_id":null,"status":"invalid","reason":"invalid_request"}`; preserve `request_id` when it has a valid ID format. A structurally valid query for a nonexistent region returns `status:"invalid",reason:"unknown_region"` and retains its request ID.
-- A pattern may start at the final byte of one chunk and end in a later chunk. Empty chunks do not interrupt it. Adjacent chunks contribute **no artificial delimiter**.
-- The matching is on raw bytes, not decoded UTF-8. NUL bytes, `0xff`, repeated byte sequences, and overlapping occurrences are valid. Match offsets count **bytes**, not characters or base64 positions.
-- If several IDs share the same byte sequence, each eligible ID counts separately. A global signature and a regional signature may both match. Disabled, out-of-window, and other-region signatures never count.
-- The time window includes its starting millisecond but excludes its ending millisecond. The winner is decided by ranking, not merely the first pattern found. Identical priority and start values use ID order.
-- Multiple occurrences of one ID must contribute its **first start offset**. `total_matching_signatures` must not be truncated to `limit` and must not count duplicate catalog replays.
-- Results must be deterministic across shuffled signature rows, different chunk boundaries for the same payload, repeated query IDs, and hash iteration orders.
+The existing `review.py` emits exactly one compact JSON result for every physical query line, in original order:
 
-## Constraints, scope and deliverable
+- Valid: `{"request_id":"q01","status":"ok","zone_ids":["zone_a","zone_b"]}`.
+- Invalid: `{"request_id":"q_bad","status":"error","error":"invalid_request"}`. If the request ID itself cannot be read as a valid ID, use JSON `null`.
 
-Production can have **200,000 distinct signature IDs**, **5 million request bodies/day**, and a total signature-byte count around **4 million**, with highly repeated prefixes, suffixes, and short patterns. Most bodies are under 8 KiB but some reach the stated 1 MiB bound. Operators expect the catalog to be loaded once and then shared across a long stream of independent requests. Aim for roughly **1.5 GB working memory**, **p95 under 20 ms for ordinary bodies after loading**, and throughput that scales with the payload rather than scanning the full catalog on each request. These are engineering targets to justify and benchmark; the checked-in fixture is intentionally small. A naive separate substring scan for each signature on each request is not a credible production design.
+The CLI's parser validates data; you may refactor it, but preserve the observable output/error contract. The starter's `select` currently returns `[]` for all queries **on purpose**; it is not the desired solution. Starter tests validate only parsing, execution, and scaffolding, not full correctness.
 
-In scope: snapshot validation, exact byte matching, eligibility, earliest offsets, ranking, bounded output, per-line error recovery, tests, complexity and memory analysis. Out of scope: network services, live signature updates, persistence, authorization, pattern inference, substring edits, decoding a particular application protocol, and any LLM API.
+## Realistic production constraints
 
-The provided catalog loader, JSON parser, CLI, small dataset and baseline tests are runnable. The scanning functionality is **deliberately not implemented**; a green starter suite does not establish matching correctness. Do not change fixtures to pass tests.
+- Around **300,000 zones** per regional catalog snapshot and **4 million total boundary vertices**; dozens of separate regions.
+- Around **12 million waypoint reviews/day**, with up to **30,000 zones sharing broad overlapping bounds** in dense urban regions. Most points match no restrictions; a minority may match dozens.
+- A **2 GB process memory budget** and **p95 under 15 ms for typical waypoint lookups after catalog loading**. The tiny fixture is not a performance benchmark.
+- Multi-hour catalog preprocessing is unacceptable; explain startup cost, memory, and worst-case behavior. A full scan on every query will not meet the stated scale.
+- Correctness is mandatory for boundaries, concavity, holes, negative/large coordinates, region/time/altitude limits, duplicate catalog deliveries, ranking ties, and query errors. Partial credit is available for a correct baseline plus a defensible plan to scale.
 
-## Setup and verification
+## Scope, acceptance, and interview conduct
 
-Python **3.11+**, standard library only. From the repository root:
+Build only the waypoint restriction lookup. Do **not** perform route planning, geodesic/latitude-longitude conversion, dynamic live catalog edits, policy interpretation, or drone actuation. Do not assume rings are rectangles or convex. Decide what you should precompute and how to avoid examining unrelated zones; explain exactness and complexity, including dense overlapping cases.
+
+You have **60 minutes** and **should use AI assistants as you would on the job**. Read the data and contract before coding. Tell your interviewer your proposed approach, ask questions where real customer requirements are ambiguous, implement a useful vertical slice, run tests, add your own boundary and scale tests, and explain compromises. A one-shot implementation without verification is not the goal.
+
+From this directory:
 
 ```bash
 bash scripts/build.sh
 bash scripts/test.sh
 bash scripts/verify.sh
-python3 signalgate.py check --regions fixtures/regions.csv --signatures fixtures/signatures.csv --requests fixtures/requests.jsonl
+python3 review.py --zones fixtures/zones.jsonl --queries fixtures/queries.jsonl
 ```
 
-After implementing the scanner:
-
-```bash
-python3 signalgate.py scan --regions fixtures/regions.csv --signatures fixtures/signatures.csv --requests fixtures/requests.jsonl
-```
-
-## 60-minute AI-assisted interview instruction
-
-**Timebox: 60 minutes.** Use Claude Code, Codex, ChatGPT, or another AI tool as you would on an actual customer issue. Inspect the fixtures and constraints, choose an approach, implement a correct slice, add targeted adversarial tests, run verification, and explain your design, correctness, memory/runtime bounds, and where the stated production targets might require more work. You must be able to defend any AI-generated code you retain.
+Only the first three commands are starter-baseline checks. `verify.sh` checks the CLI's line/error structure; it **does not** assert complete zone matching. You should write additional tests before considering the problem solved.

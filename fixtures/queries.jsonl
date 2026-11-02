@@ -1,0 +1,21 @@
+{"request_id":"near-center","region":"bay","x":0,"y":0,"at_ms":150,"altitude_m":20}
+{"request_id":"inside-hole","region":"bay","x":10,"y":10,"at_ms":150,"altitude_m":20,"limit":5}
+{"request_id":"hole-edge","region":"bay","x":15,"y":0,"at_ms":150,"altitude_m":20}
+{"request_id":"outer-edge","region":"bay","x":-100,"y":0,"at_ms":150,"altitude_m":20}
+{"request_id":"diagonal-edge","region":"bay","x":0,"y":80,"at_ms":150,"altitude_m":20}
+{"request_id":"concave-notch","region":"bay","x":35,"y":50,"at_ms":150,"altitude_m":20}
+{"request_id":"same-priority","region":"bay","x":35,"y":35,"at_ms":150,"altitude_m":20,"limit":8}
+{"request_id":"altitude-boundary","region":"bay","x":-40,"y":0,"at_ms":150,"altitude_m":200}
+{"request_id":"end-boundary","region":"bay","x":0,"y":0,"at_ms":100000,"altitude_m":20}
+{"request_id":"region-isolated","region":"coast","x":-200,"y":-150,"at_ms":150,"altitude_m":20}
+{"request_id":"large-coordinates","region":"ridge","x":1000000000,"y":0,"at_ms":150,"altitude_m":200}
+{"request_id":"unknown-region","region":"desert","x":0,"y":0,"at_ms":150,"altitude_m":20}
+{"request_id":"late-dusk","region":"bay","x":0,"y":0,"at_ms":50100,"altitude_m":20}
+{"request_id":"repeat","region":"bay","x":55,"y":30,"at_ms":300,"altitude_m":30,"limit":4}
+{"request_id":"repeat","region":"bay","x":56,"y":31,"at_ms":300,"altitude_m":30,"limit":1}
+{"request_id":"invalid-bool","region":"bay","x":true,"y":1,"at_ms":150,"altitude_m":20}
+{"request_id":"invalid-limit","region":"bay","x":0,"y":0,"at_ms":150,"altitude_m":20,"limit":0}
+{"request_id":"invalid-region","region":"*","x":0,"y":0,"at_ms":150,"altitude_m":20}
+{"request_id":"invalid-time","region":"bay","x":0,"y":0,"at_ms":-1,"altitude_m":20}
+not json at all
+{"request_id":"after-invalid","region":"bay","x":-200,"y":0,"at_ms":150,"altitude_m":20}

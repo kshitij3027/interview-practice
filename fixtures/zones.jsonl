@@ -1,0 +1,16 @@
+{"zone_id":"bay_core","region":"bay","priority":30,"active_from_ms":0,"active_until_ms":100000,"altitude_min_m":0,"altitude_max_m":200,"outer":[[-100,-100],[100,-100],[100,100],[-100,100]],"holes":[[[-15,-15],[-15,15],[15,15],[15,-15]]]}
+{"zone_id":"bay_priority","region":"bay","priority":55,"active_from_ms":0,"active_until_ms":100000,"altitude_min_m":0,"altitude_max_m":1000,"outer":[[7,-2],[70,-2],[70,80],[40,80],[40,20],[7,20]],"holes":[]}
+{"zone_id":"bay_altitude","region":"bay","priority":70,"active_from_ms":0,"active_until_ms":100000,"altitude_min_m":200,"altitude_max_m":500,"outer":[[-90,-90],[90,-90],[90,90],[-90,90]],"holes":[]}
+{"zone_id":"bay_dusk","region":"bay","priority":65,"active_from_ms":50000,"active_until_ms":100000,"altitude_min_m":0,"altitude_max_m":700,"outer":[[-30,-30],[30,-30],[30,30],[-30,30]],"holes":[]}
+{"zone_id":"sf_triangle","region":"bay","priority":40,"active_from_ms":0,"active_until_ms":100000,"altitude_min_m":0,"altitude_max_m":700,"outer":[[-80,-80],[80,-80],[0,80]],"holes":[]}
+{"zone_id":"bay_strip","region":"bay","priority":35,"active_from_ms":0,"active_until_ms":100000,"altitude_min_m":0,"altitude_max_m":700,"outer":[[5,-100],[25,-100],[25,100],[5,100]],"holes":[]}
+{"zone_id":"bay_east","region":"bay","priority":55,"active_from_ms":0,"active_until_ms":100000,"altitude_min_m":0,"altitude_max_m":700,"outer":[[50,0],[120,0],[120,100],[50,100]],"holes":[]}
+{"zone_id":"bay_reversed","region":"bay","priority":55,"active_from_ms":0,"active_until_ms":100000,"altitude_min_m":0,"altitude_max_m":700,"outer":[[25,25],[25,45],[45,45],[45,25]],"holes":[]}
+{"zone_id":"bay_donut","region":"bay","priority":70,"active_from_ms":0,"active_until_ms":100000,"altitude_min_m":0,"altitude_max_m":700,"outer":[[0,0],[60,0],[60,60],[0,60]],"holes":[[[10,10],[10,50],[50,50],[50,10]]]}
+{"zone_id":"coastal_ridge","region":"coast","priority":40,"active_from_ms":0,"active_until_ms":100000,"altitude_min_m":0,"altitude_max_m":10000,"outer":[[-300,-200],[-100,-200],[-100,-100],[-300,-100]],"holes":[]}
+{"zone_id":"bay_old","region":"bay","priority":100,"active_from_ms":0,"active_until_ms":200,"altitude_min_m":0,"altitude_max_m":700,"outer":[[-50,-50],[50,-50],[50,50],[-50,50]],"holes":[]}
+{"zone_id":"bay_future","region":"bay","priority":100,"active_from_ms":100000,"active_until_ms":200000,"altitude_min_m":0,"altitude_max_m":700,"outer":[[-50,-50],[50,-50],[50,50],[-50,50]],"holes":[]}
+{"zone_id":"mountain_diamond","region":"ridge","priority":15,"active_from_ms":0,"active_until_ms":100000,"altitude_min_m":0,"altitude_max_m":2000,"outer":[[-1000000000,0],[0,-1000000000],[1000000000,0],[0,1000000000]],"holes":[]}
+{"zone_id":"coastal_cutout","region":"coast","priority":55,"active_from_ms":100,"active_until_ms":90000,"altitude_min_m":0,"altitude_max_m":5000,"outer":[[-310,-210],[-90,-210],[-90,-90],[-310,-90]],"holes":[[[-240,-160],[-160,-160],[-160,-140],[-240,-140]]]}
+{"zone_id":"bay_corner","region":"bay","priority":55,"active_from_ms":0,"active_until_ms":100000,"altitude_min_m":0,"altitude_max_m":700,"outer":[[100,100],[100,110],[110,110],[110,100]],"holes":[]}
+{"zone_id":"bay_core","region":"bay","priority":30,"active_from_ms":0,"active_until_ms":100000,"altitude_min_m":0,"altitude_max_m":200,"outer":[[-100,-100],[100,-100],[100,100],[-100,100]],"holes":[[[-15,-15],[-15,15],[15,15],[15,-15]]]}

@@ -1,1 +1,0 @@
-"""SignalGate customer exercise package."""
