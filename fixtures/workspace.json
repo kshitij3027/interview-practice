@@ -1,0 +1,32 @@
+{
+  "plants": [
+    {"id":"P-N","name":"North Mill"},
+    {"id":"P-S","name":"South Mill"},
+    {"id":"P-E","name":"East Packaging"}
+  ],
+  "specifications": [
+    {"product":"resin-A","minSamples":2,"phMin":"6.50","phMax":"7.50","moistureMaxPct":"1.20"},
+    {"product":"resin-B","minSamples":3,"phMin":"6.80","phMax":"7.20","moistureMaxPct":"0.80"},
+    {"product":"coating-C","minSamples":2,"phMin":"5.50","phMax":"6.80","moistureMaxPct":"2.00"}
+  ],
+  "lots": [
+    {"id":"LOT-1001","plantId":"P-N","product":"resin-A","status":"open","quantityKg":800,"note":"Awaiting morning QC run.","revision":1},
+    {"id":"LOT-1002","plantId":"P-N","product":"resin-B","status":"open","quantityKg":1200,"note":"Prior shipment delayed.","revision":2},
+    {"id":"LOT-1003","plantId":"P-S","product":"coating-C","status":"open","quantityKg":500,"note":"Rush batch.","revision":1},
+    {"id":"LOT-1004","plantId":"P-S","product":"resin-A","status":"closed","quantityKg":600,"note":"Archived certification.","revision":4},
+    {"id":"LOT-1005","plantId":"P-E","product":"coating-C","status":"open","quantityKg":700,"note":"Check sensor offset.","revision":1},
+    {"id":"LOT-1006","plantId":"P-E","product":"resin-B","status":"open","quantityKg":650,"note":"", "revision":1},
+    {"id":"LOT-1007","plantId":"P-N","product":"coating-C","status":"open","quantityKg":320,"note":"", "revision":1},
+    {"id":"LOT-1008","plantId":"P-E","product":"resin-A","status":"open","quantityKg":1020,"note":"Customer audit due.","revision":3},
+    {"id":"LOT-1009","plantId":"P-S","product":"resin-B","status":"closed","quantityKg":100,"note":"", "revision":1},
+    {"id":"LOT-1010","plantId":"P-N","product":"resin-B","status":"open","quantityKg":2400,"note":"", "revision":1},
+    {"id":"LOT-1011","plantId":"P-S","product":"resin-A","status":"open","quantityKg":1500,"note":"", "revision":2},
+    {"id":"LOT-1012","plantId":"P-E","product":"coating-C","status":"open","quantityKg":430,"note":"", "revision":1}
+  ],
+  "samples": [
+    {"lotId":"LOT-1001","sampleId":"S-OLD","sampleRevision":1,"ph":"6.70","moisturePct":"0.90"},
+    {"lotId":"LOT-1002","sampleId":"S-B1","sampleRevision":2,"ph":"7.20","moisturePct":"0.75"},
+    {"lotId":"LOT-1003","sampleId":"S-C1","sampleRevision":1,"ph":"5.90","moisturePct":"1.00"},
+    {"lotId":"LOT-1004","sampleId":"S-ARCH","sampleRevision":1,"ph":"6.80","moisturePct":"0.50"}
+  ]
+}

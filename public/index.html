@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BatchGuard | Quality operations</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <header><div class="brand">BatchGuard <span>QUALITY OPERATIONS</span></div><span class="muted">Factory QC console</span></header>
+  <main>
+    <section class="toolbar">
+      <label>Plant <select id="plant"><option value="">All plants</option></select></label>
+      <label>Status <select id="status"><option value="">All</option><option>open</option><option>closed</option></select></label>
+      <label>Search <input id="search" type="search" placeholder="Lot, product, note" /></label>
+      <button id="refresh" type="button">Refresh</button>
+    </section>
+    <div class="workspace">
+      <section class="panel">
+        <div class="heading"><h2>Production lots</h2><small id="lot-count"></small></div>
+        <div id="lot-list" aria-live="polite"></div>
+      </section>
+      <section class="panel" id="details">
+        <h2>Lot details</h2><p class="muted">Select a lot to inspect its quality specification and update internal notes.</p>
+      </section>
+    </div>
+    <p id="notice" role="status"></p>
+  </main>
+  <script type="module" src="/app.js"></script>
+</body>
+</html>
