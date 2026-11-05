@@ -1,0 +1,239 @@
+{
+  "datasetRevision": 7,
+  "accounts": [
+    {
+      "id": "acme",
+      "name": "Acme Foods Logistics"
+    },
+    {
+      "id": "northstar",
+      "name": "Northstar Refrigeration"
+    }
+  ],
+  "sites": [
+    {
+      "id": "LA1",
+      "accountId": "acme",
+      "name": "Los Angeles Distribution",
+      "timeZone": "America/Los_Angeles",
+      "weekdays": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "openLocal": "08:00",
+      "closeLocal": "18:00",
+      "holidays": [
+        "2026-11-05",
+        "2026-11-26"
+      ]
+    },
+    {
+      "id": "CHI1",
+      "accountId": "acme",
+      "name": "Chicago Dock",
+      "timeZone": "America/Chicago",
+      "weekdays": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "openLocal": "07:30",
+      "closeLocal": "16:30",
+      "holidays": [
+        "2026-11-11"
+      ]
+    },
+    {
+      "id": "NY1",
+      "accountId": "northstar",
+      "name": "Jersey Service Hub",
+      "timeZone": "America/New_York",
+      "weekdays": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "openLocal": "09:00",
+      "closeLocal": "17:00",
+      "holidays": [
+        "2026-11-03"
+      ]
+    },
+    {
+      "id": "LON1",
+      "accountId": "northstar",
+      "name": "London Cold Store",
+      "timeZone": "Europe/London",
+      "weekdays": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "openLocal": "08:30",
+      "closeLocal": "17:30",
+      "holidays": [
+        "2026-11-05"
+      ]
+    }
+  ],
+  "priorities": {
+    "P1": 240,
+    "P2": 480,
+    "P3": 960
+  },
+  "jobs": [
+    {
+      "id": "WO-101",
+      "accountId": "acme",
+      "siteId": "LA1",
+      "asset": "Compressor C-12",
+      "summary": "Compressor temperature drift",
+      "priority": "P1",
+      "status": "in_progress",
+      "openedAt": "2026-10-30T16:00:00Z",
+      "revision": 3,
+      "note": "Check discharge pressure."
+    },
+    {
+      "id": "WO-102",
+      "accountId": "acme",
+      "siteId": "CHI1",
+      "asset": "Condenser J-4",
+      "summary": "Coolant alarm after maintenance",
+      "priority": "P2",
+      "status": "waiting_customer",
+      "openedAt": "2026-11-02T14:00:00Z",
+      "revision": 2,
+      "note": "Waiting on customer gate pass."
+    },
+    {
+      "id": "WO-103",
+      "accountId": "acme",
+      "siteId": "LA1",
+      "asset": "Evaporator E-9",
+      "summary": "Ice accumulation on intake",
+      "priority": "P3",
+      "status": "resolved",
+      "openedAt": "2026-10-27T16:00:00Z",
+      "revision": 4,
+      "note": "Verified replacement."
+    },
+    {
+      "id": "WO-104",
+      "accountId": "acme",
+      "siteId": "CHI1",
+      "asset": "Panel 7B",
+      "summary": "Circuit power cycle needed",
+      "priority": "P1",
+      "status": "in_progress",
+      "openedAt": "2026-11-04T14:00:00Z",
+      "revision": 1,
+      "note": ""
+    },
+    {
+      "id": "WO-105",
+      "accountId": "acme",
+      "siteId": "LA1",
+      "asset": "Compressor C-4",
+      "summary": "Compressor oil-pressure warning",
+      "priority": "P2",
+      "status": "resolved",
+      "openedAt": "2026-10-28T15:00:00Z",
+      "revision": 2,
+      "note": ""
+    },
+    {
+      "id": "WO-106",
+      "accountId": "acme",
+      "siteId": "LA1",
+      "asset": "Pallet sensor A",
+      "summary": "Sensor intermittently unavailable",
+      "priority": "P3",
+      "status": "waiting_customer",
+      "openedAt": "2026-11-04T19:00:00Z",
+      "revision": 2,
+      "note": "Waiting for access."
+    },
+    {
+      "id": "WO-201",
+      "accountId": "northstar",
+      "siteId": "NY1",
+      "asset": "Freezer Door 22",
+      "summary": "Door seal displacement",
+      "priority": "P1",
+      "status": "in_progress",
+      "openedAt": "2026-11-02T14:00:00Z",
+      "revision": 3,
+      "note": "Urgent follow-up."
+    },
+    {
+      "id": "WO-202",
+      "accountId": "northstar",
+      "siteId": "NY1",
+      "asset": "Motor M-17",
+      "summary": "Unexpected vibration",
+      "priority": "P2",
+      "status": "waiting_customer",
+      "openedAt": "2026-11-03T16:00:00Z",
+      "revision": 2,
+      "note": ""
+    },
+    {
+      "id": "WO-203",
+      "accountId": "northstar",
+      "siteId": "LON1",
+      "asset": "Cold cabinet K-2",
+      "summary": "Condensation around fan",
+      "priority": "P3",
+      "status": "resolved",
+      "openedAt": "2026-10-26T10:00:00Z",
+      "revision": 2,
+      "note": "Completed service."
+    },
+    {
+      "id": "WO-204",
+      "accountId": "northstar",
+      "siteId": "LON1",
+      "asset": "Heat pump HP-10",
+      "summary": "Temperature excursion",
+      "priority": "P1",
+      "status": "in_progress",
+      "openedAt": "2026-11-04T10:00:00Z",
+      "revision": 1,
+      "note": ""
+    },
+    {
+      "id": "WO-205",
+      "accountId": "northstar",
+      "siteId": "NY1",
+      "asset": "Spiral freezer P-3",
+      "summary": "Excess ice in conveyor",
+      "priority": "P2",
+      "status": "in_progress",
+      "openedAt": "2026-11-01T19:00:00Z",
+      "revision": 2,
+      "note": ""
+    },
+    {
+      "id": "WO-206",
+      "accountId": "northstar",
+      "siteId": "LON1",
+      "asset": "Load door LD-4",
+      "summary": "Door control error",
+      "priority": "P3",
+      "status": "waiting_customer",
+      "openedAt": "2026-11-02T12:00:00Z",
+      "revision": 3,
+      "note": "Awaiting authorization."
+    }
+  ]
+}
