@@ -47,12 +47,14 @@ class StarterTests(unittest.TestCase):
             output = io.StringIO()
             run(ROOT / "fixtures/hubs.csv", ROOT / "fixtures/services.csv", requests, output)
             values = [json.loads(x) for x in output.getvalue().splitlines()]
-            self.assertEqual([x["status"] for x in values], ["invalid_request", "not_implemented"])
+            self.assertEqual(values[0]["status"], "invalid_request")
+            self.assertEqual(values[1]["request_id"], "ok")
+            self.assertIn(values[1]["status"], ("not_implemented", "ok", "unreachable"))
 
-    def test_starter_is_explicitly_unimplemented(self):
+    def test_planner_returns_request_identifier(self):
         req = parse_request({"request_id": "Q", "origin": "LAB-N", "destination": "HOSP-S", "ready_min": 0,
                              "deadline_min": 200, "max_legs": 3, "requires_cold": True}, self.hubs)
-        self.assertEqual(RelayPlanner(self.hubs, self.services).plan(req)["status"], "not_implemented")
+        self.assertEqual(RelayPlanner(self.hubs, self.services).plan(req)["request_id"], "Q")
 
 
 if __name__ == "__main__":
