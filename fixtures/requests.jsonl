@@ -1,0 +1,10 @@
+{"request_id":"ship-09","origin":"LAB-N","destination":"HOSP-S","ready_min":40,"deadline_min":190,"max_legs":3,"requires_cold":true}
+{"request_id":"ship-11","origin":"LAB-N","destination":"HOSP-S","ready_min":40,"deadline_min":190,"max_legs":3,"requires_cold":false}
+{"request_id":"ship-12","origin":"KIOSK-A","destination":"HOSP-S","ready_min":85,"deadline_min":160,"max_legs":2,"requires_cold":true}
+{"request_id":"ship-09","origin":"LAB-N","destination":"HOSP-S","ready_min":100,"deadline_min":150,"max_legs":3,"requires_cold":true}
+{"request_id":"ship-13","origin":"HOSP-S","destination":"HOSP-S","ready_min":100,"deadline_min":100,"max_legs":1,"requires_cold":true}
+{"request_id":"ship-14","origin":"HUB-O","destination":"LAB-N","ready_min":0,"deadline_min":10080,"max_legs":6,"requires_cold":true}
+{"request_id":"ship-bad","origin":"LAB-N","destination":"UNLISTED","ready_min":0,"deadline_min":100,"max_legs":2,"requires_cold":true}
+{"request_id":"ship-bad2","origin":"LAB-N","destination":"HOSP-S","ready_min":0,"deadline_min":100,"max_legs":true,"requires_cold":true}
+not json
+{"request_id":"ship-15","origin":"LAB-N","destination":"HOSP-S","ready_min":0,"deadline_min":140,"max_legs":1,"requires_cold":true}

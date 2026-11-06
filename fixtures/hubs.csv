@@ -1,0 +1,9 @@
+hub_id,transfer_min,cold_storage
+PORT-Z,5,true
+LAB-N,0,true
+KIOSK-A,6,false
+CHILL-X,8,true
+KIOSK-B,2,false
+HOSP-S,0,true
+ALT-Q,10,false
+HUB-O,1,true
