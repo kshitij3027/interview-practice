@@ -1,0 +1,13 @@
+{"query_id":"g-wide","service_id":"gateway","region":"us-west","from_ms":100,"until_ms":121}
+{"query_id":"g-early","service_id":"gateway","region":"us-west","from_ms":100,"until_ms":103}
+{"query_id":"g-tail","service_id":"gateway","region":"us-west","from_ms":120,"until_ms":121}
+{"query_id":"g-idle","service_id":"gateway","region":"us-west","from_ms":200,"until_ms":400}
+{"query_id":"g-wide","service_id":"gateway","region":"eu-central","from_ms":100,"until_ms":121}
+{"query_id":"billing","service_id":"billing","region":"us-west","from_ms":100,"until_ms":112}
+{"query_id":"auth","service_id":"auth","region":"us-west","from_ms":0,"until_ms":1}
+{"query_id":"bad-window","service_id":"gateway","region":"us-west","from_ms":120,"until_ms":120}
+{"query_id":"bad-type","service_id":"gateway","region":"us-west","from_ms":true,"until_ms":120}
+{"query_id":"bad-ref","service_id":"gateway","region":"ap-south","from_ms":0,"until_ms":100}
+not-json
+{"query_id":"whole","service_id":"video","region":"eu-central","from_ms":0,"until_ms":1000000000000}
+{"query_id":"empty-scope","service_id":"billing","region":"eu-central","from_ms":0,"until_ms":100}

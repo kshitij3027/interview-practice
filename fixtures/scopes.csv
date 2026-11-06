@@ -1,0 +1,10 @@
+service_id,region,budget_us
+gateway,us-west,150000
+gateway,eu-central,175000
+billing,us-west,300000
+billing,eu-central,350000
+search,us-west,120000
+search,ap-south,220000
+auth,us-west,90000
+video,eu-central,450000
+gateway,us-west,150000
