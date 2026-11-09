@@ -1,0 +1,14 @@
+{"query_id":"access_01","user_id":"alice","resource_id":"handbook","action":"view","at_ms":250}
+{"query_id":"access_02","user_id":"alice","resource_id":"handbook","action":"view","at_ms":300}
+{"query_id":"access_03","user_id":"bob","resource_id":"payroll","action":"view","at_ms":40}
+{"query_id":"access_04","user_id":"carol","resource_id":"quarterly","action":"view","at_ms":200}
+{"query_id":"access_04","user_id":"carol","resource_id":"quarterly","action":"view","at_ms":250}
+{"query_id":"access_05","user_id":"dan","resource_id":"archive","action":"view","at_ms":300}
+{"query_id":"access_06","user_id":"mateo","resource_id":"beta_report","action":"view","at_ms":10}
+{"query_id":"cross","user_id":"alice","resource_id":"beta_report","action":"view","at_ms":20}
+{"query_id":"unknown","user_id":"missing","resource_id":"payroll","action":"view","at_ms":20}
+{"query_id":"bad_time","user_id":"alice","resource_id":"handbook","action":"view","at_ms":true}
+{"query_id":"bad_action","user_id":"alice","resource_id":"handbook","action":"download","at_ms":20}
+not-json
+{"query_id":"access_07","user_id":"erin","resource_id":"quarterly","action":"view","at_ms":900}
+CSV

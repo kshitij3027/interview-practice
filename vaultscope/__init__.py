@@ -1,0 +1,1 @@
+"""VaultScope interview starter."""
