@@ -1,0 +1,11 @@
+{"request_id":"release-bay-morning","sector_id":"BAY","from_slot":40,"until_slot":65,"k":3,"max_suppressed":5,"geo_weight":7,"time_weight":4,"fare_weight":2,"suppress_penalty":30}
+{"request_id":"release-bay-strict","sector_id":"BAY","from_slot":40,"until_slot":65,"k":4,"max_suppressed":0,"geo_weight":2,"time_weight":4,"fare_weight":10,"suppress_penalty":100}
+{"request_id":"release-quiet","sector_id":"CST","from_slot":65,"until_slot":95,"k":2,"max_suppressed":1,"geo_weight":1,"time_weight":1,"fare_weight":1,"suppress_penalty":5}
+{"request_id":"release-few","sector_id":"CST","from_slot":0,"until_slot":100,"k":5,"max_suppressed":10,"geo_weight":3,"time_weight":1,"fare_weight":4,"suppress_penalty":12}
+{"request_id":"release-val","sector_id":"VAL","from_slot":40,"until_slot":47,"k":2,"max_suppressed":2,"geo_weight":0,"time_weight":0,"fare_weight":0,"suppress_penalty":0}
+{"request_id":"release-bay-morning","sector_id":"BAY","from_slot":95,"until_slot":98,"k":2,"max_suppressed":0,"geo_weight":0,"time_weight":0,"fare_weight":0,"suppress_penalty":0}
+{"request_id":"bad-k","sector_id":"BAY","from_slot":40,"until_slot":50,"k":true,"max_suppressed":0,"geo_weight":1,"time_weight":1,"fare_weight":1,"suppress_penalty":5}
+{"request_id":"unknown-scope","sector_id":"MARS","from_slot":40,"until_slot":50,"k":2,"max_suppressed":0,"geo_weight":1,"time_weight":1,"fare_weight":1,"suppress_penalty":5}
+{"request_id":"bad-window","sector_id":"BAY","from_slot":50,"until_slot":50,"k":2,"max_suppressed":0,"geo_weight":1,"time_weight":1,"fare_weight":1,"suppress_penalty":5}
+not-json
+{"request_id":"release-end","sector_id":"BAY","from_slot":500,"until_slot":501,"k":2,"max_suppressed":1,"geo_weight":10,"time_weight":3,"fare_weight":5,"suppress_penalty":2}
