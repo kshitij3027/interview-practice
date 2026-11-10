@@ -1,0 +1,6 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>FlagHarbor</title><link rel="stylesheet" href="/styles.css"></head>
+<body><main><header><h1>FlagHarbor</h1><p>Customer feature operations</p></header>
+<section class="toolbar"><label>Organization <select id="org"></select></label><label>Search flags <input id="search" placeholder="Feature name"></label><label>Status <select id="status"><option value="all">All</option><option value="enabled">Enabled</option><option value="disabled">Disabled</option></select></label></section>
+<section class="grid"><aside><h2>Features <small id="total"></small></h2><div id="flags"></div></aside><article><div id="detail">Select a feature.</div><section id="noteBox" hidden><label>Internal note <textarea id="note" rows="4"></textarea></label><button id="saveNote">Save note</button><p id="noteFeedback" role="status"></p></section></article></section>
+<p id="error" role="alert"></p></main><script type="module" src="/app.js"></script></body></html>

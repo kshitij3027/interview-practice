@@ -1,0 +1,28 @@
+{
+  "organizations": [
+    {"id":"org-cedar","name":"Cedar Analytics"},
+    {"id":"org-harbor","name":"Harbor Health"},
+    {"id":"org-quartz","name":"Quartz Logistics"}
+  ],
+  "customers": [
+    {"id":"c-001","orgId":"org-cedar","name":"Nimble Labs","plan":"enterprise","region":"us"},
+    {"id":"c-002","orgId":"org-cedar","name":"Westbridge","plan":"team","region":"eu"},
+    {"id":"c-003","orgId":"org-cedar","name":"Northbeam","plan":"starter","region":"us"},
+    {"id":"c-004","orgId":"org-cedar","name":"Lumen Supply","plan":"enterprise","region":"apac"},
+    {"id":"c-005","orgId":"org-cedar","name":"Alloy Works","plan":"team","region":"us"},
+    {"id":"c-006","orgId":"org-cedar","name":"Cedar Pilot","plan":"enterprise","region":"eu"},
+    {"id":"h-001","orgId":"org-harbor","name":"Seabright Clinic","plan":"team","region":"us"},
+    {"id":"h-002","orgId":"org-harbor","name":"Arbor Care","plan":"enterprise","region":"eu"},
+    {"id":"h-003","orgId":"org-harbor","name":"Monarch Medical","plan":"starter","region":"us"},
+    {"id":"q-001","orgId":"org-quartz","name":"Atlas Freight","plan":"enterprise","region":"apac"},
+    {"id":"q-002","orgId":"org-quartz","name":"Tidal Cargo","plan":"team","region":"us"}
+  ],
+  "flags": [
+    {"id":"flag-search","orgId":"org-cedar","name":"Semantic Search","enabled":true,"revision":2,"note":"Pilot with selected customers.","rollout":{"plans":["enterprise"],"regions":["us","eu"],"percentage":25,"overrides":{"c-003":"deny"}}},
+    {"id":"flag-reports","orgId":"org-cedar","name":"Report Builder","enabled":true,"revision":1,"note":"Keep legacy exports available.","rollout":{"plans":["enterprise","team"],"regions":["us","eu","apac"],"percentage":100,"overrides":{}}},
+    {"id":"flag-audit","orgId":"org-cedar","name":"Audit Export","enabled":false,"revision":4,"note":"Off until compliance review.","rollout":{"plans":["enterprise"],"regions":["us"],"percentage":0,"overrides":{}}},
+    {"id":"flag-care","orgId":"org-harbor","name":"Care Briefs","enabled":true,"revision":3,"note":"Monitor early access.","rollout":{"plans":["team"],"regions":["us"],"percentage":50,"overrides":{"h-002":"allow"}}},
+    {"id":"flag-intake","orgId":"org-harbor","name":"Unified Intake","enabled":true,"revision":1,"note":"","rollout":{"plans":["enterprise"],"regions":["eu"],"percentage":100,"overrides":{}}},
+    {"id":"flag-routing","orgId":"org-quartz","name":"Route Insights","enabled":true,"revision":2,"note":"Roll out carefully.","rollout":{"plans":["team","enterprise"],"regions":["us","apac"],"percentage":10,"overrides":{}}}
+  ]
+}
