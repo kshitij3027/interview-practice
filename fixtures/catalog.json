@@ -1,0 +1,228 @@
+{
+  "organizations": [
+    {
+      "id": "org-cedar",
+      "name": "Cedar Analytics"
+    },
+    {
+      "id": "org-maple",
+      "name": "Maple Health"
+    },
+    {
+      "id": "org-ridge",
+      "name": "Ridge Logistics"
+    }
+  ],
+  "plans": [
+    {
+      "id": "starter",
+      "name": "Starter",
+      "seatPriceCents": 2900,
+      "minSeats": 1,
+      "maxSeats": 50
+    },
+    {
+      "id": "team",
+      "name": "Team",
+      "seatPriceCents": 7400,
+      "minSeats": 2,
+      "maxSeats": 250
+    },
+    {
+      "id": "enterprise",
+      "name": "Enterprise",
+      "seatPriceCents": 12500,
+      "minSeats": 10,
+      "maxSeats": 2000
+    }
+  ],
+  "contracts": [
+    {
+      "id": "ctr-101",
+      "orgId": "org-cedar",
+      "customer": "Acacia Labs",
+      "planId": "team",
+      "status": "active",
+      "seats": 17,
+      "periodStart": "2026-11-01",
+      "periodEnd": "2026-12-01",
+      "revision": 4,
+      "note": "Annual review in progress",
+      "changes": [
+        {
+          "id": "chg-old-1",
+          "effectiveOn": "2026-11-05",
+          "fromSeats": 12,
+          "toSeats": 17,
+          "amountCents": 32067
+        }
+      ]
+    },
+    {
+      "id": "ctr-102",
+      "orgId": "org-cedar",
+      "customer": "Bluebird Software",
+      "planId": "starter",
+      "status": "active",
+      "seats": 8,
+      "periodStart": "2026-11-01",
+      "periodEnd": "2026-12-01",
+      "revision": 2,
+      "note": "Check procurement contact",
+      "changes": []
+    },
+    {
+      "id": "ctr-103",
+      "orgId": "org-cedar",
+      "customer": "Clearview Data",
+      "planId": "team",
+      "status": "paused",
+      "seats": 20,
+      "periodStart": "2026-11-01",
+      "periodEnd": "2026-12-01",
+      "revision": 1,
+      "note": "Billing hold",
+      "changes": []
+    },
+    {
+      "id": "ctr-104",
+      "orgId": "org-cedar",
+      "customer": "Delta Foods",
+      "planId": "enterprise",
+      "status": "active",
+      "seats": 120,
+      "periodStart": "2026-10-20",
+      "periodEnd": "2026-11-20",
+      "revision": 3,
+      "note": "",
+      "changes": [
+        {
+          "id": "chg-old-2",
+          "effectiveOn": "2026-10-31",
+          "fromSeats": 100,
+          "toSeats": 120,
+          "amountCents": 161290
+        }
+      ]
+    },
+    {
+      "id": "ctr-105",
+      "orgId": "org-maple",
+      "customer": "Elm Clinic",
+      "planId": "starter",
+      "status": "active",
+      "seats": 4,
+      "periodStart": "2026-11-01",
+      "periodEnd": "2026-12-01",
+      "revision": 1,
+      "note": "Pilot",
+      "changes": []
+    },
+    {
+      "id": "ctr-106",
+      "orgId": "org-maple",
+      "customer": "Foxwell Medical",
+      "planId": "team",
+      "status": "active",
+      "seats": 43,
+      "periodStart": "2026-11-01",
+      "periodEnd": "2026-12-01",
+      "revision": 6,
+      "note": "Several expansions",
+      "changes": [
+        {
+          "id": "chg-old-3",
+          "effectiveOn": "2026-11-02",
+          "fromSeats": 30,
+          "toSeats": 38,
+          "amountCents": 57227
+        },
+        {
+          "id": "chg-old-4",
+          "effectiveOn": "2026-11-09",
+          "fromSeats": 38,
+          "toSeats": 43,
+          "amountCents": 27133
+        }
+      ]
+    },
+    {
+      "id": "ctr-107",
+      "orgId": "org-maple",
+      "customer": "Grove Therapeutics",
+      "planId": "enterprise",
+      "status": "ended",
+      "seats": 25,
+      "periodStart": "2026-10-01",
+      "periodEnd": "2026-11-01",
+      "revision": 2,
+      "note": "Expired",
+      "changes": []
+    },
+    {
+      "id": "ctr-108",
+      "orgId": "org-maple",
+      "customer": "Harbor Diagnostics",
+      "planId": "team",
+      "status": "active",
+      "seats": 11,
+      "periodStart": "2026-11-01",
+      "periodEnd": "2026-12-01",
+      "revision": 1,
+      "note": "",
+      "changes": []
+    },
+    {
+      "id": "ctr-109",
+      "orgId": "org-ridge",
+      "customer": "Ironwood Freight",
+      "planId": "enterprise",
+      "status": "active",
+      "seats": 200,
+      "periodStart": "2026-11-01",
+      "periodEnd": "2026-12-01",
+      "revision": 8,
+      "note": "Strategic",
+      "changes": []
+    },
+    {
+      "id": "ctr-110",
+      "orgId": "org-ridge",
+      "customer": "Juniper Transit",
+      "planId": "team",
+      "status": "active",
+      "seats": 9,
+      "periodStart": "2026-11-01",
+      "periodEnd": "2026-12-01",
+      "revision": 1,
+      "note": "",
+      "changes": []
+    },
+    {
+      "id": "ctr-111",
+      "orgId": "org-ridge",
+      "customer": "Keystone Dispatch",
+      "planId": "starter",
+      "status": "active",
+      "seats": 12,
+      "periodStart": "2026-11-01",
+      "periodEnd": "2026-12-01",
+      "revision": 3,
+      "note": "Renewal sent",
+      "changes": []
+    },
+    {
+      "id": "ctr-112",
+      "orgId": "org-ridge",
+      "customer": "Lumen Couriers",
+      "planId": "team",
+      "status": "active",
+      "seats": 75,
+      "periodStart": "2026-11-15",
+      "periodEnd": "2026-12-15",
+      "revision": 1,
+      "note": "Upcoming renewal",
+      "changes": []
+    }
+  ]
+}
