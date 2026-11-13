@@ -1,0 +1,13 @@
+{"request_id":"noop","close_pipes":[]}
+{"request_id":"single_branch","close_pipes":["PIPE-11"]}
+{"request_id":"paired_sources","close_pipes":["PIPE-01","PIPE-07"]}
+{"request_id":"parallel_one","close_pipes":["PIPE-12"]}
+{"request_id":"parallel_both","close_pipes":["PIPE-12","PIPE-13"]}
+{"request_id":"duplicate_cut","close_pipes":["PIPE-14","PIPE-14"]}
+{"request_id":"noop","close_pipes":["PIPE-16"]}
+{"request_id":"loop","close_pipes":["PIPE-15"]}
+{"request_id":"bad_ref","close_pipes":["PIPE-MISSING"]}
+{"request_id":"wrong_type","close_pipes":"PIPE-04"}
+{"request_id":"too_many","close_pipes":["PIPE-01","PIPE-02","PIPE-03"]}
+not json
+{"request_id":"last","close_pipes":["PIPE-11","PIPE-14"]}
