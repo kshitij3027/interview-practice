@@ -1,0 +1,13 @@
+{"request_id":"q1","tenant_id":"Acme","source_clock":"edge_1","target_clock":"edge_3"}
+{"request_id":"q2","tenant_id":"Acme","source_clock":"edge_5","target_clock":"edge_1"}
+{"request_id":"q3","tenant_id":"Globex","source_clock":"g1","target_clock":"g3"}
+{"request_id":"q4","tenant_id":"Globex","source_clock":"g4","target_clock":"g4"}
+{"request_id":"q5","tenant_id":"Acme","source_clock":"solo_1","target_clock":"solo_1"}
+{"request_id":"q6","tenant_id":"Acme","source_clock":"solo_1","target_clock":"edge_1"}
+{"request_id":"q7","tenant_id":"Umbra","source_clock":"u_a","target_clock":"u_b"}
+{"request_id":"q8","tenant_id":"Acme","source_clock":"edge_1","target_clock":"missing"}
+{"request_id":"q1","tenant_id":"Acme","source_clock":"edge_1","target_clock":"edge_1"}
+{"request_id":"q10","tenant_id":"Globex","source_clock":"g1","target_clock":"edge_1"}
+{"request_id":true,"tenant_id":"Acme","source_clock":"edge_1","target_clock":"edge_2"}
+not-json
+{"request_id":"q13","tenant_id":"Umbra","source_clock":"u_b","target_clock":"u_a"}
