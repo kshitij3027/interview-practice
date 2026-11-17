@@ -1,0 +1,429 @@
+{
+  "organizations": [
+    {
+      "id": "northstar",
+      "name": "Northstar Cloud"
+    },
+    {
+      "id": "maple",
+      "name": "Maple Retail"
+    },
+    {
+      "id": "seabright",
+      "name": "Seabright Media"
+    }
+  ],
+  "customers": [
+    {
+      "id": "c-n-a",
+      "orgId": "northstar",
+      "name": "Evervale Logistics"
+    },
+    {
+      "id": "c-n-b",
+      "orgId": "northstar",
+      "name": "Pine River Energy"
+    },
+    {
+      "id": "c-n-c",
+      "orgId": "northstar",
+      "name": "Summit Analytics"
+    },
+    {
+      "id": "c-m-a",
+      "orgId": "maple",
+      "name": "Fieldstone Stores"
+    },
+    {
+      "id": "c-m-b",
+      "orgId": "maple",
+      "name": "Harbor Outfitters"
+    },
+    {
+      "id": "c-m-c",
+      "orgId": "maple",
+      "name": "Bridgepoint Grocers"
+    },
+    {
+      "id": "c-s-a",
+      "orgId": "seabright",
+      "name": "Prism Creative"
+    },
+    {
+      "id": "c-s-b",
+      "orgId": "seabright",
+      "name": "Coastal Post"
+    }
+  ],
+  "cases": [
+    {
+      "id": "CS-101",
+      "orgId": "northstar",
+      "customerId": "c-n-a",
+      "subject": "Invoice download fails",
+      "status": "open",
+      "priority": "medium",
+      "tags": [
+        "billing",
+        "portal"
+      ],
+      "revision": 2,
+      "note": "Investigating PDF generation",
+      "timeline": [
+        {
+          "id": "msg-100",
+          "at": "2026-11-10T09:00:00Z",
+          "actor": "agent",
+          "text": "Initial contact: Invoice download fails."
+        },
+        {
+          "id": "partner-ev-7",
+          "at": "2026-11-12T10:30:00Z",
+          "actor": "customer",
+          "text": "Shared invoice screenshot and account details."
+        }
+      ]
+    },
+    {
+      "id": "CS-102",
+      "orgId": "northstar",
+      "customerId": "c-n-a",
+      "subject": "Invoice page shows blank screen",
+      "status": "pending",
+      "priority": "high",
+      "tags": [
+        "portal",
+        "frontend"
+      ],
+      "revision": 1,
+      "note": "",
+      "timeline": [
+        {
+          "id": "msg-101",
+          "at": "2026-11-10T10:07:00Z",
+          "actor": "agent",
+          "text": "Initial contact: Invoice page shows blank screen."
+        },
+        {
+          "id": "partner-ev-7",
+          "at": "2026-11-12T10:30:00Z",
+          "actor": "customer",
+          "text": "Shared invoice screenshot and account details."
+        },
+        {
+          "id": "partner-ev-10",
+          "at": "2026-11-12T15:00:00Z",
+          "actor": "system",
+          "text": "Browser trace uploaded."
+        }
+      ]
+    },
+    {
+      "id": "CS-103",
+      "orgId": "northstar",
+      "customerId": "c-n-a",
+      "subject": "Billing portal blank for admin",
+      "status": "resolved",
+      "priority": "low",
+      "tags": [
+        "billing"
+      ],
+      "revision": 4,
+      "note": "Closed after workaround",
+      "timeline": [
+        {
+          "id": "msg-102",
+          "at": "2026-11-10T11:14:00Z",
+          "actor": "agent",
+          "text": "Initial contact: Billing portal blank for admin."
+        },
+        {
+          "id": "partner-ev-10",
+          "at": "2026-11-12T15:00:00Z",
+          "actor": "system",
+          "text": "Browser trace uploaded."
+        }
+      ]
+    },
+    {
+      "id": "CS-104",
+      "orgId": "northstar",
+      "customerId": "c-n-b",
+      "subject": "API key invalid after rotation",
+      "status": "open",
+      "priority": "high",
+      "tags": [
+        "api",
+        "security"
+      ],
+      "revision": 1,
+      "note": "",
+      "timeline": [
+        {
+          "id": "msg-103",
+          "at": "2026-11-10T12:21:00Z",
+          "actor": "agent",
+          "text": "Initial contact: API key invalid after rotation."
+        },
+        {
+          "id": "partner-ev-8",
+          "at": "2026-11-13T12:12:00Z",
+          "actor": "customer",
+          "text": "Credential rotated at 11:00."
+        }
+      ]
+    },
+    {
+      "id": "CS-105",
+      "orgId": "northstar",
+      "customerId": "c-n-b",
+      "subject": "Rotated credential rejected",
+      "status": "pending",
+      "priority": "medium",
+      "tags": [
+        "security"
+      ],
+      "revision": 3,
+      "note": "Awaiting logs",
+      "timeline": [
+        {
+          "id": "msg-104",
+          "at": "2026-11-11T13:28:00Z",
+          "actor": "agent",
+          "text": "Initial contact: Rotated credential rejected."
+        },
+        {
+          "id": "partner-ev-8",
+          "at": "2026-11-13T12:12:00Z",
+          "actor": "customer",
+          "text": "Credential rotated at 14:00."
+        }
+      ]
+    },
+    {
+      "id": "CS-106",
+      "orgId": "northstar",
+      "customerId": "c-n-c",
+      "subject": "Export jobs delayed",
+      "status": "open",
+      "priority": "low",
+      "tags": [
+        "exports"
+      ],
+      "revision": 1,
+      "note": "",
+      "timeline": [
+        {
+          "id": "msg-105",
+          "at": "2026-11-11T14:35:00Z",
+          "actor": "agent",
+          "text": "Initial contact: Export jobs delayed."
+        }
+      ]
+    },
+    {
+      "id": "CS-201",
+      "orgId": "maple",
+      "customerId": "c-m-a",
+      "subject": "Stock count mismatch",
+      "status": "open",
+      "priority": "high",
+      "tags": [
+        "inventory"
+      ],
+      "revision": 5,
+      "note": "Waiting for warehouse team",
+      "timeline": [
+        {
+          "id": "msg-106",
+          "at": "2026-11-11T15:42:00Z",
+          "actor": "agent",
+          "text": "Initial contact: Stock count mismatch."
+        },
+        {
+          "id": "note-88",
+          "at": "2026-11-14T09:00:00Z",
+          "actor": "agent",
+          "text": "Requested count sheet."
+        }
+      ]
+    },
+    {
+      "id": "CS-202",
+      "orgId": "maple",
+      "customerId": "c-m-a",
+      "subject": "Inventory count differs by one",
+      "status": "pending",
+      "priority": "low",
+      "tags": [
+        "inventory",
+        "catalog"
+      ],
+      "revision": 1,
+      "note": "",
+      "timeline": [
+        {
+          "id": "msg-107",
+          "at": "2026-11-11T09:49:00Z",
+          "actor": "agent",
+          "text": "Initial contact: Inventory count differs by one."
+        },
+        {
+          "id": "note-87",
+          "at": "2026-11-14T09:00:00Z",
+          "actor": "agent",
+          "text": "Requested second count."
+        }
+      ]
+    },
+    {
+      "id": "CS-203",
+      "orgId": "maple",
+      "customerId": "c-m-b",
+      "subject": "Checkout coupon inactive",
+      "status": "open",
+      "priority": "medium",
+      "tags": [
+        "checkout"
+      ],
+      "revision": 1,
+      "note": "",
+      "timeline": [
+        {
+          "id": "msg-108",
+          "at": "2026-11-12T10:56:00Z",
+          "actor": "agent",
+          "text": "Initial contact: Checkout coupon inactive."
+        }
+      ]
+    },
+    {
+      "id": "CS-204",
+      "orgId": "maple",
+      "customerId": "c-m-c",
+      "subject": "Dashboard access issue",
+      "status": "resolved",
+      "priority": "medium",
+      "tags": [
+        "access"
+      ],
+      "revision": 2,
+      "note": "",
+      "timeline": [
+        {
+          "id": "msg-109",
+          "at": "2026-11-12T11:03:00Z",
+          "actor": "agent",
+          "text": "Initial contact: Dashboard access issue."
+        }
+      ]
+    },
+    {
+      "id": "CS-205",
+      "orgId": "maple",
+      "customerId": "c-m-b",
+      "subject": "Coupon preview seems expired",
+      "status": "open",
+      "priority": "high",
+      "tags": [
+        "promotions"
+      ],
+      "revision": 1,
+      "note": "",
+      "timeline": [
+        {
+          "id": "msg-110",
+          "at": "2026-11-12T12:10:00Z",
+          "actor": "agent",
+          "text": "Initial contact: Coupon preview seems expired."
+        }
+      ]
+    },
+    {
+      "id": "CS-301",
+      "orgId": "seabright",
+      "customerId": "c-s-a",
+      "subject": "Asset upload interrupted",
+      "status": "open",
+      "priority": "medium",
+      "tags": [
+        "uploads"
+      ],
+      "revision": 1,
+      "note": "",
+      "timeline": [
+        {
+          "id": "msg-111",
+          "at": "2026-11-12T13:17:00Z",
+          "actor": "agent",
+          "text": "Initial contact: Asset upload interrupted."
+        }
+      ]
+    },
+    {
+      "id": "CS-302",
+      "orgId": "seabright",
+      "customerId": "c-s-a",
+      "subject": "Upload stalled at 98%",
+      "status": "pending",
+      "priority": "high",
+      "tags": [
+        "uploads",
+        "network"
+      ],
+      "revision": 2,
+      "note": "Observed on mobile",
+      "timeline": [
+        {
+          "id": "msg-112",
+          "at": "2026-11-13T14:24:00Z",
+          "actor": "agent",
+          "text": "Initial contact: Upload stalled at 98%."
+        }
+      ]
+    },
+    {
+      "id": "CS-303",
+      "orgId": "seabright",
+      "customerId": "c-s-b",
+      "subject": "Caption workflow error",
+      "status": "open",
+      "priority": "medium",
+      "tags": [
+        "captions"
+      ],
+      "revision": 1,
+      "note": "",
+      "timeline": [
+        {
+          "id": "msg-113",
+          "at": "2026-11-13T15:31:00Z",
+          "actor": "agent",
+          "text": "Initial contact: Caption workflow error."
+        }
+      ]
+    },
+    {
+      "id": "CS-304",
+      "orgId": "seabright",
+      "customerId": "c-s-b",
+      "subject": "Subtitle job not visible",
+      "status": "resolved",
+      "priority": "low",
+      "tags": [
+        "captions",
+        "jobs"
+      ],
+      "revision": 2,
+      "note": "",
+      "timeline": [
+        {
+          "id": "msg-114",
+          "at": "2026-11-13T09:38:00Z",
+          "actor": "agent",
+          "text": "Initial contact: Subtitle job not visible."
+        }
+      ]
+    }
+  ]
+}
