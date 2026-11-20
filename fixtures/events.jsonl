@@ -1,0 +1,14 @@
+{"event_id":"evt-001","tenant_id":"NORTH","text":"The CARD-payment declined again; card payment declined!","limit":3}
+{"event_id":"evt-002","tenant_id":"NORTH","text":"Payment declined. payment declined!","limit":0}
+{"event_id":"evt-003","tenant_id":"SOUTH","text":"A payment-declined case after POWER, unavailable.","limit":5}
+{"event_id":"evt-004","tenant_id":"LAB","text":"server unavailable; cooling failure","limit":10}
+{"event_id":"evt-005","tenant_id":"NORTH","text":"account account locked; code,404","limit":10}
+{"event_id":"evt-006","tenant_id":"NORTH","text":"code404 is not code 404","limit":10}
+{"event_id":"evt-007","tenant_id":"NORTH","text":"","limit":10}
+{"event_id":"evt-007","tenant_id":"UNKNOWN","text":"payment declined","limit":5}
+{"event_id":"evt-009","tenant_id":"NORTH","text":"payment declined","limit":true}
+not-json
+
+{"event_id":"evt-012","tenant_id":"NORTH","text":"naïve payment declined","limit":2}
+{"event_id":"evt-013","tenant_id":"NORTH","text":"payment declined","limit":2.0}
+{"event_id":"evt-014","tenant_id":"NORTH","text":"account   locked","limit":1}
