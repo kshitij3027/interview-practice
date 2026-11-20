@@ -1,0 +1,12 @@
+{"request_id":"split","store_id":"OAK","sku":"APPLE","orders":[{"order_id":"A","pickup_min":4,"units":5},{"order_id":"B","pickup_min":9,"units":7},{"order_id":"C","pickup_min":6,"units":7}]}
+{"request_id":"boundary","store_id":"BER","sku":"MILK","orders":[{"order_id":"early","pickup_min":7,"units":3},{"order_id":"late","pickup_min":8,"units":3}]}
+{"request_id":"choice","store_id":"OAK","sku":"PEAR","orders":[{"order_id":"big","pickup_min":6,"units":12},{"order_id":"small-1","pickup_min":6,"units":7},{"order_id":"small-2","pickup_min":7,"units":7}]}
+{"request_id":"empty","store_id":"OAK","sku":"APPLE","orders":[]}
+{"request_id":"none","store_id":"TX","sku":"APPLE","orders":[{"order_id":"zero-stock","pickup_min":2,"units":1}]}
+{"request_id":"late-stock","store_id":"BER","sku":"EGG","orders":[{"order_id":"E1","pickup_min":4,"units":8},{"order_id":"E2","pickup_min":15,"units":8}]}
+{"request_id":"missing","store_id":"OAK","sku":"KIWI","orders":[]}
+{"request_id":"bad-boolean","store_id":"OAK","sku":"APPLE","orders":[{"order_id":"A","pickup_min":true,"units":2}]}
+{"request_id":"bad-repeat","store_id":"OAK","sku":"APPLE","orders":[{"order_id":"A","pickup_min":1,"units":2},{"order_id":"A","pickup_min":3,"units":2}]}
+not-json
+
+{"request_id":"split","store_id":"SFO","sku":"APPLE","orders":[{"order_id":"a","pickup_min":3,"units":50},{"order_id":"b","pickup_min":3,"units":50}]}
