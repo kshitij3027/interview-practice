@@ -1,0 +1,23 @@
+{"audit_id":"A01","scope_id":"EAST","from_ms":0,"until_ms":25,"min_vendors":2}
+{"audit_id":"A02","scope_id":"EAST","from_ms":6,"until_ms":15,"min_vendors":3}
+{"audit_id":"A03","scope_id":"EAST","from_ms":25,"until_ms":35,"min_vendors":2}
+{"audit_id":"A04","scope_id":"EAST","from_ms":24,"until_ms":32,"min_vendors":1}
+{"audit_id":"A05","scope_id":"EAST","from_ms":9,"until_ms":10,"min_vendors":4}
+{"audit_id":"A06","scope_id":"EAST","from_ms":40,"until_ms":50,"min_vendors":1}
+{"audit_id":"A07","scope_id":"WEST","from_ms":0,"until_ms":22,"min_vendors":2}
+{"audit_id":"A08","scope_id":"LEGACY","from_ms":0,"until_ms":10,"min_vendors":1}
+{"audit_id":"A09","scope_id":"COLD","from_ms":100,"until_ms":140,"min_vendors":2}
+{"audit_id":"A10","scope_id":"EAST","from_ms":1000000,"until_ms":1000010,"min_vendors":2}
+{"audit_id":"A11","scope_id":"EAST","from_ms":10,"until_ms":10,"min_vendors":2}
+{"audit_id":"A12","scope_id":"EAST","from_ms":0,"until_ms":25,"min_vendors":true}
+{"audit_id":"A13","scope_id":"UNKNOWN","from_ms":0,"until_ms":10,"min_vendors":1}
+
+{bad json
+{"audit_id":"A01","scope_id":"EAST","from_ms":0,"until_ms":25,"min_vendors":2}
+{"audit_id":"A17","scope_id":"EAST","from_ms":0,"until_ms":25,"min_vendors":0}
+{"audit_id":"A18","scope_id":"EAST","from_ms":0,"until_ms":1000000000001,"min_vendors":1}
+{"audit_id":"A19","scope_id":"east","from_ms":0,"until_ms":25,"min_vendors":2}
+{"audit_id":"A20","scope_id":"EAST","from_ms":"0","until_ms":25,"min_vendors":2}
+{"audit_id":"A21","scope_id":"EAST","from_ms":0,"until_ms":1000000000000,"min_vendors":2}
+{"audit_id":"A22","scope_id":"COLD","from_ms":110,"until_ms":111,"min_vendors":2}
+{"audit_id":"A23","scope_id":"EAST","from_ms":0,"until_ms":35,"min_vendors":4}
