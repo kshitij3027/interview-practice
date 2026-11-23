@@ -33,7 +33,7 @@ class StarterTests(unittest.TestCase):
 
     def test_implementation_is_candidate_owned(self):
         snapshot = load_snapshot(FIX/'scopes.csv', FIX/'probes.csv', FIX/'observations.csv')
-        result = CoverageAudit(snapshot).evaluate({'audit_id': 'q'})
+        result = CoverageAudit(snapshot).evaluate({'audit_id': 'q', 'scope_id': 'EAST', 'from_ms': 0, 'until_ms': 10, 'min_vendors': 2})
         self.assertIsInstance(result, dict)
         self.assertEqual(result.get('audit_id'), 'q')
         self.assertIn(result.get('status'), ('unimplemented', 'ok'))
