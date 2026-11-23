@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 set -euo pipefail
-python3 -m compileall -q signalwatch.py signalwatch tests
-printf 'Python syntax checks passed\n'
+cd "$(dirname "$0")/.."
+python3 -m compileall -q batchpath batchpath.py tests

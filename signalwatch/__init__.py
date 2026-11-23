@@ -1,1 +1,0 @@
-"""SignalWatch incident screening starter."""

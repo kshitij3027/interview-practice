@@ -1,73 +1,70 @@
-"""Green baseline for existing loader, parser, and normalization only."""
-import io
-import json
+"""Foundation checks, not customer feature acceptance tests."""
+
+from __future__ import annotations
+
 import subprocess
 import sys
 import tempfile
 import unittest
 from pathlib import Path
 
-from signalwatch.catalog import load_catalog
-from signalwatch.requests import Event, parse_event
-from signalwatch.tokenize import tokens
+from batchpath.catalog import CatalogError, load_catalog
+from batchpath.engine import BatchPath
+from batchpath.requests import Query, parse_query
 
 ROOT = Path(__file__).resolve().parents[1]
 
 
-class StarterTests(unittest.TestCase):
-    def setUp(self):
-        self.tenants = ROOT / "fixtures/tenants.csv"
-        self.signatures = ROOT / "fixtures/signatures.csv"
+class StarterChecks(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.catalog = load_catalog(ROOT / "fixtures/datasets.csv", ROOT / "fixtures/links.csv")
 
-    def test_catalog_snapshot(self):
-        catalog = load_catalog(self.tenants, self.signatures)
-        self.assertEqual(set(catalog.tenants), {"NORTH", "SOUTH", "LAB"})
-        by_id = {entry.signature_id: entry for entry in catalog.active}
-        self.assertEqual(by_id["s-PAY"].phrase, "payment declined")
-        self.assertNotIn("s-OLD", by_id)
-        self.assertNotIn("s-TIME", by_id)
+    def test_catalog_dimensions(self):
+        self.assertEqual(len(self.catalog.datasets), 14)
+        self.assertEqual(len(self.catalog.active_links), 12)
+        self.assertEqual(self.catalog.tenants, {"ACME", "BLUE"})
 
-    def test_catalog_exact_replays(self):
-        catalog = load_catalog(self.tenants, self.signatures)
-        self.assertEqual(len(catalog.active), len({entry.signature_id for entry in catalog.active}))
+    def test_latest_retraction(self):
+        self.assertNotIn("A5", {x.link_id for x in self.catalog.active_links})
 
-    def test_catalog_conflicting_same_revision(self):
-        value = self.signatures.read_text().replace("s-PAY,1,upsert,NORTH,payment rejected,7", "s-PAY,2,upsert,NORTH,payment rejected,7")
+    def test_latest_correction(self):
+        self.assertEqual(next(x.prerequisite_id for x in self.catalog.active_links if x.link_id == "A6"), "RAW_B")
+
+    def test_valid_request_parsing(self):
+        query, error = parse_query('{"request_id":"x","tenant_id":"ACME","target_id":"MART","deadline_min":10}')
+        self.assertEqual(query, Query("x", "ACME", "MART", 10))
+        self.assertIsNone(error)
+
+    def test_invalid_type_preserves_valid_id(self):
+        query, error = parse_query('{"request_id":"x","tenant_id":"ACME","target_id":"MART","deadline_min":true}')
+        self.assertIsNone(query)
+        self.assertEqual(error, {"request_id": "x", "status": "invalid", "reason": "invalid_query"})
+
+    def test_empty_physical_line(self):
+        self.assertEqual(parse_query("\n")[1]["reason"], "invalid_query")
+
+    def test_conflicting_dataset_rejected(self):
         with tempfile.TemporaryDirectory() as temp:
-            path = Path(temp) / "bad.csv"
-            path.write_text(value)
-            with self.assertRaises(ValueError):
-                load_catalog(self.tenants, path)
+            p = Path(temp) / "datasets.csv"
+            p.write_text((ROOT / "fixtures/datasets.csv").read_text() + "RAW_A,ACME,9,2\n")
+            with self.assertRaises(CatalogError):
+                load_catalog(p, ROOT / "fixtures/links.csv")
 
-    def test_tokenization(self):
-        self.assertEqual(tokens("CARD--payment...declined!"), ("card", "payment", "declined"))
-        self.assertEqual(tokens("code404 code 404"), ("code404", "code", "404"))
+    def test_conflicting_revision_rejected(self):
+        with tempfile.TemporaryDirectory() as temp:
+            p = Path(temp) / "links.csv"
+            p.write_text((ROOT / "fixtures/links.csv").read_text() + "A1,1,upsert,ACME,RAW_B,CLEAN,2\n")
+            with self.assertRaises(CatalogError):
+                load_catalog(ROOT / "fixtures/datasets.csv", p)
 
-    def test_event_valid(self):
-        result = parse_event('{"event_id":"e-1","tenant_id":"NORTH","text":"", "limit":0}')
-        self.assertEqual(result, Event("e-1", "NORTH", "", 0))
+    def test_validation_cli(self):
+        run = subprocess.run([sys.executable, "batchpath.py", "validate", "--datasets", "fixtures/datasets.csv", "--links", "fixtures/links.csv"], cwd=ROOT, capture_output=True, text=True, check=True)
+        self.assertIn('"datasets":14', run.stdout)
+        self.assertEqual(run.stderr, "")
 
-    def test_event_limit_bool_invalid(self):
-        result = parse_event('{"event_id":"e-1","tenant_id":"NORTH","text":"ok", "limit":true}')
-        self.assertEqual(result, {"event_id": "e-1", "status": "invalid", "reason": "invalid_event"})
-
-    def test_event_non_ascii_invalid(self):
-        result = parse_event('{"event_id":"e-1","tenant_id":"NORTH","text":"café", "limit":1}')
-        self.assertEqual(result["reason"], "invalid_event")
-
-    def test_empty_input_invalid(self):
-        self.assertEqual(parse_event("\n"), {"event_id": None, "status": "invalid", "reason": "invalid_event"})
-
-    def test_cli_check(self):
-        run = subprocess.run([sys.executable, str(ROOT / "signalwatch.py"), "check", "--tenants", str(self.tenants), "--signatures", str(self.signatures)], text=True, capture_output=True, cwd=ROOT)
-        self.assertEqual(run.returncode, 0, run.stderr)
-        self.assertEqual(json.loads(run.stdout)["tenants"], 3)
-
-    def test_cli_invalid_lines(self):
-        run = subprocess.run([sys.executable, str(ROOT / "signalwatch.py"), "scan", "--tenants", str(self.tenants), "--signatures", str(self.signatures), "--events", str(ROOT / "fixtures/invalid_only.jsonl")], text=True, capture_output=True, cwd=ROOT)
-        self.assertEqual(run.returncode, 0, run.stderr)
-        result = [json.loads(line) for line in run.stdout.splitlines()]
-        self.assertEqual([x["reason"] for x in result], ["invalid_event", "unknown_tenant", "invalid_event"])
+    def test_engine_interface(self):
+        self.assertTrue(callable(BatchPath(self.catalog).assess))
 
 
 if __name__ == "__main__":

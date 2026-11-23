@@ -1,0 +1,17 @@
+link_id,revision,op,tenant_id,prerequisite_id,target_id,lag_min
+A1,1,upsert,ACME,RAW_A,CLEAN,2
+A2,1,upsert,ACME,RAW_B,CLEAN,1
+A3,1,upsert,ACME,CLEAN,MART,0
+A4,1,upsert,ACME,RAW_A,MART,0
+A5,2,retract,ACME,,,
+A5,1,upsert,ACME,SIDE,MART,10
+A6,2,upsert,ACME,RAW_B,MART,0
+A6,1,upsert,ACME,SIDE,MART,6
+A7,1,upsert,ACME,LOOP_A,LOOP_B,0
+A8,1,upsert,ACME,LOOP_B,LOOP_A,0
+A9,1,upsert,ACME,LOOP_B,DOWNSTREAM,0
+A10,1,upsert,ACME,CLEAN,TIED,0
+A11,1,upsert,ACME,RAW_B,TIED,6
+A12,1,upsert,ACME,SPARE,FRESH,0
+B1,1,upsert,BLUE,UPSTREAM,DASH,2
+A1,1,upsert,ACME,RAW_A,CLEAN,2

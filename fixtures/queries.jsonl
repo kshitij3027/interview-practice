@@ -1,0 +1,11 @@
+{"request_id":"q-main","tenant_id":"ACME","target_id":"MART","deadline_min":18}
+{"request_id":"q-tie","tenant_id":"ACME","target_id":"TIED","deadline_min":100}
+{"request_id":"q-unrelated-cycle","tenant_id":"ACME","target_id":"FRESH","deadline_min":25}
+{"request_id":"q-blocked","tenant_id":"ACME","target_id":"DOWNSTREAM","deadline_min":999}
+{"request_id":"q-other","tenant_id":"BLUE","target_id":"DASH","deadline_min":15}
+{"request_id":"q-unknown","tenant_id":"BLUE","target_id":"MART","deadline_min":100}
+{"request_id":"q-invalid","tenant_id":"ACME","target_id":"MART","deadline_min":true}
+{"request_id":"q-float","tenant_id":"ACME","target_id":"MART","deadline_min":12.0}
+not json
+
+{"request_id":"q-main","tenant_id":"ACME","target_id":"MART","deadline_min":12}
