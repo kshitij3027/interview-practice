@@ -1,0 +1,15 @@
+{"sites":[{"id":"harbor","name":"Harbor Works","revision":3},{"id":"ridge","name":"Ridge Annex","revision":1}],"meters":[{"id":"m1","site":"harbor","name":"Line A, main"},{"id":"m2","site":"harbor","name":"Cooling"},{"id":"m3","site":"harbor","name":"Spare"},{"id":"m4","site":"ridge","name":"Line A"}],"readings":[
+{"id":"r3","meter":"m1","at":"2026-11-24T02:00:00Z","seq":1,"epoch":"a","wh":1250,"review":"accepted"},
+{"id":"r1","meter":"m1","at":"2026-11-24T00:00:00Z","seq":1,"epoch":"a","wh":1000,"review":"accepted"},
+{"id":"r2","meter":"m1","at":"2026-11-24T01:00:00Z","seq":1,"epoch":"a","wh":1100,"review":"accepted"},
+{"id":"r4","meter":"m1","at":"2026-11-24T01:00:00Z","seq":2,"epoch":"a","wh":1200,"review":"accepted"},
+{"id":"r5","meter":"m1","at":"2026-11-24T01:00:00Z","seq":2,"epoch":"a","wh":1200,"review":"accepted"},
+{"id":"r6","meter":"m1","at":"2026-11-24T03:00:00Z","seq":1,"epoch":"b","wh":5,"review":"accepted"},
+{"id":"r7","meter":"m1","at":"2026-11-24T04:00:00Z","seq":1,"epoch":"b","wh":5,"review":"accepted"},
+{"id":"r8","meter":"m2","at":"2026-11-24T00:00:00Z","seq":1,"epoch":"c","wh":80,"review":"accepted"},
+{"id":"r9","meter":"m2","at":"2026-11-24T01:00:00Z","seq":1,"epoch":"c","wh":90,"review":"accepted"},
+{"id":"r10","meter":"m2","at":"2026-11-24T01:00:00Z","seq":2,"epoch":"c","wh":95,"review":"rejected"},
+{"id":"r11","meter":"m2","at":"2026-11-24T03:00:00Z","seq":1,"epoch":"c","wh":110,"review":"accepted"},
+{"id":"r12","meter":"m2","at":"2026-11-24T04:00:00Z","seq":1,"epoch":"c","wh":100,"review":"accepted"},
+{"id":"r13","meter":"m4","at":"2026-11-24T00:00:00Z","seq":1,"epoch":"d","wh":2,"review":"accepted"},
+{"id":"r14","meter":"m4","at":"2026-11-24T01:00:00Z","seq":1,"epoch":"d","wh":10,"review":"accepted"}]}
