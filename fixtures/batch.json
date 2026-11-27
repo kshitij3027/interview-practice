@@ -1,0 +1,26 @@
+{
+  "reviewers": [
+    {"id":"Lena","queue":"DE","capacity":1},
+    {"id":"Otto","queue":"DE","capacity":1},
+    {"id":"Mara","queue":"DE","capacity":2},
+    {"id":"Nils","queue":"DE","capacity":0},
+    {"id":"Ana","queue":"ES","capacity":1},
+    {"id":"Sol","queue":"ES","capacity":1},
+    {"id":"Jin","queue":"KO","capacity":0},
+    {"id":"Lena","queue":"DE","capacity":1}
+  ],
+  "documents": [
+    {"id":"D-017","queue":"DE","priority":5,"eligible":["Otto","Lena"]},
+    {"id":"D-003","queue":"DE","priority":4,"eligible":["Otto"]},
+    {"id":"D-008","queue":"DE","priority":4,"eligible":["Mara","Lena"]},
+    {"id":"D-012","queue":"DE","priority":3,"eligible":["Mara"]},
+    {"id":"D-020","queue":"DE","priority":3,"eligible":["Mara","Nils"]},
+    {"id":"D-006","queue":"DE","priority":5,"eligible":[]},
+    {"id":"D-017","queue":"DE","priority":5,"eligible":["Lena","Otto","Lena"]},
+    {"id":"E-009","queue":"ES","priority":5,"eligible":["Ana","Sol"]},
+    {"id":"E-002","queue":"ES","priority":2,"eligible":["Ana"]},
+    {"id":"E-004","queue":"ES","priority":2,"eligible":["Sol"]},
+    {"id":"K-001","queue":"KO","priority":5,"eligible":["Jin"]},
+    {"id":"F-001","queue":"FR","priority":1,"eligible":[]}
+  ]
+}
