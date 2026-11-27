@@ -1,0 +1,8 @@
+volume_id,pool,capacity
+v-20,GPU,128
+v-02,GPU,64
+v-01,GPU,64
+v-01,GPU,64
+v-03,CPU,40
+v-90,CPU,1000000000000
+v-00,ARCHIVE,12
